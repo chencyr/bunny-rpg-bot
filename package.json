@@ -1,0 +1,20 @@
+{
+  "name": "bunny-rpg-bot",
+  "version": "0.1.0",
+  "description": "Bunny RPG Master",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "RPG",
+    "Bunny",
+    "LINE",
+    "Chatbot"
+  ],
+  "author": "Rex Chen",
+  "license": "ISC",
+  "dependencies": {
+    "@line/bot-sdk": "^7.3.0"
+  }
+}
