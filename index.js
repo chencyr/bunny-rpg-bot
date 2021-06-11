@@ -1,4 +1,7 @@
 // CommonJS
+const express = require('express');
+// var fs = require('fs');
+// var sys = require('sys');
 const line = require('@line/bot-sdk');
 
 
@@ -7,5 +10,47 @@ const config = {
     channelSecret: '0ae36251c5000662f528b78c0fd318c0'
 };
 
-new line.Client(config);
-line.middleware(config);
+// new line.Client(config);
+// line.middleware(config);
+
+
+const app = express();
+app.set("view options", {layout: false});
+app.use('/static', express.static(__dirname + '/static'));
+
+
+app.get('/', function(req, res){
+    res.send('Service Available!');
+});
+
+app.post('/webhook', line.middleware(config), (req, res) => {
+    Promise
+        .all(req.body.events.map(handleEvent))
+        .then((result) => res.json(result));
+});
+
+
+const client = new line.Client(config);
+function handleEvent(event) {
+    console.log('received message:', event);
+    if (event.type !== 'message' || event.message.type !== 'text') {
+        return Promise.resolve(null);
+    }
+
+    if(event.message.text == '/註冊') {
+
+    }
+
+    if(event.message.text == '/register') {
+
+    }
+
+    return client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: event.message.text
+    });
+
+    return Promise.resolve(null);
+}
+
+app.listen(3000);
