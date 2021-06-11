@@ -96,40 +96,4 @@ app.controller = function(module) {
 const router = require(global.path.routers + '/index.js');
 router(app);
 
-//
-// app.get('/', function(req, res){
-//     res.send('Service Available!');
-// });
-//
-//
-// app.post('/webhook', line.middleware(config), (req, res) => {
-//     Promise
-//         .all(req.body.events.map(handleEvent))
-//         .then((result) => res.json(result));
-// });
-//
-//
-// const client = new line.Client(config);
-// function handleEvent(event) {
-//     console.log('received message:', event);
-//     if (event.type !== 'message' || event.message.type !== 'text') {
-//         return Promise.resolve(null);
-//     }
-//
-//     if(event.message.text == '/註冊') {
-//
-//     }
-//
-//     if(event.message.text == '/register') {
-//
-//     }
-//
-//     return client.replyMessage(event.replyToken, {
-//         type: 'text',
-//         text: event.message.text
-//     });
-//
-//     return Promise.resolve(null);
-// }
-
 app.listen(80);
