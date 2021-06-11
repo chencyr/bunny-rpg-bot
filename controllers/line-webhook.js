@@ -134,12 +134,6 @@ class Controller extends BaseController {
                     text: `使用技能 [爆裂魔法] \n(吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion!!)`,
                 },
                 {
-                    type: "image",
-                    originalContentUrl: `https://${host}/statics/skill-explosion.png`,
-                    previewImageUrl: `https://${host}/statics/skill-explosion.png`,
-                    animated: true
-                },
-                {
                     type: 'text',
                     text: `Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!! `,
                 },
@@ -152,6 +146,13 @@ class Controller extends BaseController {
                 });
 
             }
+
+            messages.push({
+                type: "image",
+                originalContentUrl: `https://${host}/statics/skill-explosion.png`,
+                previewImageUrl: `https://${host}/statics/skill-explosion.png`,
+                animated: true
+            });
 
             return this.client.replyMessage(event.replyToken, messages);
         }
@@ -169,21 +170,20 @@ class Controller extends BaseController {
                     text: `使用技能 [風鳥花月]`,
                 },
                 {
+                    type: 'text',
+                    text: `Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!! `,
+                },
+                {
+                    type: 'text',
+                    text: `(Leo 覺得心情變好了!!)`,
+                },
+                {
                     type: "image",
                     originalContentUrl: `https://${host}/statics/skill-flower-moon.jpg`,
                     previewImageUrl: `https://${host}/statics/skill-flower-moon.jpg`,
                     animated: true
                 },
-                {
-                    type: 'text',
-                    text: `Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!! `,
-                },
             ];
-
-            messages.push({
-                type: 'text',
-                text: `(Leo 覺得心情變好了!!)`,
-            });
 
             return this.client.replyMessage(event.replyToken, messages);
         }
