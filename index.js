@@ -104,4 +104,4 @@ app.use(requireHTTPS);
 const router = require(global.path.routers + '/index.js');
 router(app);
 
-app.listen(443);
+app.listen(process.env.PORT || 3000);
