@@ -8,7 +8,7 @@ class BaseController {
      * Constructor
      *
      * @param app
-     * @return {AuthController}
+     * @return {BaseController}
      */
     constructor(app) {
         this.app = app;

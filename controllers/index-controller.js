@@ -17,15 +17,12 @@ class Controller extends BaseController {
     }
 
     /**
-     * Register new user page.
+     * Index page
      * @param req
      * @param res
      */
-    register(req, res) {
-        const lineConfig = this.appConfig('line');
-        res.render('register', {
-            client_id: lineConfig.clientID,
-        });
+    index(req, res) {
+        res.send('Service Available!');
     }
 }
 
