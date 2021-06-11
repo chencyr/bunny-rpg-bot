@@ -33,6 +33,15 @@ app.set('view engine', 'ejs');
 console.log('use static path at', global.path.statics);
 app.use('/statics', express.static(global.path.statics));
 
+/**
+ * Define DI container node.
+ *
+ * @type {{configs: {}, controllers: {}}}
+ */
+app.$container = {
+    configs: {},
+    controllers: {},
+};
 
 /**
  * Load module by application define/configs
@@ -42,10 +51,14 @@ app.use('/statics', express.static(global.path.statics));
  * @return {any}
  */
 app.moduleLoader = function(module, type) {
-    const modulePath = `${global.path[type]}/${module}.js`;
-    console.log(`load ${type} [${module}] by path: ${modulePath}`);
 
-    return require(modulePath);
+    if(!app.$container[type][module]) {
+        const modulePath = `${global.path[type]}/${module}.js`;
+        app.$container[type][module] = require(modulePath);
+        console.log(`load ${type} [${module}] by path: ${modulePath}`);
+    }
+
+    return app.$container[type][module];
 };
 
 /**
@@ -65,7 +78,17 @@ app.config = function(module) {
  */
 app.controller = function(module) {
     const type = 'controllers';
-    return app.moduleLoader(module, type);
+    const Class = app.moduleLoader(module, type);
+    const instance = new Class(app);
+    const handler = {
+        get: function(target, name) {
+            return function (req, res, next) {
+                return target[name](req, res, next);
+            }
+        }
+    };
+
+    return new Proxy(instance, handler);
 };
 
 const router = require(global.path.routers + '/index.js');
