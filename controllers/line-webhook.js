@@ -111,13 +111,32 @@ class Controller extends BaseController {
             if(this.leo.hp <= 0) {
                 return this.client.replyMessage(event.replyToken, {
                     type: 'text',
-                    text: `使用技能 [烈焰斬－Flame Geyser] !! Leo 受到 -${damage} HP 損傷!! 以死亡倒在地上抖動!! 你獲得經驗值 15562exp!!`,
+                    text: `使用技能 [烈焰斬－Flame Geyser] !! Leo 受到 -${damage} HP 損傷!! 已死亡倒在地上抖動!! 你獲得經驗值 15562exp!!`,
                 });
             }
 
             return this.client.replyMessage(event.replyToken, {
                 type: 'text',
                 text: `使用技能 [烈焰斬－Flame Geyser] !! Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!!`,
+            });
+        }
+
+        if(event.message.text == '/explosion leo') {
+
+            let damage = 9999999;
+            let beforeHP = this.leo.hp;
+            this.leo.hp -= damage;
+
+            if(this.leo.hp <= 0) {
+                return this.client.replyMessage(event.replyToken, {
+                    type: 'text',
+                    text: `使用技能 [爆裂魔法] 我が名はめぐみん。紅魔族随一の魔法の使い手にして、爆裂魔法を操りし者。我が力、見るがいい！エクスプロージョン!! Leo 受到 -${damage} HP 損傷!! 已死亡倒在地上抖動!! 你獲得經驗值 15562exp!!`,
+                });
+            }
+
+            return this.client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: `使用技能 [爆裂魔法] 我が名はめぐみん。紅魔族随一の魔法の使い手にして、爆裂魔法を操りし者。我が力、見るがいい！エクスプロージョン!! Leo 受到 -${damage} HP 損傷!! Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!!`,
             });
         }
 
