@@ -1,13 +1,6 @@
 // CommonJS
 const express = require('express');
-const line = require('@line/bot-sdk');
 const path = require('path');
-
-const config = {
-    channelAccessToken: 'LYgx9c/11du19BXx6rQdj1Wv9FXDY2mtYrEyRT6+43K82n+dMQZ9jpHd46V0dQbRrisS/oVKWZ/fUjZtl5LXbliiRqWpV7y2qEFFfgIhaZN9DQ0TTVo0gMCpW/ZTxbUF9tdLh/k2AkffG4Pyj2RSvgdB04t89/1O/w1cDnyilFU=',
-    channelSecret: '0ae36251c5000662f528b78c0fd318c0',
-    clientID: '1656090906',
-};
 
 
 /**
@@ -48,12 +41,20 @@ app.$container = {
  *
  * @param module {string} module name, should be define by global path.
  * @param type {string} module type
+ * @param fileExtension {string} default .js
  * @return {any}
  */
-app.moduleLoader = function(module, type) {
+app.moduleLoader = function(module, type, fileExtension) {
+
+    if(!fileExtension) {
+        fileExtension = '.js';
+    }
+    else {
+        fileExtension = '';
+    }
 
     if(!app.$container[type][module]) {
-        const modulePath = `${global.path[type]}/${module}.js`;
+        const modulePath = `${global.path[type]}/${module}${fileExtension}`;
         app.$container[type][module] = require(modulePath);
         console.log(`load ${type} [${module}] by path: ${modulePath}`);
     }
@@ -91,49 +92,44 @@ app.controller = function(module) {
     return new Proxy(instance, handler);
 };
 
+
 const router = require(global.path.routers + '/index.js');
 router(app);
 
-
-app.get('/', function(req, res){
-    res.send('Service Available!');
-});
-
-
-// app.get('/register', function(req, res){
-//     res.render('register', {
-//         client_id: config.clientID,
-//     });
+//
+// app.get('/', function(req, res){
+//     res.send('Service Available!');
 // });
-
-app.post('/webhook', line.middleware(config), (req, res) => {
-    Promise
-        .all(req.body.events.map(handleEvent))
-        .then((result) => res.json(result));
-});
-
-
-const client = new line.Client(config);
-function handleEvent(event) {
-    console.log('received message:', event);
-    if (event.type !== 'message' || event.message.type !== 'text') {
-        return Promise.resolve(null);
-    }
-
-    if(event.message.text == '/註冊') {
-
-    }
-
-    if(event.message.text == '/register') {
-
-    }
-
-    return client.replyMessage(event.replyToken, {
-        type: 'text',
-        text: event.message.text
-    });
-
-    return Promise.resolve(null);
-}
+//
+//
+// app.post('/webhook', line.middleware(config), (req, res) => {
+//     Promise
+//         .all(req.body.events.map(handleEvent))
+//         .then((result) => res.json(result));
+// });
+//
+//
+// const client = new line.Client(config);
+// function handleEvent(event) {
+//     console.log('received message:', event);
+//     if (event.type !== 'message' || event.message.type !== 'text') {
+//         return Promise.resolve(null);
+//     }
+//
+//     if(event.message.text == '/註冊') {
+//
+//     }
+//
+//     if(event.message.text == '/register') {
+//
+//     }
+//
+//     return client.replyMessage(event.replyToken, {
+//         type: 'text',
+//         text: event.message.text
+//     });
+//
+//     return Promise.resolve(null);
+// }
 
 app.listen(3000);
