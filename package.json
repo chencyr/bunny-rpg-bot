@@ -4,6 +4,7 @@
   "description": "Bunny RPG Master",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "test"
   },
   "keywords": [
@@ -15,6 +16,7 @@
   "author": "Rex Chen",
   "license": "ISC",
   "dependencies": {
-    "@line/bot-sdk": "^7.3.0"
+    "@line/bot-sdk": "^7.3.0",
+    "express": "^4.17.1"
   }
 }
