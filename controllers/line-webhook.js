@@ -81,14 +81,14 @@ class Controller extends BaseController {
             });
         }
 
-        if(event.message.text == '/heal leo' || event.message.text == '/治癒 leo') {
+        if(event.message.text == '/heal leo' || event.message.text == '/治癒 leo' || event.message.text == '/治療 leo') {
             let damage = this.getRandomInt(100);
             let beforeHP = this.leo.hp;
             this.leo.hp += damage;
 
             return this.client.replyMessage(event.replyToken, {
                 type: 'text',
-                text: `Leo 受到治療 +${damage} HP !!`,
+                text: `Leo 受到治療 +${damage} HP !! 恢復至 ${this.leo.hp}HP!!`,
             });
         }
 
