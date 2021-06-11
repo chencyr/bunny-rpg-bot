@@ -27,7 +27,7 @@ global.path.statics = global.path.app + '/statics';
  */
 const app = express();
 app.set("view options", {layout: false});
-app.set('views', './views');
+app.set('views', global.path.views);
 app.set('view engine', 'ejs');
 console.log('use static path at', global.path.statics);
 app.use('/statics', express.static(global.path.statics));
