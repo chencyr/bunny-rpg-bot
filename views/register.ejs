@@ -51,7 +51,7 @@
 <div class="container">
     <main>
         <div class="py-5 text-center">
-            <img class="d-block mx-auto mb-4" src="/static/bunny-logo.png" alt="" width="70" height="57">
+            <img class="d-block mx-auto mb-4" src="/statics/bunny-logo.png" alt="" width="70" height="57">
             <h2>Register form</h2>
             <p class="lead"> Register your account by LINE OAuth service quickly! </p>
         </div>
@@ -60,17 +60,10 @@
             <div class="col-md-3"></div>
             <div class="col-md-6">
                 <form class="needs-validation" novalidate method="get" action="https://access.line.me/oauth2/v2.1/authorize">
-                    <!-- for line login post data -->
-                    <!--<input type="hidden" name="grant_type" value="authorization_code">-->
-                    <!--<input type="hidden" name="code" value="xxx">-->
-                    <!--<input type="hidden" name="redirect_uri" value="https://5c0069170f5c.ngrok.io/static/received.html">-->
-                    <!--<input type="hidden" name="client_id" value="U4f12f7e4f2f4c4637d5db3ae9eb02379">-->
-                    <!--<input type="hidden" name="client_secret" value="0ae36251c5000662f528b78c0fd318c0">-->
-
 
                     <input type="hidden" name="response_type" value="code">
                     <input type="hidden" name="client_id" value="<%= client_id %>">
-                    <input type="hidden" name="redirect_uri" value="https://5c0069170f5c.ngrok.io/static/received.html">
+                    <input type="hidden" name="redirect_uri" value="https://5c0069170f5c.ngrok.io/statics/received.html">
                     <input type="hidden" name="state" value="1qwedfcde">
                     <input type="hidden" name="scope" value="profile">
                     <input type="hidden" name="nonce" value="0df5xyz">

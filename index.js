@@ -1,7 +1,7 @@
 // CommonJS
 const express = require('express');
 const line = require('@line/bot-sdk');
-
+const path = require('path');
 
 const config = {
     channelAccessToken: 'LYgx9c/11du19BXx6rQdj1Wv9FXDY2mtYrEyRT6+43K82n+dMQZ9jpHd46V0dQbRrisS/oVKWZ/fUjZtl5LXbliiRqWpV7y2qEFFfgIhaZN9DQ0TTVo0gMCpW/ZTxbUF9tdLh/k2AkffG4Pyj2RSvgdB04t89/1O/w1cDnyilFU=',
@@ -10,13 +10,27 @@ const config = {
 };
 
 
+/**
+ * Path defines & configs
+ * @type {string}
+ */
+global.path = {app: path.resolve(__dirname)};
+global.path.configs = global.path.app + '/configs';
+global.path.controllers = global.path.app + '/controllers';
+global.path.views = global.path.aoo + '/views';
+global.path.statics = global.path.app + '/statics';
+
+
+/**
+ * Express app define & configs
+ * @type {app}
+ */
 const app = express();
 app.set("view options", {layout: false});
 app.set('views', './views');
 app.set('view engine', 'ejs');
-
-
-app.use('/static', express.static(__dirname + '/static'));
+console.log('use static path at', global.path.statics);
+app.use('/statics', express.static(global.path.statics));
 
 
 app.get('/', function(req, res){
