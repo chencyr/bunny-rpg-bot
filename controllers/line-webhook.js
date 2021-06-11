@@ -42,7 +42,7 @@ class Controller extends BaseController {
      */
     received(req, res) {
         Promise
-            .all(req.body.events.map((event) => this.handleEvent(event)))
+            .all(req.body.events.map((event) => this.handleEvent(event, req, res)))
             .then((result) => res.json(result));
     }
 
@@ -50,7 +50,7 @@ class Controller extends BaseController {
         return Math.floor(Math.random() * max);
     }
 
-    handleEvent(event) {
+    handleEvent(event, req, res) {
         console.log('received message:', event);
         if (event.type !== 'message' || event.message.type !== 'text') {
             return Promise.resolve(null);
@@ -126,36 +126,34 @@ class Controller extends BaseController {
             let damage = 9999999;
             let beforeHP = this.leo.hp;
             this.leo.hp -= damage;
+            let host = req.get('host');
+
+            let messages = [
+                {
+                    type: 'text',
+                    text: `使用技能 [爆裂魔法] \n(吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion!!)`,
+                },
+                {
+                    type: "image",
+                    originalContentUrl: `https://${host}/statics/skill-explosion.png`,
+                    previewImageUrl: `https://${host}/statics/skill-explosion.png`,
+                    animated: true
+                },
+                {
+                    type: 'text',
+                    text: `Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!! `,
+                },
+            ];
 
             if(this.leo.hp <= 0) {
-                return this.client.replyMessage(event.replyToken, [
-                    {
-                        type: 'text',
-                        text: `使用技能 [爆裂魔法]`,
-                    },
-                    {
-                        type: 'text',
-                        text: `(吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion!!)`,
-                    },
-                    {
-                        type: 'text',
-                        text: `Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!!`,
-                    },
-                ]);
+                messages.push({
+                    type: 'text',
+                    text: `Leo 已死亡倒在地上抖動!! 你獲得經驗值 15562 exp!!`,
+                });
+
             }
-            else {
-                return this.client.replyMessage(event.replyToken, [{
-                    type: 'text',
-                    text: `使用技能 [爆裂魔法]`,
-                },{
-                    type: 'text',
-                    text: `(吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion!!)`,
-                },{
-                    type: 'text',
-                    text: `Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!!`,
-                },
-                ]);
-            }
+
+            return this.client.replyMessage(event.replyToken, messages);
         }
 
         if(event.message.text == '/風鳥花月 leo') {
@@ -163,21 +161,43 @@ class Controller extends BaseController {
             let damage = 0;
             let beforeHP = this.leo.hp;
             this.leo.hp -= damage;
+            let host = req.get('host');
 
-            return this.client.replyMessage(event.replyToken, [
+            let messages = [
                 {
                     type: 'text',
                     text: `使用技能 [風鳥花月]`,
                 },
                 {
-                    type: 'text',
-                    text: `Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!! 似乎沒什麼效果....`,
+                    type: "image",
+                    originalContentUrl: `https://${host}/statics/skill-flower-moon.jpg`,
+                    previewImageUrl: `https://${host}/statics/skill-flower-moon.jpg`,
+                    animated: true
                 },
                 {
                     type: 'text',
-                    text: `(Leo 覺得心情變好了!!)`,
+                    text: `Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!! `,
                 },
-            ]);
+            ];
+
+            messages.push({
+                type: 'text',
+                text: `(Leo 覺得心情變好了!!)`,
+            });
+
+            return this.client.replyMessage(event.replyToken, messages);
+        }
+
+        if(event.message.text == '/img') {
+
+            let damage = 0;
+            let beforeHP = this.leo.hp;
+            this.leo.hp -= damage;
+
+            let host = req.get('host');
+            console.log(host);
+
+            return this.client.replyMessage(event.replyToken, []);
         }
 
 
