@@ -17,7 +17,8 @@ const config = {
 global.path = {app: path.resolve(__dirname)};
 global.path.configs = global.path.app + '/configs';
 global.path.controllers = global.path.app + '/controllers';
-global.path.views = global.path.aoo + '/views';
+global.path.views = global.path.app + '/views';
+global.path.routers = global.path.app + '/routers';
 global.path.statics = global.path.app + '/statics';
 
 
@@ -33,16 +34,54 @@ console.log('use static path at', global.path.statics);
 app.use('/statics', express.static(global.path.statics));
 
 
+/**
+ * Load module by application define/configs
+ *
+ * @param module {string} module name, should be define by global path.
+ * @param type {string} module type
+ * @return {any}
+ */
+app.moduleLoader = function(module, type) {
+    const modulePath = `${global.path[type]}/${module}.js`;
+    console.log(`load ${type} [${module}] by path: ${modulePath}`);
+
+    return require(modulePath);
+};
+
+/**
+ * Config loader
+ *
+ * @param module
+ * @return {*}
+ */
+app.config = function(module) {
+    const type = 'configs';
+    return app.moduleLoader(module, type);
+};
+
+/**
+ * Controller loader
+ * @param module
+ */
+app.controller = function(module) {
+    const type = 'controllers';
+    return app.moduleLoader(module, type);
+};
+
+const router = require(global.path.routers + '/index.js');
+router(app);
+
+
 app.get('/', function(req, res){
     res.send('Service Available!');
 });
 
 
-app.get('/register', function(req, res){
-    res.render('register', {
-        client_id: config.clientID,
-    });
-});
+// app.get('/register', function(req, res){
+//     res.render('register', {
+//         client_id: config.clientID,
+//     });
+// });
 
 app.post('/webhook', line.middleware(config), (req, res) => {
     Promise
