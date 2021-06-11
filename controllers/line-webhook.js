@@ -63,7 +63,7 @@ class Controller extends BaseController {
             });
         }
 
-        if(event.message.text == '/attack leo') {
+        if(event.message.text == '/attack leo' || event.message.text == '/打 leo' || event.message.text == '/攻擊 leo') {
             let damage = this.getRandomInt(1000);
             let beforeHP = this.leo.hp;
             this.leo.hp -= damage;
@@ -81,7 +81,7 @@ class Controller extends BaseController {
             });
         }
 
-        if(event.message.text == '/heal leo') {
+        if(event.message.text == '/heal leo' || event.message.text == '/治癒 leo') {
             let damage = this.getRandomInt(100);
             let beforeHP = this.leo.hp;
             this.leo.hp += damage;
@@ -92,7 +92,7 @@ class Controller extends BaseController {
             });
         }
 
-        if(event.message.text == '/revive leo') {
+        if(event.message.text == '/revive leo' || event.message.text == '/復活 leo') {
 
             this.leo.hp = this.leo.maxHP;
 
@@ -102,7 +102,7 @@ class Controller extends BaseController {
             });
         }
 
-        if(event.message.text == '/flame-geyser leo') {
+        if(event.message.text == '/flame-geyser leo' || event.message.text == '/烈焰斬 leo') {
 
             let damage = this.getRandomInt(3000);
             let beforeHP = this.leo.hp;
@@ -111,38 +111,73 @@ class Controller extends BaseController {
             if(this.leo.hp <= 0) {
                 return this.client.replyMessage(event.replyToken, {
                     type: 'text',
-                    text: `使用技能 [烈焰斬－Flame Geyser] !! Leo 受到 -${damage} HP 損傷!! 已死亡倒在地上抖動!! 你獲得經驗值 15562exp!!`,
+                    text: `使用技能 [烈焰斬] !! Leo 受到 -${damage} HP 損傷!! 已死亡倒在地上抖動!! 你獲得經驗值 15562exp!!`,
                 });
             }
 
             return this.client.replyMessage(event.replyToken, {
                 type: 'text',
-                text: `使用技能 [烈焰斬－Flame Geyser] !! Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!!`,
+                text: `使用技能 [烈焰斬] !! Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!!`,
             });
         }
 
-        if(event.message.text == '/explosion leo') {
+        if(event.message.text == '/explosion leo' || event.message.text == '/爆裂魔法 leo') {
 
             let damage = 9999999;
             let beforeHP = this.leo.hp;
             this.leo.hp -= damage;
 
             if(this.leo.hp <= 0) {
-                return this.client.replyMessage(event.replyToken, {
-                    type: 'text',
-                    text: `使用技能 [爆裂魔法] \n
-                    (吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion!!) \n
-                    Leo 受到 -${damage} HP 損傷!! 已死亡倒在地上抖動!! 你獲得經驗值 15562exp!!`,
-                });
+                return this.client.replyMessage(event.replyToken, [
+                    {
+                        type: 'text',
+                        text: `使用技能 [爆裂魔法]`,
+                    },
+                    {
+                        type: 'text',
+                        text: `(吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion!!)`,
+                    },
+                    {
+                        type: 'text',
+                        text: `Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!!`,
+                    },
+                ]);
             }
+            else {
+                return this.client.replyMessage(event.replyToken, [{
+                    type: 'text',
+                    text: `使用技能 [爆裂魔法]`,
+                },{
+                    type: 'text',
+                    text: `(吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion!!)`,
+                },{
+                    type: 'text',
+                    text: `Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!!`,
+                },
+                ]);
+            }
+        }
 
-            return this.client.replyMessage(event.replyToken, {
-                type: 'text',
-                text: `使用技能 [爆裂魔法] \n
-                (吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion!!) \n
-                Leo 受到 -${damage} HP 損傷!! Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!!`,
+        if(event.message.text == '/風鳥花月 leo') {
 
-            });
+            let damage = 0;
+            let beforeHP = this.leo.hp;
+            this.leo.hp -= damage;
+
+            return this.client.replyMessage(event.replyToken, [
+                {
+                    type: 'text',
+                    text: `使用技能 [風鳥花月]`,
+                },
+                {
+                    type: 'text',
+                    text: `Leo 受到 -${damage} HP 損傷!! 剩下 ${this.leo.hp}HP!! 似乎沒什麼效果....`,
+                },
+                {
+                    type: 'text',
+                    text: `(Leo 覺得心情變好了!!)`,
+                },
+            ]);
         }
 
 
