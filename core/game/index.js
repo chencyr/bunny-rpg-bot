@@ -1,3 +1,5 @@
+const Player = require('./character/player/player');
+
 /**
  * Game engine
  *
@@ -19,9 +21,15 @@ class Engine {
      */
     bootstrap()
     {
-        // Load actions.
-        this.$actions = {};
+        this.loadActions();
+        this.initObjectPool();
+    }
 
+    /**
+     * Load actions
+     */
+    loadActions() {
+        this.$actions = {};
         const normalizedPath = require("path").join(__dirname, "action");
         require("fs").readdirSync(normalizedPath).forEach((file) => {
             const Action = require("./action/" + file);
@@ -36,6 +44,32 @@ class Engine {
 
             console.info(`GameEngine: action [${action.getId()}] loaded.`);
         });
+    }
+
+    /**
+     * Init game objects pool.
+     */
+    initObjectPool() {
+        this.$object = {
+            character: {},
+        };
+    }
+
+    getObject(type, object) {
+
+    }
+
+    newCharacter(data) {
+        if (this.$object.character[data.userId]) {
+            throw new Error('GameEngine: User already created character error.');
+        }
+
+        const character = new Player(data);
+        this.$object.character[data.userId] = character;
+        return {
+            isSuccess: true,
+            characterName: data.name,
+        };
     }
 
     /**
