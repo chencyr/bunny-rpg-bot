@@ -1,18 +1,11 @@
 
-const Factory = require('./event-factory');
 
 /**
- * Line event factory
+ * Attack action.
  */
-class LineEventFactory extends Factory {
+class Attack {
 
-    /**
-     * Create command event instance by adapter.
-     * @param event
-     */
-    createBotCmdAdapter(event) {
-        throw new Error('Not implement method.');
-    }
+
 }
 
-module.exports = LineEventFactory;
+module.exports = Attack;
