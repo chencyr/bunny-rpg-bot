@@ -11,6 +11,10 @@ class LineCommandEventAdapter extends Adapter
      */
     constructor(context) {
         super(context);
+
+        if (!context.gameEngine) {
+            throw new Error('Missing required args property [gameEngine] error.');
+        }
     }
 
     /**
@@ -21,7 +25,7 @@ class LineCommandEventAdapter extends Adapter
     getAction() {
         let text = this.context.event.message.text;
 
-        const regex = /(^\/[\u4e00-\u9fa5_a-zA-Z0-9\-]+( )*)([\u4e00-\u9fa5_a-zA-Z0-9\-]( )*)*/g;
+        const regex = /(^\/[\u4e00-\u9fa5_a-zA-Z0-9\-]+( )*)([\u4e00-\u9fa5_a-zA-Z0-9\-@]( )*)*/g;
         const match = text.match(regex);
 
         if (match == null || match == undefined || match == []) {
@@ -48,23 +52,53 @@ class LineCommandEventAdapter extends Adapter
         };
     }
 
+    /**
+     * Get actor data.
+     *
+     * @return {{userId: string}}
+     */
     getActor() {
         const source = this.context.event.source;
         // LINE user ID
         // source.userId
         // source.type (should be 'user')
+        if (source.type != 'user') {
+            throw new Error('Invalid source type for get actor error.');
+        }
+
+        /** Fake use LINE user info */
+        return {
+            userId: source.userId,
+        };
     }
 
+    /**
+     * Get action to data
+     *
+     * @return {Array}
+     */
     getActionTo() {
         const mention = this.context.event.message.mention;
         if (mention) {
             // LINE user ID
             // mention.mentionees[index].userId
+
+            /** Fake use LINE user info */
+            return mention.mentionees.reduce((result, item) => {
+                result.push(item.userId);
+            }, []);
         }
+
+        return [];
     }
 
+    /**
+     * Get game engine instance
+     *
+     * @return {GameEngine}
+     */
     getGameEngine() {
-        throw new Error('Not implement method.');
+        return this.context.gameEngine;
     }
 
     /**
@@ -72,17 +106,19 @@ class LineCommandEventAdapter extends Adapter
      * @return {*}
      */
     trigger() {
-        const result = super.trigger();
-
-        return {
-            hasException: () => false,
-            getMessages: () => {
-                return {
-                    type: 'text',
-                    text: `Leo HP最大值:10 目前HP:10 每秒恢復:10`,
-                }
-            },
-        };
+        try {
+            const result = super.trigger();
+            return {
+                hasException: () => false,
+                getMessages: () => result.messages,
+            };
+        }
+        catch (e) {
+            return {
+                hasException: () => true,
+                getMessages: () => [],
+            };
+        }
     }
 
 }
