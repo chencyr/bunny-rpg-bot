@@ -49,8 +49,10 @@ class CommandEvent {
         const actor = this.getActor();
         const to = this.getActionTo();
         const engine = this.getGameEngine();
+        const result = engine.action(action, actor, to);
 
-        return engine.action(action, actor, to);
+        console.info('Event: trigger return: ', result);
+        return result
     }
 }
 
