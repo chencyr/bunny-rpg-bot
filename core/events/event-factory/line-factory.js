@@ -8,10 +8,15 @@ class LineEventFactory extends Factory {
 
     /**
      * Create command event instance by adapter.
-     * @param event
+     * @param event {object} event object
+     * @param options {object} Optional args
      */
-    createBotCmdAdapter(event) {
-        return new Adapter({event: event});
+    createBotCmdAdapter(event, options) {
+        const data = {
+            event: event,
+            gameEngine: options.gameEngine,
+        };
+        return new Adapter(data);
     }
 }
 
