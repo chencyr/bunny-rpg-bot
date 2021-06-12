@@ -56,14 +56,22 @@ class Attack
      * Execute action.
      * @param actor
      * @param to
+     * @param args
+     * @return this
      */
-    exec(actor, to) {
+    exec(actor, to, args) {
         this.isActorCanAction(actor);
         this.isActionCanTo(to);
+        console.log(actor, to, args);
+
+        return this;
     }
 
     getMessages() {
-
+        return {
+            type: 'text',
+            text: `Leo HP最大值:10 目前HP:10 每秒恢復:10`,
+        };
     }
 
 }
