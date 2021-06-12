@@ -1,4 +1,4 @@
-const CommandEvent = require('./index.js');
+const CommandEvent = require('./index');
 
 /**
  * BotCommandEventAdapter base class
