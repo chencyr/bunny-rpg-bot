@@ -1,7 +1,7 @@
 // CommonJS
 const express = require('express');
 const path = require('path');
-
+const GameEngine = require('./');
 
 
 /**
@@ -92,6 +92,11 @@ app.controller = function(module) {
 
     return new Proxy(instance, handler);
 };
+
+/**
+ * Game engine loader.
+ */
+app.gameEngine = new GameEngine(app);
 
 function requireHTTPS(req, res, next) {
     // The 'x-forwarded-proto' check is for Heroku
