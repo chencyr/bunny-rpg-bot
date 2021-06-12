@@ -104,6 +104,12 @@ class Engine {
     }
 
     newCharacter(data) {
+        console.debug("GameEngine: new character:", data);
+
+        if (Array.isArray(data)) {
+            data = data[0];
+        }
+
         if (this.$object.character[data.userId]) {
             throw new Error('User already created character error.');
         }
