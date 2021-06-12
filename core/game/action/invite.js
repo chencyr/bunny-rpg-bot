@@ -77,7 +77,7 @@ class Attack
             }
 
             const result = this.context.newCharacter({
-                userId: to.userId,
+                userId: to[0].userId,
                 name: args[0]
             });
 
@@ -87,6 +87,7 @@ class Attack
         }
         catch (e) {
             console.info("GameEngine: join action:", e);
+            console.debug("GameEngine: join action:", this.context.$object);
             this.messages = {type: 'text', text: `邀請失敗!! 不要亂搞!! \n你看錯誤發生了\n${e}`};
         }
 
