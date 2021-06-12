@@ -94,8 +94,17 @@ class Controller extends BaseController {
      * @return {*}
      */
     handleEvent(event, req, res) {
-        console.log('received message:', event);
-        console.log('received mention', event.message.mention);
+
+        // Debug & test.
+        if(event.message.text == '/leo') {
+            return this.client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: `Leo HP最大值`,
+            });
+        }
+
+        console.log('LineWebhook: received message:', event);
+        console.log('LineWebhook: received mention', event.message.mention);
 
         if (Controller.isAllowedEventObject(event)) {
             return Promise.resolve(null);
@@ -113,15 +122,13 @@ class Controller extends BaseController {
             return Promise.resolve(null);
         }
 
-        return this.client.replyMessage(event.replyToken, result.getMessages());
+        const returnMessages = result.getMessages();
+        console.info('LineWebhook: return messages:', returnMessages);
 
-        // if(event.message.text == '/leo') {
-        //     return this.client.replyMessage(event.replyToken, {
-        //         type: 'text',
-        //         text: `Leo HP最大值:${this.leo.maxHP} 目前HP:${this.leo.hp} 每秒恢復:${this.leo.recoverHP}`,
-        //     });
-        // }
-        //
+        return this.client.replyMessage(event.replyToken, returnMessages);
+
+
+
         // if(event.message.text == '/attack leo' || event.message.text == '/打 leo' || event.message.text == '/攻擊 leo') {
         //     let damage = this.getRandomInt(1000);
         //     let beforeHP = this.leo.hp;
