@@ -65,4 +65,4 @@ class Player extends Character
 
 }
 
-module.exports = Character;
+module.exports = Player;
