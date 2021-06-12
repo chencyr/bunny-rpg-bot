@@ -15,9 +15,13 @@ class Player extends Character
         super(initInfo);
         this.job = "路人";
 
+        const hp = this.computeHP();
+        const mp = this.computeMP();
         this.status = {
-            hp: this.computeHP(),
-            mp: this.computeMP(),
+            hp: hp,
+            maxHp: hp,
+            mp: mp,
+            maxMp: mp,
             str: this.computeSTR(),
             vit: this.computeVIT(),
             dex: this.computeDEX(),
@@ -27,8 +31,14 @@ class Player extends Character
         }
     }
 
-    getRandom(min,max){
-        return Math.floor(Math.random()*(max-min+1))+min;
+    /**
+     * Get random number.
+     * @param min
+     * @param max
+     * @return {*}
+     */
+    getRandom(min, max){
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     };
 
     computeHP() {
