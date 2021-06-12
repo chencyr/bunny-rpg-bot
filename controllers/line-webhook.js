@@ -105,7 +105,8 @@ class Controller extends BaseController {
             return Promise.resolve(null);
         }
 
-        const cmdEvent = this.eventFactory.createBotCmdAdapter(event);
+        const options = {gameEngine: this.app.gameEngine};
+        const cmdEvent = this.eventFactory.createBotCmdAdapter(event, options);
         const result = cmdEvent.trigger();
 
         if (result.hasException()) {
