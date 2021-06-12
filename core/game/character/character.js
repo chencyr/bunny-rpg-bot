@@ -29,6 +29,10 @@ class Character
     getStatus() {
         return this.status;
     }
+
+    getName() {
+        return this.name;
+    }
 }
 
 module.exports = Character;
