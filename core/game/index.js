@@ -55,13 +55,57 @@ class Engine {
         };
     }
 
-    getObject(type, object) {
+    /**
+     * Get game object
+     * @param type
+     * @param find {object} if is array will use first object
+     * @return {*}
+     */
+    getObject(type, find) {
 
+        let object = find;
+        if (Array.isArray(find)) {
+            object = find[0];
+        }
+
+        if (object.userId) {
+            const pool = this.$object[type];
+            if (pool[object.userId]) {
+                return pool[object.userId];
+            }
+        }
+
+        throw new Error(`Cannot find [${type}] object from input: ` + JSON.stringify(object));
+    }
+
+    /**
+     *
+     * @param type
+     * @param find
+     * @return {*}
+     */
+    hasObject(type, find) {
+        let object = find;
+        if (Array.isArray(find)) {
+            object = find[0];
+        }
+
+        if (object.userId) {
+            const pool = this.$object[type];
+            if (pool[object.userId]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        throw new Error(`Cannot find [${type}] object from input: ` + JSON.stringify(object));
     }
 
     newCharacter(data) {
         if (this.$object.character[data.userId]) {
-            throw new Error('GameEngine: User already created character error.');
+            throw new Error('User already created character error.');
         }
 
         const character = new Player(data);
