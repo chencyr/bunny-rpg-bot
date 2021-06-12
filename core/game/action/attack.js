@@ -36,11 +36,11 @@ class Attack
 
 
     /**
-     * Check actor can do the action.
-     * @param actor
+     * Check object can do the action.
+     * @param object
      * @return {boolean}
      */
-    isActorCanAction(actor) {
+    isObjectCanAction(object) {
         return true;
     }
 
@@ -48,30 +48,92 @@ class Attack
      * Check action to the object.
      * @param object
      */
-    isActionCanTo(object) {
+    isActionCanToObject(object) {
         return true;
     }
 
     /**
+     * Get random number.
+     * @param min
+     * @param max
+     * @return {*}
+     */
+    getRandom(min, max){
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    /**
      * Execute action.
-     * @param actor
+     * @param from
      * @param to
      * @param args
      * @return this
      */
-    exec(actor, to, args) {
-        this.isActorCanAction(actor);
-        this.isActionCanTo(to);
-        console.log(actor, to, args);
+    exec(from, to, args) {
+        this.isObjectCanAction(from);
+        this.isActionCanToObject(to);
+
+        try {
+            const type = 'character';
+            if (!this.context.hasObject(type, from)) {
+                this.messages = {type: 'text', text: `你還沒加入不能打別人啦!!`};
+                return this;
+            }
+            const fromObj = this.context.getObject(type, from);
+
+            if (!this.context.hasObject(type, to)) {
+                this.messages = {type: 'text', text: `你攻擊的對象還沒加入不能打啦!!`};
+                return this;
+            }
+            const toObj = this.context.getObject(type, to);
+
+            const damage = fromObj.createDamage();
+            const result = toObj.receiveDamage(damage);
+
+            this.messages = [];
+
+            if (result.isMiss == true) {
+                this.messages.push({
+                    type: 'text',
+                    text: `${fromObj.getName()} 攻擊了 ${toObj.getName()}，但技巧很差被 ${toObj.getName()} 閃過了!!`
+                });
+                return this;
+            }
+
+            this.messages.push({
+                type: 'text',
+                text: `${fromObj.getName()} 攻擊了 ${toObj.getName()}，${toObj.getName()} 受到 -${result.damageHp} HP 損傷!! 剩下 ????? HP!!`
+            });
+
+            if (result.hp == 0) {
+                this.messages.push({
+                    type: 'text',
+                    text: `${toObj.getName()} 已死亡倒在地上抖動!!`
+                });
+            }
+
+            if (result.exp > 0) {
+                const isLevelUp = fromObj.receivedExp(result.exp);
+                let expText = `${fromObj.getName()} 獲得經驗值 ${result.exp} exp!!`;
+                if(isLevelUp) {
+                    expText += ` 你的等級提升了!! LV.${fromObj.getLevel()}`;
+                }
+                this.messages.push({
+                    type: 'text',
+                    text: expText
+                });
+            }
+        }
+        catch (e) {
+            console.info("GameEngine: join action:", e);
+            this.messages = {type: 'text', text: `邀請失敗!! 不要亂搞!! \n你看錯誤發生了\n${e}`};
+        }
 
         return this;
     }
 
     getMessages() {
-        return {
-            type: 'text',
-            text: `Leo HP最大值:10 目前HP:10 每秒恢復:10`,
-        };
+        return this.messages;
     }
 
 }
