@@ -68,7 +68,7 @@ class Status
             const status = fromObj.getStatus();
 
             let text = `名稱: ${fromObj.getName()}   等級: ${fromObj.getLevel()}   職業: ${fromObj.getJob()}\n`;
-            text += `稱號: ${fromObj.getTitle()}\n`;
+            text += `狀態:${fromObj.getState()}   稱號: ${fromObj.getTitle()}\n`;
             text += `HP: ${status.hp}    MP: ${status.mp}\n`;
             text += `STR: ${status.str}    VIT: ${status.vit}\n`;
             text += `DEX: ${status.dex}    AGI: ${status.agi}\n`;

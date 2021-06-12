@@ -15,6 +15,7 @@ class Character
         this.level = 1;
         this.job = "無職業";
         this.title = "無稱號";
+        this.state = "無狀態";
         this.status = {
             hp: 100,
             mp: 20,
@@ -45,6 +46,10 @@ class Character
 
     getTitle() {
         return this.title;
+    }
+
+    getState() {
+        return this.state;
     }
 }
 
