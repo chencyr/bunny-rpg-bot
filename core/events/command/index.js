@@ -13,14 +13,29 @@ class CommandEvent {
         throw new Error('Not implement method.');
     }
 
+    /**
+     * Get actor data.
+     *
+     * @return {{userId: string}}
+     */
     getActor() {
         throw new Error('Not implement method.');
     }
 
+    /**
+     * Get action to data
+     *
+     * @return {Array}
+     */
     getActionTo() {
         throw new Error('Not implement method.');
     }
 
+    /**
+     * Get game engine instance
+     *
+     * @return {GameEngine}
+     */
     getGameEngine() {
         throw new Error('Not implement method.');
     }
