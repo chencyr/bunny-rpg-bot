@@ -5,19 +5,37 @@
 class CommandEvent {
 
     /**
-     * Trigger this event automatically
-     * @param event
+     * Get action data.
+     *
+     * @return {object} Action info object {name: <string>, args: [<string>, <string>, ...]}
      */
-    trigger(event) {
-        return {
-            hasException: () => false,
-            getMessages: () => {
-                return {
-                    type: 'text',
-                    text: `Leo HP最大值:10 目前HP:10 每秒恢復:10`,
-                }
-            },
-        };
+    getAction() {
+        throw new Error('Not implement method.');
+    }
+
+    getActor() {
+        throw new Error('Not implement method.');
+    }
+
+    getActionTo() {
+        throw new Error('Not implement method.');
+    }
+
+    getGameEngine() {
+        throw new Error('Not implement method.');
+    }
+
+    /**
+     * Trigger this event automatically
+     * @return {*}
+     */
+    trigger() {
+        const action = this.getAction();
+        const actor = this.getActor();
+        const to = this.getActionTo();
+        const engine = this.getGameEngine();
+
+        return engine.action(action, actor, to);
     }
 }
 
