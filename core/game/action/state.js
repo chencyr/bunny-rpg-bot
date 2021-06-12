@@ -1,9 +1,9 @@
 
 
 /**
- * Attack action.
+ * State action.
  */
-class Attack
+class State
 {
     /**
      * Constructor
@@ -18,7 +18,7 @@ class Attack
      * @return {string}
      */
     getId() {
-        return "attack";
+        return "state";
     }
 
     /**
@@ -27,13 +27,10 @@ class Attack
      */
     getNames() {
         return [
-            "attack",
-            "攻擊",
-            "打",
-            "Attack",
+            "state",
+            "狀態",
         ];
     }
-
 
     /**
      * Check actor can do the action.
@@ -68,4 +65,4 @@ class Attack
 
 }
 
-module.exports = Attack;
+module.exports = State;
