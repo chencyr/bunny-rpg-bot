@@ -63,7 +63,7 @@ class LineCommandEventAdapter extends Adapter
         // source.userId
         // source.type (should be 'user')
         if (source.type != 'user') {
-            throw new Error('Invalid source type for get actor error.');
+            // throw new Error('Invalid source type for get actor error.');
         }
 
         /** Fake use LINE user info */
@@ -84,9 +84,13 @@ class LineCommandEventAdapter extends Adapter
             // mention.mentionees[index].userId
 
             /** Fake use LINE user info */
-            return mention.mentionees.reduce((result, item) => {
-                result.push(item.userId);
+            const toObj = mention.mentionees.reduce((result, item) => {
+                result.push(item);
+                return result;
             }, []);
+            console.info(`Event: action-to object:`, toObj);
+
+            return toObj;
         }
 
         return [];
