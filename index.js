@@ -1,7 +1,7 @@
 // CommonJS
 const express = require('express');
 const path = require('path');
-const GameEngine = require('./');
+const GameEngine = require('./core/game');
 
 
 /**
