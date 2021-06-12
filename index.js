@@ -24,7 +24,7 @@ const app = express();
 app.set("view options", {layout: false});
 app.set('views', global.path.views);
 app.set('view engine', 'ejs');
-console.log('use static path at', global.path.statics);
+console.info('Express: use static path at', global.path.statics);
 app.use('/statics', express.static(global.path.statics));
 
 /**
@@ -57,7 +57,7 @@ app.moduleLoader = function(module, type, fileExtension) {
     if(!app.$container[type][module]) {
         const modulePath = `${global.path[type]}/${module}${fileExtension}`;
         app.$container[type][module] = require(modulePath);
-        console.log(`load ${type} [${module}] by path: ${modulePath}`);
+        console.info(`Application: load ${type} [${module}] by path: ${modulePath}`);
     }
 
     return app.$container[type][module];
@@ -97,6 +97,7 @@ app.controller = function(module) {
  * Game engine loader.
  */
 app.gameEngine = new GameEngine(app);
+console.info(`Application: loaded GameEngine.`);
 
 function requireHTTPS(req, res, next) {
     // The 'x-forwarded-proto' check is for Heroku
