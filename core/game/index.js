@@ -39,15 +39,35 @@ class Engine {
     }
 
     /**
+     * Get action instance by action name.
+     * @param name
+     */
+    getAction(name) {
+        if (this.$actions[name]) {
+            return this.$actions[name];
+        }
+
+        throw new Error(`Cannot get action [${name}], action not found error.`);
+    }
+
+    /**
      * Process action.
      *
      * @param action
      * @param actor
      * @param to
+     * @return {object}
      */
     action(action, actor, to) {
-        console.log();
-        result.messages = [];
+        const returnMsg = this
+            .getAction(action.name)
+            .exec(actor, to, action.args)
+            .getMessages();
+
+        const returnObj = {messages: returnMsg};
+        console.debug('GameEngine: action return: ', returnObj);
+
+        return returnObj;
     }
 }
 
