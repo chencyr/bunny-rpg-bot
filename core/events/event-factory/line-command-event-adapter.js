@@ -5,6 +5,13 @@ const Adapter = require('../command/bot-command-event-adapter');
  */
 class LineCommandEventAdapter extends Adapter
 {
+    /**
+     * Context data
+     * @param context
+     */
+    constructor(context) {
+        super(context);
+    }
 
 }
 
