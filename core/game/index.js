@@ -20,7 +20,7 @@ class Engine {
     bootstrap()
     {
         // Load actions.
-        this.actions = {};
+        this.$actions = {};
 
         const normalizedPath = require("path").join(__dirname, "action");
         require("fs").readdirSync(normalizedPath).forEach((file) => {
@@ -28,10 +28,10 @@ class Engine {
             const action = new Action(this);
 
             action.getNames().forEach((name) => {
-                if(this.actions[name]) {
+                if(this.$actions[name]) {
                     throw new Error(`Duplicate action name [${name}] loading error.`);
                 }
-                this.actions[name] = action;
+                this.$actions[name] = action;
             });
 
             console.info(`GameEngine: action [${action.getId()}] loaded.`);
