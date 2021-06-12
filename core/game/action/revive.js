@@ -18,7 +18,7 @@ class Revive
      * @return {string}
      */
     getId() {
-        return "attack";
+        return "revive";
     }
 
     /**
@@ -27,10 +27,10 @@ class Revive
      */
     getNames() {
         return [
-            "attack",
-            "攻擊",
-            "打",
-            "Attack",
+            "revive",
+            "復活",
+            "爬起來",
+            "別死啊",
         ];
     }
 
@@ -79,7 +79,7 @@ class Revive
 
 
             this.messages = [];
-            if (toObj.hp > 0) {
+            if (toObj.status.hp > 0) {
                 this.messages.push({
                     type: 'text',
                     text: `${fromObj.getName()} 大大，${toObj.getName()} 人都還沒屎，是在哈囉?`
@@ -87,7 +87,7 @@ class Revive
                 return this;
             }
 
-            toObj.hp = 0 + toObj.maxHP;
+            toObj.status.hp = 0 + toObj.maxHp;
             this.messages.push({
                 type: 'text',
                 text: `${fromObj.getName()} 復活了 ${toObj.getName()}，${toObj.getName()} 現在又是一條好漢!!`

@@ -146,7 +146,7 @@ class Character
         this.status.hp -= damageHp;
         if (this.status.hp <= 0) {
             this.status.hp = 0;
-            const decrease = this.levelUpExp * 0.1;
+            const decrease = this.expBase * this.level * 0.1;
             result.exp = decrease;
 
             this.exp -= decrease;
