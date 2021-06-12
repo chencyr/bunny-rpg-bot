@@ -114,6 +114,7 @@ class LineCommandEventAdapter extends Adapter
             };
         }
         catch (e) {
+            console.error('Event:', e);
             return {
                 hasException: () => true,
                 getMessages: () => [],
