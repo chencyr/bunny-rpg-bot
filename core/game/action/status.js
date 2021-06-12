@@ -63,6 +63,7 @@ class Status
             const type = 'character';
             if (!this.context.hasObject(type, from)) {
                 this.messages = {type: 'text', text: `抓到了吼～你還沒加入！\n輸入 /join {角色名稱} 加入這個美好相殘的故事八`};
+                return this;
             }
             const fromObj = this.context.getObject(type, from);
             const status = fromObj.getStatus();

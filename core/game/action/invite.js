@@ -64,14 +64,16 @@ class Attack
 
         try {
             const type = 'character';
-            if (this.context.hasObject(type, from)) {
+            if (!this.context.hasObject(type, from)) {
                 this.messages = {type: 'text', text: `ㄟㄟ!! 你還沒加入不能邀請別人啦!!`};
+                return this;
             }
             const fromObj = this.context.getObject(type, from);
 
             if (this.context.hasObject(type, to)) {
                 const toObj = this.context.getObject(type, to);
                 this.messages = {type: 'text', text: `${toObj.getName()}早就加入拉!! ${fromObj.getName()}你失憶了喔?!`};
+                return this;
             }
 
             const result = this.context.newCharacter({
