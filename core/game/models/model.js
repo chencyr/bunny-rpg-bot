@@ -62,8 +62,7 @@ class Model
      * @return {string}
      */
     getTable() {
-
-        return 'users';
+        return this.constructor.name.toLowerCase();
     }
 }
 

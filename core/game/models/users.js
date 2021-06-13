@@ -2,10 +2,6 @@ const Model = require('./model');
 
 class Users extends Model
 {
-    // getTable() {
-    //     return 'users';
-    // }
-
     characters() {
         return this.join('characters', 'characters.user_id', 'users.id');
     }
