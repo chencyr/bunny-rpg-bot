@@ -4,14 +4,14 @@
  */
 module.exports = {
     connections: {
-        game_core_master: {
-            username: 'b25e803b6fc50b',
+        default: {
+            user: 'b25e803b6fc50b',
             password: 'f16c16ed',
             host: 'us-cdbr-east-04.cleardb.com',
             database: 'heroku_f0392c0473d3f0f',
         },
-        game_core_replica: {
-            username: 'b25e803b6fc50b',
+        replica: {
+            user: 'b25e803b6fc50b',
             password: 'f16c16ed',
             host: 'us-cdbr-east-04.cleardb.com',
             database: 'heroku_f0392c0473d3f0f',

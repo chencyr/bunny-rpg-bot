@@ -1,4 +1,5 @@
 const Player = require('./character/player/player');
+const path = require("path");
 
 /**
  * Game engine
@@ -23,6 +24,31 @@ class Engine {
     {
         this.loadActions();
         this.initObjectPool();
+        this.loadModels();
+    }
+
+    generalLoader(moduleName, modulePath) {
+
+        if(!modulePath) {
+            modulePath = moduleName;
+        }
+
+        const container = `$${moduleName}`;
+        this[container] = {};
+
+        const normalizedPath = path.join(__dirname, modulePath);
+        require("fs").readdirSync(normalizedPath).forEach((file) => {
+            const filePath = `./${modulePath}/${file}`.toLowerCase();
+            const basename = path.basename(filePath ,".js");
+            const moduleObject = require(filePath);
+
+            this[container][basename] = moduleObject;
+            console.info(`GameEngine: ${moduleName} [${basename}] loaded.`);
+        });
+    }
+
+    loadModels() {
+        this.generalLoader('models');
     }
 
     /**
