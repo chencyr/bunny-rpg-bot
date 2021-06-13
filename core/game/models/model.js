@@ -87,18 +87,10 @@ class Model
      * @return {*}
      */
     oneToMany(many, attribute) {
-        if (!this.$oneToMany[many]) {
-            const theTable = this.getTable();
-            const primaryKey = this.getPrimaryKey();
+        const theTable = this.getTable();
+        const primaryKey = this.getPrimaryKey();
 
-            const fn = () => {
-                return this.join(`${many}`, `${many}.${attribute}`, `${theTable}.${primaryKey}`);
-            };
-
-            this.$oneToMany[many] = fn;
-        }
-
-        return this.$oneToMany[many]();
+        return this.join(`${many}`, `${many}.${attribute}`, `${theTable}.${primaryKey}`);
     }
 }
 

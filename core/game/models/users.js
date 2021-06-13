@@ -14,6 +14,7 @@ class Users extends Model
 const model = new Users();
 
 async function getUserRecord(obj, id) {
+    obj = new Users();
     const result = await obj
         // .join('characters', 'characters.user_id', 'users.id')
         .characters()
@@ -24,6 +25,7 @@ async function getUserRecord(obj, id) {
     return result;
 }
 
+getUserRecord(model, 5);
 getUserRecord(model, 5);
 
 
