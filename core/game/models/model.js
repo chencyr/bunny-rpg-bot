@@ -49,8 +49,8 @@ class Model
      * @return {*}
      */
     getConnection() {
-        const table = this.getTable();
         if(!this.$connection) {
+            const table = this.getTable();
             this.$connection = db[this.$conntionName](table);
         }
 
