@@ -13,6 +13,8 @@ class Model
     constructor(connectionName) {
 
         this.$conntionName = 'default';
+        this.$oneToMany = {};
+
         if(connectionName) {
             this.$conntionName = connectionName;
         }
@@ -85,10 +87,18 @@ class Model
      * @return {*}
      */
     oneToMany(many, attribute) {
-        const theTable = this.getTable();
-        const primaryKey = this.getPrimaryKey();
+        if (!this.$oneToMany[many]) {
+            const theTable = this.getTable();
+            const primaryKey = this.getPrimaryKey();
 
-        return this.join(`${many}`, `${many}.${attribute}`, `${theTable}.${primaryKey}`);
+            const fn = () => {
+                return this.join(`${many}`, `${many}.${attribute}`, `${theTable}.${primaryKey}`);
+            };
+
+            this.$oneToMany[many] = fn;
+        }
+
+        return this.$oneToMany[many]();
     }
 }
 
