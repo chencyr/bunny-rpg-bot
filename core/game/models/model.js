@@ -22,10 +22,15 @@ class Model
 
                 const connection = target.getConnection();
                 const prototype = target.constructor.prototype;
-                const methods = Object.getOwnPropertyNames(prototype);
 
+                let methods = Object.getOwnPropertyNames(prototype);
                 if(methods.includes(name)) {
                     return Reflect.get(target, name);
+                }
+
+                methods = Object.getOwnPropertyNames(Model.prototype);
+                if(methods.includes(name)) {
+                    return Reflect.get(Model.prototype, name);
                 }
 
                 if(target.hasOwnProperty(name)) {
@@ -50,6 +55,15 @@ class Model
         }
 
         return this.$connection;
+    }
+
+    /**
+     * Define table name.
+     * @return {string}
+     */
+    getTable() {
+
+        return 'users';
     }
 }
 
