@@ -62,7 +62,33 @@ class Model
      * @return {string}
      */
     getTable() {
-        return this.constructor.name.toLowerCase();
+        if(!this.$table) {
+            this.$table = this.constructor.name.toLowerCase();
+        }
+
+        return this.$table;
+    }
+
+    /**
+     * Define table primary key attribute name.
+     * @return {string}
+     */
+    getPrimaryKey() {
+        return "id";
+    }
+
+    /**
+     * Auto join by model relationship
+     *
+     * @param many {string} Table name
+     * @param attribute {string} Attribute/field name
+     * @return {*}
+     */
+    oneToMany(many, attribute) {
+        const theTable = this.getTable();
+        const primaryKey = this.getPrimaryKey();
+
+        return this.join(`${many}`, `${many}.${attribute}`, `${theTable}.${primaryKey}`);
     }
 }
 

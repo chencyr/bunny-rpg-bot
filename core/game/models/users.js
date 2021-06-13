@@ -3,7 +3,11 @@ const Model = require('./model');
 class Users extends Model
 {
     characters() {
-        return this.join('characters', 'characters.user_id', 'users.id');
+        return this.oneToMany('characters', 'user_id');
+    }
+
+    get yo() {
+        return 'yo'
     }
 }
 
