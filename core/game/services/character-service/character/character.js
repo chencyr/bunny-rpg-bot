@@ -12,7 +12,7 @@ class Character
     constructor(initInfo) {
 
         this.status = {
-            user_id: initInfo.userId,
+            user_id: initInfo.user_id,
             name: initInfo.name,
             next_exp: 300,
             exp: 0,
@@ -32,7 +32,7 @@ class Character
         this.job = "無職業";
         this.title = "無稱號";
         this.state = "無狀態";
-        this.status.expBase = 500;
+        this.expBase = 500;
     }
 
     computeHP() {
@@ -148,7 +148,7 @@ class Character
         this.status.hp -= damageHp;
         if (this.status.hp <= 0) {
             this.status.hp = 0;
-            const decrease = this.status.expBase * this.status.level * 0.1;
+            const decrease = this.expBase * this.status.level * 0.1;
             result.exp = decrease;
 
             this.status.exp -= decrease;
@@ -177,7 +177,7 @@ class Character
 
     levelUp() {
         this.status.level += 1;
-        this.status.next_exp = (this.status.level) * this.status.expBase;
+        this.status.next_exp = (this.status.level) * this.expBase;
 
         const hp = this.status.max_hp += this.computeHP();
         const mp = this.status.max_mp += this.computeMP();

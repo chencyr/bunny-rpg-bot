@@ -13,22 +13,21 @@ class Player extends Character
      */
     constructor(initInfo) {
         super(initInfo);
-        this.job = "路人";
 
+        this.job = "路人";
         const hp = this.computeHP();
         const mp = this.computeMP();
-        this.status = {
-            hp: hp,
-            maxHp: hp,
-            mp: mp,
-            maxMp: mp,
-            str: this.computeSTR(),
-            vit: this.computeVIT(),
-            dex: this.computeDEX(),
-            agi: this.computeAGI(),
-            int: this.computeINT(),
-            luk: this.computeLUK(),
-        }
+
+        this.status.max_hp = hp;
+        this.status.hp = hp;
+        this.status.max_mp = mp;
+        this.status.mp = mp;
+        this.status.str = this.computeSTR();
+        this.status.vit = this.computeVIT();
+        this.status.dex = this.computeDEX();
+        this.status.agi = this.computeAGI();
+        this.status.int = this.computeINT();
+        this.status.luk = this.computeLUK();
     }
 
     /**
