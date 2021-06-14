@@ -32,12 +32,38 @@ class Engine {
         this.$const = {};
         this.$const.model = 'models';
         this.$const.action = 'actions';
+        this.$const.service = 'services';
         this.loadActions();
         this.loadModels();
+        this.loadService();
         
         console.info(`GameEngine: InitEngineModule: Finished`);
     }
-    
+
+    /**
+     * Get loader will auto inject Class object
+     * @return {function(): Function}
+     */
+    get classLoader() {
+        return (container, data) => {
+            this[container][data.objectName] = data.object;
+            console.info(`GameEngine: ModulePool: ${data.name} [${data.objectName}] loaded.`);
+        };
+    }
+
+    /**
+     * Get loader will auto inject instance with context[GameEngine].
+     * @return {function(): Function}
+     */
+    get instanceLoader() {
+        return (container, data) => {
+            const Class = data.object;
+            this[container][data.objectName] = new Class(this);
+            console.info(`GameEngine: ModulePool: ${data.name} [${data.objectName}] loaded.`);
+        };
+    }
+
+
     /**
      * General module loader for load & inject engines module/service into module pool
      * @param moduleName
@@ -50,10 +76,7 @@ class Engine {
         }
 
         if (!handler) {
-            handler = (container, data) => {
-                this[container][data.objectName] = data.object;
-                console.info(`GameEngine: ModulePool: ${data.name} [${data.objectName}] loaded.`);
-            };
+            handler = this.classLoader;
         }
 
         const container = `$${moduleName}`;
@@ -121,7 +144,7 @@ class Engine {
      */
     loadActions() {
         const name = this.$const.action;
-        const handler = (container, data) => {
+        const loader = (container, data) => {
             const Action = data.object;
             const action = new Action(this);
 
@@ -135,7 +158,7 @@ class Engine {
             console.debug(`GameEngine: ModulePool: ${data.name} [${action.getId()}] loaded.`);
         };
 
-        this.modulePoolLoader(name, name, handler);
+        this.modulePoolLoader(name, name, loader);
 
         return this;
     }
@@ -147,6 +170,25 @@ class Engine {
     createAction(name) {
         const Class = this.getFromModulePool(this.$const.action, name);
         return new Class(this);
+    }
+
+    /**
+     * Load service
+     * @return {Engine}
+     */
+    loadService() {
+        const name = this.$const.service;
+        this.modulePoolLoader(name, name, this.instanceLoader);
+        return this;
+    }
+
+    /**
+     * Get service instance
+     * @param name
+     * @return {Service}
+     */
+    getService(name) {
+        return this.getFromModulePool(this.$const.service, name);
     }
 
     /**
@@ -212,6 +254,10 @@ class Engine {
      * @return {{characterName: *, isSuccess: boolean}}
      */
     newCharacter(data) {
+
+        const service = this.getService('user-service');
+        console.log('service name', service.getName());
+
         console.debug("GameEngine: new character:", data);
 
         if (Array.isArray(data)) {
