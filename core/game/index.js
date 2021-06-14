@@ -22,19 +22,29 @@ class Engine {
      */
     bootstrap()
     {
-        this.loadActions();
         this.initObjectPool();
-        this.loadModels();
+        this.initEngineModules();
     }
 
+    initEngineModules() {
+        console.info(`GameEngine: InitEngineModule: Init...`);
+        
+        this.$const = {};
+        this.$const.model = 'models';
+        this.$const.action = 'actions';
+        this.loadActions();
+        this.loadModels();
+        
+        console.info(`GameEngine: InitEngineModule: Finished`);
+    }
+    
     /**
-     * General module loader for load & inject engines module/service into object pool
+     * General module loader for load & inject engines module/service into module pool
      * @param moduleName
      * @param modulePath
      * @param handler
      */
-    objectPoolLoader(moduleName, modulePath, handler) {
-
+    modulePoolLoader(moduleName, modulePath, handler) {
         if (!modulePath) {
             modulePath = moduleName;
         }
@@ -42,7 +52,7 @@ class Engine {
         if (!handler) {
             handler = (container, data) => {
                 this[container][data.objectName] = data.object;
-                console.info(`GameEngine: ${data.name} [${data.objectName}] loaded.`);
+                console.info(`GameEngine: ObjectPool: ${data.name} [${data.objectName}] loaded.`);
             };
         }
 
@@ -63,47 +73,80 @@ class Engine {
         });
     }
 
+    /**
+     * Get module from pool
+     * @param moduleName
+     * @param classKey
+     * @return {*}
+     */
+    getFromModulePool(moduleName, classKey) {
+        if (!this[`$${moduleName}`][classKey]) {
+            throw new Error(`Get new ${moduleName}[${classKey}] instance error: ${moduleName} class not found.`);
+        }
+
+        return this[`$${moduleName}`][classKey];
+    }
+    
+    /**
+     * Create instance from module pool
+     * @param moduleName
+     * @param classKey
+     */
+    createFromModulePool(moduleName, classKey) {
+        const Class = this.getFromModulePool(moduleName, classKey);
+        return new Class();
+    }
+    
+    /**
+     * Load models
+     * @return {Engine}
+     */
     loadModels() {
-        this.objectPoolLoader('models');
+        this.modulePoolLoader(this.$const.model);
+        return this;
+    }
+
+    /**
+     * Create new Model instance.
+     * @param name
+     * @param connection
+     */
+    createModel(name, connection) {
+        const Class = this.getFromModulePool(this.$const.model, name);
+        return new Class(connection);
     }
 
     /**
      * Load actions
      */
     loadActions() {
-
-        // const handler = (container, basename, moduleData) => {
-        //     const action = moduleData.instance;
-        //
-        //     action.getNames().forEach((name) => {
-        //         if(this[container][name]) {
-        //             throw new Error(`Duplicate action name [${name}] loading error.`);
-        //         }
-        //         this.$actions[name] = action;
-        //     });
-        //
-        //     console.info(`GameEngine: action [${action.getId()}] loaded.`);
-        // };
-        //
-        // this.generalLoader('action', 'action', handler);
-        //
-        // return;
-
-        this.$actions = {};
-        const normalizedPath = require("path").join(__dirname, "action");
-        require("fs").readdirSync(normalizedPath).forEach((file) => {
-            const Action = require("./action/" + file);
+        const name = this.$const.action;
+        const handler = (container, data) => {
+            const Action = data.object;
             const action = new Action(this);
 
             action.getNames().forEach((name) => {
-                if(this.$actions[name]) {
-                    throw new Error(`Duplicate action name [${name}] loading error.`);
+                if(this[container][name]) {
+                    throw new Error(`Duplicate ${data.name} name [${name}] loading error.`);
                 }
-                this.$actions[name] = action;
+                this[container][name] = action;
             });
 
-            console.info(`GameEngine: action [${action.getId()}] loaded.`);
-        });
+            console.debug(`GameEngine: ObjectPool: ${data.name} [${action.getId()}] loaded.`);
+        };
+
+        this.modulePoolLoader(name, name, handler);
+
+        return this;
+    }
+
+    /**
+     * Create new Model instance.
+     * @param name
+     */
+    createAction(name) {
+        const Class = this.getFromModulePool(this.$const.action, name);
+        return new Class(this);
     }
 
     /**
@@ -183,18 +226,6 @@ class Engine {
     }
 
     /**
-     * Get action instance by action name.
-     * @param name
-     */
-    getAction(name) {
-        if (this.$actions[name]) {
-            return this.$actions[name];
-        }
-
-        throw new Error(`Cannot get action [${name}], action not found error.`);
-    }
-
-    /**
      * Process action.
      *
      * @param action
@@ -204,11 +235,11 @@ class Engine {
      */
     action(action, actor, to) {
         const returnMsg = this
-            .getAction(action.name)
+            .createAction(action.name)
             .exec(actor, to, action.args)
             .getMessages();
 
-        const returnObj = {messages: returnMsg};
+        const returnObj = { messages: returnMsg };
         console.debug('GameEngine: action return: ', returnObj);
 
         return returnObj;
