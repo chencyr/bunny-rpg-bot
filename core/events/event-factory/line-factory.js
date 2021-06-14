@@ -15,6 +15,7 @@ class LineEventFactory extends Factory {
         const data = {
             event: event,
             gameEngine: options.gameEngine,
+            app: options.app,
         };
         return new Adapter(data);
     }
