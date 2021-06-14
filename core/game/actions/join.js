@@ -66,13 +66,17 @@ class Attack
                 this.messages = {type: 'text', text: `請輸入您的角色名稱`};
             }
 
-            const result = await this.context.newCharacter({
-                userType: 'line',
-                userId: from.userId,
-                name: args[0]
-            });
+            const userService = this.context.getService('user-service');
+            const characterService = this.context.getService('character-service');
 
-            const name = result.characterName;
+            if (! await userService.has(from.userId)) {
+                throw new Error('Invalid user error: user not found.');
+            }
+
+            const character = { userId: from.userId, name: args[0] };
+            await characterService.new('player', character);
+
+            const name = character.name;
             this.messages = {type: 'text', text: `${name}, 恭喜您成功加入這個糞Game!!`};
 
             return this;
