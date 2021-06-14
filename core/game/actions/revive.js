@@ -59,7 +59,7 @@ class Revive
      * @param args
      * @return this
      */
-    exec(from, to, args) {
+    async exec(from, to, args) {
         this.isObjectCanAction(from);
         this.isActionCanToObject(to);
 

@@ -55,7 +55,7 @@ class Status
      * @param to
      * @param args
      */
-    exec(from, to, args) {
+    async exec(from, to, args) {
         this.isActorCanAction(from);
         this.isActionCanTo(to);
 
