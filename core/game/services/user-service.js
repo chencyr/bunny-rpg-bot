@@ -21,16 +21,10 @@ class UserService
 
     /**
      * Check engine has user.
-     * @param data
+     * @param id {int} User ID
      */
-    async has(data) {
-        data = data || {};
-
-        if (!data.userId) {
-            throw new Error('UserService error: Missing required property [userId] of args');
-        }
-
-        const condition = { id: data.userId };
+    async has(id) {
+        const condition = { id: id };
         return await this.userModel().exist(condition);
     }
 }
