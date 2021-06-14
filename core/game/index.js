@@ -206,6 +206,11 @@ class Engine {
         throw new Error(`Cannot find [${type}] object from input: ` + JSON.stringify(object));
     }
 
+    /**
+     * Create new character into engine.
+     * @param data
+     * @return {{characterName: *, isSuccess: boolean}}
+     */
     newCharacter(data) {
         console.debug("GameEngine: new character:", data);
 
