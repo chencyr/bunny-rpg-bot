@@ -81,15 +81,33 @@ class Model
     /**
      * Auto join by model relationship
      *
-     * @param many {string} Table name
+     * @param many {Model} other orm
      * @param attribute {string} Attribute/field name
      * @return {*}
      */
     oneToMany(many, attribute) {
         const theTable = this.getTable();
         const primaryKey = this.getPrimaryKey();
+        const relation = new many();
+        const relationTable = relation.getTable();
 
-        return this.join(`${many}`, `${many}.${attribute}`, `${theTable}.${primaryKey}`);
+        return this.join(`${relationTable}`, `${relationTable}.${attribute}`, `${theTable}.${primaryKey}`);
+    }
+
+    /**
+     * Auto join by model relationship
+     *
+     * @param one {Model} Table name
+     * @param attribute {string} Attribute/field name
+     * @return {*}
+     */
+    manyToOne(one, attribute) {
+        const theTable = this.getTable();
+        const relation = new one();
+        const relationTable = relation.getTable();
+        const primaryKey = relation.getPrimaryKey();
+
+        return this.join(`${relationTable}`, `${relationTable}.${primaryKey}`, `${theTable}.${attribute}`);
     }
 
     /**
