@@ -13,7 +13,6 @@ class Model
     constructor(connectionName) {
 
         this.$conntionName = 'default';
-        this.$oneToMany = {};
 
         if(connectionName) {
             this.$conntionName = connectionName;
@@ -93,11 +92,31 @@ class Model
         return this.join(`${many}`, `${many}.${attribute}`, `${theTable}.${primaryKey}`);
     }
 
+    /**
+     * Get a record by user id
+     * @param id
+     * @return {*}
+     */
     getById(id) {
         const theTable = this.getTable();
         const primaryKey = this.getPrimaryKey();
+        const condition = {};
 
-        return this.select('*').where(`${theTable}.${primaryKey}`, '=', id);
+        condition[`${theTable}.${primaryKey}`] = id;
+
+        return this.getRecord(condition);
+    }
+
+    /**
+     * Get a record by condition
+     * @param condition
+     * @return {*}
+     */
+    getRecord(condition) {
+        return this.select('*')
+            .where(condition)
+            .limit(1)
+            .offset(0);
     }
 
     /**
@@ -105,10 +124,7 @@ class Model
      * @param condition
      */
     async exist(condition) {
-        const records = this.where(condition)
-            .limit(1)
-            .offset(0);
-
+        const records = await this.getRecord(condition);
         return (records.length > 0);
     }
 }
