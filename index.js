@@ -93,6 +93,11 @@ app.controller = function(module) {
     return new Proxy(instance, handler);
 };
 
+app.model = function(module) {
+    const type = 'models';
+    return app.moduleLoader(module, type);
+};
+
 /**
  * Game engine loader.
  */
