@@ -27,34 +27,68 @@ class Engine {
         this.loadModels();
     }
 
-    generalLoader(moduleName, modulePath) {
+    /**
+     * General module loader for load & inject engines module/service into object pool
+     * @param moduleName
+     * @param modulePath
+     * @param handler
+     */
+    objectPoolLoader(moduleName, modulePath, handler) {
 
-        if(!modulePath) {
+        if (!modulePath) {
             modulePath = moduleName;
+        }
+
+        if (!handler) {
+            handler = (container, data) => {
+                this[container][data.objectName] = data.object;
+                console.info(`GameEngine: ${data.name} [${data.objectName}] loaded.`);
+            };
         }
 
         const container = `$${moduleName}`;
         this[container] = {};
-
         const normalizedPath = path.join(__dirname, modulePath);
+
         require("fs").readdirSync(normalizedPath).forEach((file) => {
             const filePath = `./${modulePath}/${file}`.toLowerCase();
             const basename = path.basename(filePath ,".js");
             const moduleObject = require(filePath);
 
-            this[container][basename] = moduleObject;
-            console.info(`GameEngine: ${moduleName} [${basename}] loaded.`);
+            handler(container, {
+                name: moduleName,
+                object: moduleObject,
+                objectName: basename,
+            });
         });
     }
 
     loadModels() {
-        this.generalLoader('models');
+        this.objectPoolLoader('models');
     }
 
     /**
      * Load actions
      */
     loadActions() {
+
+        // const handler = (container, basename, moduleData) => {
+        //     const action = moduleData.instance;
+        //
+        //     action.getNames().forEach((name) => {
+        //         if(this[container][name]) {
+        //             throw new Error(`Duplicate action name [${name}] loading error.`);
+        //         }
+        //         this.$actions[name] = action;
+        //     });
+        //
+        //     console.info(`GameEngine: action [${action.getId()}] loaded.`);
+        // };
+        //
+        // this.generalLoader('action', 'action', handler);
+        //
+        // return;
+
         this.$actions = {};
         const normalizedPath = require("path").join(__dirname, "action");
         require("fs").readdirSync(normalizedPath).forEach((file) => {
