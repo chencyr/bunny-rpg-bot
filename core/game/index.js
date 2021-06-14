@@ -1,4 +1,3 @@
-const Player = require('./character/player/player');
 const path = require("path");
 
 /**
@@ -207,16 +206,15 @@ class Engine {
      * @return {*}
      */
     getObject(type, find) {
-
         let object = find;
         if (Array.isArray(find)) {
             object = find[0];
         }
 
-        if (object.userId) {
+        if (object.id) {
             const pool = this.$object[type];
-            if (pool[object.userId]) {
-                return pool[object.userId];
+            if (pool[object.id]) {
+                return pool[object.id];
             }
         }
 
@@ -224,20 +222,25 @@ class Engine {
     }
 
     /**
-     *
+     * Set object into container.
      * @param type
-     * @param find
+     * @param object
+     * @param id
+     */
+    setObject(type, object, id) {
+        this.$object[type][id] = object;
+    }
+
+    /**
+     * Check object exists
+     * @param type
+     * @param id
      * @return {*}
      */
-    hasObject(type, find) {
-        let object = find;
-        if (Array.isArray(find)) {
-            object = find[0];
-        }
-
-        if (object.userId) {
+    hasObject(type, id) {
+        if (id) {
             const pool = this.$object[type];
-            if (pool[object.userId]) {
+            if (pool[id]) {
                 return true;
             }
             else {
@@ -246,47 +249,6 @@ class Engine {
         }
 
         throw new Error(`Cannot find [${type}] object from input: ` + JSON.stringify(object));
-    }
-
-    /**
-     * Create new character into engine.
-     * @param data
-     * @return {{characterName: *, isSuccess: boolean}}
-     */
-    async newCharacter(data) {
-        console.debug("GameEngine: new character:", data);
-
-        const userService = this.getService('user-service');
-        const characterService = this.getService('character-service');
-
-        if (! await userService.has(data)) {
-            // userService.createUser(data);
-        }
-
-        // const userInfo = userService.getUserInfo(data);
-        //
-        // const options = { user_id: userInfo.id };
-        // const player = characterService.create('player', options);
-        //
-        //
-        // console.log('service name', userService.getName());
-        //
-        // console.debug("GameEngine: new character:", data);
-
-        if (Array.isArray(data)) {
-            data = data[0];
-        }
-
-        if (this.$object.character[data.userId]) {
-            throw new Error('User already created character error.');
-        }
-
-        const character = new Player(data);
-        this.$object.character[data.userId] = character;
-        return {
-            isSuccess: true,
-            characterName: data.name,
-        };
     }
 
     /**
