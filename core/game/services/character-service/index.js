@@ -28,30 +28,24 @@ class CharacterService
      * @param data {object} Character data
      */
     async new(type, data) {
+        // new is only support type=player
         const condition = { user_id: data.userId };
+        const player = new Player({ name: data.name, user_id: data.userId }, this.characterModel);
 
         if (! await this.characterModel().exist(condition)) {
-            const player = new Player(data);
-            const newRecord = Object.assign({}, condition);
-            newRecord.name = data.name;
+            await player.storeStatus();
 
-            await this.characterModel().insert(newRecord);
+            const records = await this.characterModel().getRecord(condition);
+            player.setStatus(records[0]);
+
+            const objType = 'character';
+            const objectId = player.getStatus().id;
+            this.context.setObject(objType, player, objectId);
+
+            return null;
         }
 
-        const records = await this.characterModel().getRecord(condition);
-
-
-
-        // if (this.context.$object.character[data.userId]) {
-        //     throw new Error('User already created character error.');
-        // }
-        //
-        // const character = new Player(data);
-        // this.context.$object.character[data.userId] = character;
-        // return {
-        //     isSuccess: true,
-        //     characterName: data.name,
-        // };
+        throw new Error('User already created character error.');
     }
 }
 
