@@ -35,7 +35,14 @@ app.use('/statics', express.static(global.path.statics));
 app.$container = {
     configs: {},
     controllers: {},
+    models: {},
 };
+
+/**
+ * Game engine loader.
+ */
+app.gameEngine = new GameEngine(app);
+console.info(`Application: loaded GameEngine.`);
 
 /**
  * Load module by application define/configs
@@ -75,6 +82,16 @@ app.config = function(module) {
 };
 
 /**
+ * Model loader
+ * @param module
+ * @return {*}
+ */
+app.model = function(module) {
+    const type = 'models';
+    return app.moduleLoader(module, type);
+};
+
+/**
  * Controller loader
  * @param module
  */
@@ -92,17 +109,6 @@ app.controller = function(module) {
 
     return new Proxy(instance, handler);
 };
-
-app.model = function(module) {
-    const type = 'models';
-    return app.moduleLoader(module, type);
-};
-
-/**
- * Game engine loader.
- */
-app.gameEngine = new GameEngine(app);
-console.info(`Application: loaded GameEngine.`);
 
 function requireHTTPS(req, res, next) {
     // The 'x-forwarded-proto' check is for Heroku
