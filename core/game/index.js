@@ -52,7 +52,7 @@ class Engine {
         if (!handler) {
             handler = (container, data) => {
                 this[container][data.objectName] = data.object;
-                console.info(`GameEngine: ObjectPool: ${data.name} [${data.objectName}] loaded.`);
+                console.info(`GameEngine: ModulePool: ${data.name} [${data.objectName}] loaded.`);
             };
         }
 
@@ -129,10 +129,10 @@ class Engine {
                 if(this[container][name]) {
                     throw new Error(`Duplicate ${data.name} name [${name}] loading error.`);
                 }
-                this[container][name] = action;
+                this[container][name] = Action;
             });
 
-            console.debug(`GameEngine: ObjectPool: ${data.name} [${action.getId()}] loaded.`);
+            console.debug(`GameEngine: ModulePool: ${data.name} [${action.getId()}] loaded.`);
         };
 
         this.modulePoolLoader(name, name, handler);
