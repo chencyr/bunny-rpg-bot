@@ -10,27 +10,29 @@ class Character
      * @constructor
      */
     constructor(initInfo) {
-        this.name = initInfo.name;
-        this.userId = initInfo.userId;
-        this.level = 1;
-        this.job = "無職業";
-        this.title = "無稱號";
-        this.state = "無狀態";
-        this.levelUpExp = 300;
-        this.expBase = 500;
-        this.exp = 0;
+
         this.status = {
+            user_id: initInfo.userId,
+            name: initInfo.name,
+            next_exp: 300,
+            exp: 0,
+            level: 1,
             hp: 100,
-            maxHp: 100,
+            max_hp: 100,
             mp: 20,
-            maxMp: 20,
+            max_mp: 20,
             str: 10,
             vit: 10,
             dex: 10,
             agi: 10,
             int: 10,
             luk: 10,
-        }
+        };
+
+        this.job = "無職業";
+        this.title = "無稱號";
+        this.state = "無狀態";
+        this.status.expBase = 500;
     }
 
     computeHP() {
@@ -70,7 +72,7 @@ class Character
     }
 
     getName() {
-        return this.name;
+        return this.status.name;
     }
 
     getJob() {
@@ -78,7 +80,7 @@ class Character
     }
 
     getLevel() {
-        return this.level;
+        return this.status.level;
     }
 
     getTitle() {
@@ -90,7 +92,7 @@ class Character
     }
 
     getExp() {
-        return this.exp;
+        return this.status.exp;
     }
 
     createDamage() {
@@ -146,12 +148,12 @@ class Character
         this.status.hp -= damageHp;
         if (this.status.hp <= 0) {
             this.status.hp = 0;
-            const decrease = this.expBase * this.level * 0.1;
+            const decrease = this.status.expBase * this.status.level * 0.1;
             result.exp = decrease;
 
-            this.exp -= decrease;
-            if (this.exp < 0) {
-                this.exp = 0;
+            this.status.exp -= decrease;
+            if (this.status.exp < 0) {
+                this.status.exp = 0;
             }
         }
 
@@ -162,11 +164,11 @@ class Character
     }
 
     receivedExp(exp) {
-        this.exp += exp;
+        this.status.exp += exp;
         let isLevelUp = false;
 
-        if (exp >= this.levelUpExp) {
-            this.levelUp();
+        if (exp >= this.status.next_exp) {
+            this.status.levelUp();
             isLevelUp = true;
         }
 
@@ -174,16 +176,16 @@ class Character
     }
 
     levelUp() {
-        this.level += 1;
-        this.levelUpExp = (this.level) * this.expBase;
+        this.status.level += 1;
+        this.status.next_exp = (this.status.level) * this.status.expBase;
 
-        const hp = this.status.maxHp += this.computeHP();
-        const mp = this.status.maxMp += this.computeMP();
+        const hp = this.status.max_hp += this.computeHP();
+        const mp = this.status.max_mp += this.computeMP();
         this.status = {
             hp: hp,
-            maxHp: hp,
+            max_hp: hp,
             mp: mp,
-            maxMp: mp,
+            max_mp: mp,
             str: this.status.str += this.computeSTR(),
             vit: this.status.vit += this.computeVIT(),
             dex: this.status.dex += this.computeDEX(),
