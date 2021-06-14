@@ -12,4 +12,4 @@
 // }
 
 
-module.exports = require(global.path + '/models/model');
+module.exports = require(global.path.app + '/models/model');

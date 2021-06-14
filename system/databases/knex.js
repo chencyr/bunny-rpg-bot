@@ -1,4 +1,4 @@
-const configs = require('../configs/mysql');
+const configs = require('../../configs/mysql');
 const knex = require('knex');
 
 const client = 'mysql';
