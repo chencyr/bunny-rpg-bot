@@ -9,10 +9,13 @@ class Player extends Character
     /**
      * Init player
      * @param initInfo
+     * @param model {Function} Model creator function
      * @constructor
      */
-    constructor(initInfo) {
+    constructor(initInfo, model) {
         super(initInfo);
+
+        this.model = model;
 
         this.job = "路人";
         const hp = this.computeHP();
@@ -28,6 +31,25 @@ class Player extends Character
         this.status.agi = this.computeAGI();
         this.status.int = this.computeINT();
         this.status.luk = this.computeLUK();
+    }
+
+    /**
+     * Set status new value
+     * @param data {Object} new values
+     * @return this
+     */
+    setStatus(data) {
+        this.status = Object.assign(this.status, data);
+        return this;
+    }
+
+    /**
+     * Store status into database
+     * @return this
+     */
+    async storeStatus() {
+        await this.model().insert(this.status);
+        return this;
     }
 
     /**
