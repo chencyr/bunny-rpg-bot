@@ -57,19 +57,19 @@ class LineCommandEventAdapter extends Adapter
      *
      * @return {{userId: string}}
      */
-    getActor() {
+    async getActor() {
         const source = this.context.event.source;
-        // LINE user ID
-        // source.userId
-        // source.type (should be 'user')
-        if (source.type != 'user') {
-            // throw new Error('Invalid source type for get actor error.');
+        const condition = { line_id: source.userId };
+        const model = () => this.context.gameEngine.createModel('users');
+
+        if (! await model().exist(condition)) {
+            const newUser = Object.assign({ name: 'New Player' }, condition);
+            await model().insert(newUser);
         }
 
-        /** Fake use LINE user info */
-        return {
-            userId: source.userId,
-        };
+        const records = await model().getRecord(condition);
+
+        return { userId: records[0].id };
     }
 
     /**
@@ -77,15 +77,25 @@ class LineCommandEventAdapter extends Adapter
      *
      * @return {Array}
      */
-    getActionTo() {
+    async getActionTo() {
         const mention = this.context.event.message.mention;
-        if (mention) {
-            // LINE user ID
-            // mention.mentionees[index].userId
 
-            /** Fake use LINE user info */
-            const toObj = mention.mentionees.reduce((result, item) => {
-                result.push(item);
+        if (mention) {
+            const model = this.context.model;
+            const name = 'users';
+
+            const toObj = mention.mentionees.reduce(async (result, item) => {
+                const condition = { line_id: item.userId };
+
+                if (! await model(name).exist(condition)) {
+                    const newUser = Object.assign({ name: 'NewPlayer' }, condition);
+                    model(name).insert(newUser);
+                }
+
+                const record = await model(name).getRecord(condition)[0];
+                console.debug('record', record);
+                result.push({ userId: record.id });
+
                 return result;
             }, []);
             console.info(`Event: action-to object:`, toObj);
