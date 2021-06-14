@@ -30,7 +30,7 @@ class CharacterService
     async new(type, data) {
         // new is only support type=player
         const condition = { user_id: data.userId };
-        const player = new Player({ name: data.name, user_id: data.userId }, this.characterModel);
+        const player = new Player({ name: data.name, user_id: data.userId }, this);
 
         if (! await this.characterModel().exist(condition)) {
             await player.storeStatus();

@@ -9,13 +9,13 @@ class Player extends Character
     /**
      * Init player
      * @param initInfo
-     * @param model {Function} Model creator function
+     * @param context {CharacterService}
      * @constructor
      */
-    constructor(initInfo, model) {
+    constructor(initInfo, context) {
         super(initInfo);
 
-        this.model = model;
+        this.context = context;
 
         this.job = "路人";
         const hp = this.computeHP();
@@ -48,7 +48,7 @@ class Player extends Character
      * @return this
      */
     async storeStatus() {
-        await this.model().insert(this.status);
+        await this.context.characterModel().insert(this.status);
         return this;
     }
 
