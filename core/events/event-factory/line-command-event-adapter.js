@@ -109,9 +109,9 @@ class LineCommandEventAdapter extends Adapter
      * Trigger this event automatically
      * @return {*}
      */
-    trigger() {
+    async trigger() {
         try {
-            const result = super.trigger();
+            const result = await super.trigger();
             return {
                 hasException: () => false,
                 getMessages: () => result.messages,

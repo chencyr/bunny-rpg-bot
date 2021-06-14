@@ -44,12 +44,12 @@ class CommandEvent {
      * Trigger this event automatically
      * @return {*}
      */
-    trigger() {
+    async trigger() {
         const action = this.getAction();
         const actor = this.getActor();
         const to = this.getActionTo();
         const engine = this.getGameEngine();
-        const result = engine.action(action, actor, to);
+        const result = await engine.action(action, actor, to);
 
         console.info('Event: trigger return: ', result);
         return result

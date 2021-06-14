@@ -93,41 +93,31 @@ class Controller extends BaseController {
      * @param res
      * @return {*}
      */
-    handleEvent(event, req, res) {
+    async handleEvent(event, req, res) {
 
-        // Debug & test.
-        if(event.message.text == '/leo') {
-            return this.client.replyMessage(event.replyToken, {
-                type: 'text',
-                text: `Leo HP最大值`,
-            });
-        }
-
-        console.log('LineWebhook: received message:', event);
-        console.log('LineWebhook: received mention', event.message.mention);
+        console.info('LineWebhook: received message:', event);
+        console.info('LineWebhook: received mention', event.message.mention);
 
         if (Controller.isAllowedEventObject(event)) {
-            return Promise.resolve(null);
+            return null;
         }
 
         if (!Controller.isCommandText(event.message.text)) {
-            return Promise.resolve(null);
+            return null;
         }
 
-        const options = {gameEngine: this.app.gameEngine};
+        const options = { gameEngine: this.app.gameEngine };
         const cmdEvent = this.eventFactory.createBotCmdAdapter(event, options);
-        const result = cmdEvent.trigger();
+        const result = await cmdEvent.trigger();
 
         if (result.hasException()) {
-            return Promise.resolve(null);
+            return null;
         }
 
         const returnMessages = result.getMessages();
-        console.info('LineWebhook: return messages:', returnMessages);
 
-        return this.client.replyMessage(event.replyToken, returnMessages);
-
-
+        console.info('LineWebhook: reply messages:', returnMessages);
+        return await this.client.replyMessage(event.replyToken, returnMessages);
 
         // if(event.message.text == '/attack leo' || event.message.text == '/打 leo' || event.message.text == '/攻擊 leo') {
         //     let damage = this.getRandomInt(1000);

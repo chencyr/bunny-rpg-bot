@@ -57,7 +57,7 @@ class Attack
      * @param args
      * @return this
      */
-    exec(from, to, args) {
+    async exec(from, to, args) {
         this.isObjectCanAction(from);
         this.isActionCanToObject(to);
 
@@ -66,7 +66,8 @@ class Attack
                 this.messages = {type: 'text', text: `請輸入您的角色名稱`};
             }
 
-            const result = this.context.newCharacter({
+            const result = await this.context.newCharacter({
+                userType: 'line',
                 userId: from.userId,
                 name: args[0]
             });

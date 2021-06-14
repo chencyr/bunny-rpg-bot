@@ -253,12 +253,25 @@ class Engine {
      * @param data
      * @return {{characterName: *, isSuccess: boolean}}
      */
-    newCharacter(data) {
-
-        const service = this.getService('user-service');
-        console.log('service name', service.getName());
-
+    async newCharacter(data) {
         console.debug("GameEngine: new character:", data);
+
+        const userService = this.getService('user-service');
+        const characterService = this.getService('character-service');
+
+        if (! await userService.has(data)) {
+            // userService.createUser(data);
+        }
+
+        // const userInfo = userService.getUserInfo(data);
+        //
+        // const options = { user_id: userInfo.id };
+        // const player = characterService.create('player', options);
+        //
+        //
+        // console.log('service name', userService.getName());
+        //
+        // console.debug("GameEngine: new character:", data);
 
         if (Array.isArray(data)) {
             data = data[0];
@@ -284,13 +297,13 @@ class Engine {
      * @param to
      * @return {object}
      */
-    action(action, actor, to) {
-        const returnMsg = this
-            .createAction(action.name)
-            .exec(actor, to, action.args)
-            .getMessages();
+    async action(action, actor, to) {
+        const actionObject = this.createAction(action.name);
+        await actionObject.exec(actor, to, action.args);
 
+        const returnMsg = actionObject.getMessages();
         const returnObj = { messages: returnMsg };
+
         console.debug('GameEngine: action return: ', returnObj);
 
         return returnObj;
