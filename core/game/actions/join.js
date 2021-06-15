@@ -83,7 +83,7 @@ class Attack
         }
         catch (e) {
             console.info("GameEngine: join action:", e);
-            this.messages = {type: 'text', text: `${args[0]}, 創建角色失敗!! 不要亂搞!! \n你看錯誤發生了\n${e}`};
+            this.messages = {type: 'text', text: `${args[0]}, 不要亂搞!! \n你看錯誤發生了\n${e}`};
         }
 
         return this;
