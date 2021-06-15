@@ -12,16 +12,16 @@ class Model
      */
     constructor(connectionName) {
 
-        this.$conntionName = 'default';
+        this.$connectionName = 'default';
 
         if(connectionName) {
-            this.$conntionName = connectionName;
+            this.$connectionName = connectionName;
         }
 
         const handler = {
             get: function(target, name) {
 
-                const connection = target.getConnection();
+                const queryBuilder = target.getQueryBuilder();
                 const prototype = target.constructor.prototype;
 
                 let methods = Object.getOwnPropertyNames(prototype);
@@ -38,7 +38,7 @@ class Model
                     return Reflect.get(target, name);
                 }
 
-                return Reflect.get(connection, name);
+                return Reflect.get(queryBuilder, name);
             },
         };
 
@@ -46,33 +46,33 @@ class Model
     }
 
     /**
-     * Get connection instance
+     * Get queryBuilder instance
      * @return {*}
      */
-    getConnection() {
-        if(!this.$connection) {
+    getQueryBuilder() {
+        if(!this.$queryBuilder) {
             const table = this.getTable();
-            this.$connection = db[this.$conntionName](table);
+            this.$queryBuilder = db[this.$connectionName](table);
         }
 
-        return this.$connection;
+        return this.$queryBuilder;
     }
 
     /**
-     * Create new connection.
+     * Create new queryBuilder.
      * @return {*}
      */
-    newConnection() {
+    newQueryBuilder() {
         const table = this.getTable();
-        return db[this.$conntionName](table);
+        return db[this.$connectionName](table);
     }
 
     /**
-     * Reset new connection
+     * Reset new queryBuilder
      * @return {Model}
      */
-    resetConnection() {
-        this.$connection = this.newConnection();
+    resetQueryBuilder() {
+        this.$queryBuilder = this.newQueryBuilder();
         return this;
     }
 
@@ -149,7 +149,7 @@ class Model
      * @return {*}
      */
     async getRecord(condition) {
-        return await this.newConnection().select('*')
+        return await this.newQueryBuilder().select('*')
             .where(condition)
             .limit(1)
             .offset(0);
@@ -163,7 +163,7 @@ class Model
     async forceRecord(condition) {
         const isExist = await this.exist(condition);
         if (!isExist) {
-            await this.newConnection().insert(condition);
+            await this.newQueryBuilder().insert(condition);
         }
 
         return await this.getRecord(condition);
