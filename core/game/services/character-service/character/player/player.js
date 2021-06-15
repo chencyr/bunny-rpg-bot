@@ -48,7 +48,7 @@ class Player extends Character
      * @return this
      */
     async storeStatus() {
-        await this.context.characterModel().insert(this.status);
+        await this.context.characterModel().create(this.status);
         return this;
     }
 
