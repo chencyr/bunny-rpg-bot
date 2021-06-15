@@ -46,10 +46,10 @@ class CommandEvent {
      */
     async trigger() {
         const action = this.getAction();
-        const actor = await this.getActionFrom();
+        const from = await this.getActionFrom();
         const to = await this.getActionTo();
         const engine = this.getGameEngine();
-        const result = await engine.action(action, actor, to);
+        const result = await engine.action(action, from, to);
 
         console.info('Event: trigger return: ', result);
         return result
