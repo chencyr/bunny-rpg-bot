@@ -1,5 +1,5 @@
 const Model = require('./model');
-const Characters = require('./characters');
+
 
 /**
  * Characters users class
@@ -7,7 +7,7 @@ const Characters = require('./characters');
 class Users extends Model
 {
     characters() {
-        return this.oneToMany(Characters, 'user_id');
+        return this.oneToMany(require('./characters'), 'user_id');
     }
 }
 

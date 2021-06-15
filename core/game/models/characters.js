@@ -1,13 +1,13 @@
 const Model = require('./model');
-const Users = require('./users');
+
 
 /**
  * Characters model class
  */
 class Characters extends Model
 {
-    characters() {
-        return this.manyToOne(Users, 'user_id');
+    users() {
+        return this.manyToOne(require('./users'), 'user_id');
     }
 }
 
