@@ -18,7 +18,7 @@ class CommandEvent {
      *
      * @return {{userId: string}}
      */
-    getActor() {
+    getActionFrom() {
         throw new Error('Not implement method.');
     }
 
@@ -46,7 +46,7 @@ class CommandEvent {
      */
     async trigger() {
         const action = this.getAction();
-        const actor = await this.getActor();
+        const actor = await this.getActionFrom();
         const to = await this.getActionTo();
         const engine = this.getGameEngine();
         const result = await engine.action(action, actor, to);
