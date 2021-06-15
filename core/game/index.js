@@ -202,20 +202,13 @@ class Engine {
     /**
      * Get game object
      * @param type
-     * @param find {object} if is array will use first object
+     * @param id {string}
      * @return {*}
      */
-    getObject(type, find) {
-        let object = find;
-        if (Array.isArray(find)) {
-            object = find[0];
-        }
-
-        if (object.id) {
-            const pool = this.$object[type];
-            if (pool[object.id]) {
-                return pool[object.id];
-            }
+    getObject(type, id) {
+        const pool = this.$object[type];
+        if (pool[id]) {
+            return pool[id];
         }
 
         throw new Error(`Cannot find [${type}] object from input: ` + JSON.stringify(object));
