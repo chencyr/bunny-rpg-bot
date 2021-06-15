@@ -53,16 +53,15 @@ class LineCommandEventAdapter extends Adapter
     }
 
     /**
-     * Get actor data.
+     * Get actor from data.
      *
-     * @return {{userId: string}}
+     * @return {object}
      */
-    async getActor() {
+    async getActionFrom() {
         const source = this.context.event.source;
-        const condition = { line_id: source.userId };
-
-        const user = Object.assign({ name: 'New Player' }, condition);
         const model = this.context.gameEngine.createModel('users');
+
+        const user = { line_id: source.userId, name: 'New Player' };
         const records = await model.forceRecord(user);
 
         return { userId: records[0].id };
@@ -71,35 +70,26 @@ class LineCommandEventAdapter extends Adapter
     /**
      * Get action to data
      *
-     * @return {Array}
+     * @return {array|object}
      */
     async getActionTo() {
+        // TODO: Test after refactor
         const mention = this.context.event.message.mention;
+        const toObj = [];
 
         if (mention) {
-            const model = this.context.model;
-            const name = 'users';
+            const model = this.context.gameEngine.createModel('users');
 
-            const toObj = mention.mentionees.reduce(async (result, item) => {
-                const condition = { line_id: item.userId };
+            for(let item in mention.mentionees) {
+                const user = { line_id: item.userId, name: 'New Player' };
+                const records = await model.forceRecord(user);
 
-                if (! await model(name).exist(condition)) {
-                    const newUser = Object.assign({ name: 'NewPlayer' }, condition);
-                    model(name).insert(newUser);
-                }
-
-                const record = await model(name).getRecord(condition)[0];
-                console.debug('record', record);
-                result.push({ userId: record.id });
-
-                return result;
-            }, []);
-            console.info(`Event: action-to object:`, toObj);
-
-            return toObj;
+                toObj.push({ userId: records[0].id });
+            }
         }
 
-        return [];
+        console.info(`Event: action-to object:`, toObj);
+        return toObj;
     }
 
     /**
