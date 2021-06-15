@@ -64,7 +64,10 @@ class LineCommandEventAdapter extends Adapter
         const user = { line_id: source.userId, name: 'New Player' };
         const records = await model.forceRecord(user);
 
-        return { userId: records[0].id };
+        const fromObj = { userId: records[0].id };
+        console.info(`Event: action-from object:`, fromObj);
+
+        return fromObj;
     }
 
     /**
@@ -87,8 +90,8 @@ class LineCommandEventAdapter extends Adapter
                 toObj.push({ userId: records[0].id });
             }
         }
-
         console.info(`Event: action-to object:`, toObj);
+
         return toObj;
     }
 
