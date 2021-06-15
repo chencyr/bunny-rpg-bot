@@ -60,22 +60,24 @@ class Status
         this.isActionCanTo(to);
 
         try {
-            const type = 'character';
-            if (!this.context.hasObject(type, from)) {
+            const characterService = this.context.getService('character-service');
+            const player = await characterService.getById(from.characterId);
+
+            if (!player) {
                 this.messages = {type: 'text', text: `抓到了吼～你還沒加入！\n輸入 /join {角色名稱} 加入這個美好相殘的故事八`};
                 return this;
             }
-            const fromObj = this.context.getObject(type, from);
-            const status = fromObj.getStatus();
+            const status = player.getStatus();
 
-            let text = `名稱: ${fromObj.getName()}   等級: ${fromObj.getLevel()}   職業: ${fromObj.getJob()}\n`;
-            text += `狀態:${fromObj.getState()}   稱號: ${fromObj.getTitle()}\n`;
-            text += `經驗值: ${fromObj.getExp()}\n`;
-            text += `HP: ${status.hp}/${status.maxHp}    MP: ${status.mp}/${status.maxMp}\n`;
+            let text = `名稱: ${player.getName()}   等級: ${player.getLevel()}   職業: ${player.getJob()}\n`;
+            text += `狀態:${player.getState()}   稱號: ${player.getTitle()}\n`;
+            text += `經驗值: ${player.getExp()}\n`;
+            text += `HP: ${status.hp}/${status.max_hp}    MP: ${status.mp}/${status.max_mp}\n`;
             text += `STR: ${status.str}    VIT: ${status.vit}\n`;
             text += `DEX: ${status.dex}    AGI: ${status.agi}\n`;
             text += `INT: ${status.int}    LUK: ${status.luk}\n`;
 
+            // const text = 'developing';
             this.messages = {type: 'text', text: text};
         }
         catch (e) {
