@@ -23,33 +23,35 @@ class LineCommandEventAdapter extends Adapter
      * @return {object} Action info object {name: <string>, args: [<string>, <string>, ...]}
      */
     getAction() {
-        let text = this.context.event.message.text;
+        if (!this.action) {
+            let text = this.context.event.message.text;
 
-        const regex = /(^\/[\u4e00-\u9fa5_a-zA-Z0-9\-]+( )*)([\u4e00-\u9fa5_a-zA-Z0-9\-@]( )*)*/g;
-        const match = text.match(regex);
+            const regex = /(^\/[\u4e00-\u9fa5_a-zA-Z0-9\-]+( )*)([\u4e00-\u9fa5_a-zA-Z0-9\-@]( )*)*/g;
+            const match = text.match(regex);
 
-        if (match == null || match == undefined || match == []) {
-            throw new Error('Invalid command format error');
+            if (match == null || match == undefined || match == []) {
+                throw new Error('Invalid command format error');
+            }
+
+            text = match[0];
+            if (text.substring(0, 1) == '/') {
+                text = text.slice(1);
+            }
+
+            const end = text.length - 1
+            if (text.substring(end) == ' ') {
+                text = text.slice(0, end);
+            }
+
+            text = text.replace(/( )+/gi, ' ');
+            let parts = text.split(' ');
+
+            const name = parts.shift();
+
+            this.action = { name: name, args: parts };
         }
 
-        text = match[0];
-        if (text.substring(0, 1) == '/') {
-            text = text.slice(1);
-        }
-
-        const end = text.length - 1
-        if (text.substring(end) == ' ') {
-            text = text.slice(0, end);
-        }
-
-        text = text.replace(/( )+/gi, ' ');
-        let parts = text.split(' ');
-
-        const name = parts.shift();
-        return {
-            name: name,
-            args: parts,
-        };
+        return this.action;
     }
 
     /**
@@ -58,16 +60,30 @@ class LineCommandEventAdapter extends Adapter
      * @return {object}
      */
     async getActionFrom() {
-        const source = this.context.event.source;
-        const model = this.context.gameEngine.createModel('users');
+        if (this.getAction().name == 'join') {
+            const source = this.context.event.source;
+            const model = this.context.gameEngine.createModel('users');
 
-        const user = { line_id: source.userId, name: 'New Player' };
-        const records = await model.forceRecord(user);
+            const user = { line_id: source.userId, name: 'New Player' };
+            const records = await model.forceRecord(user);
 
-        const fromObj = { userId: records[0].id };
-        console.info(`Event: action-from object:`, fromObj);
+            const fromObj = { userId: records[0].id };
+            console.info(`Event: action-from object:`, fromObj);
 
-        return fromObj;
+            return fromObj;
+        }
+        else {
+            const source = this.context.event.source;
+            const model = this.context.gameEngine.createModel('users');
+
+            const user = { line_id: source.userId };
+            const records = await model.characters().where(user).limit(1).offset(0);
+
+            const fromObj = { characterId: records[0].id };
+            console.info(`Event: action-from object:`, fromObj);
+
+            return fromObj;
+        }
     }
 
     /**
