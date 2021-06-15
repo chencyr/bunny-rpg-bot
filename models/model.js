@@ -177,6 +177,15 @@ class Model
         const records = await this.getRecord(condition);
         return (records.length > 0);
     }
+
+    /**
+     * Create new record
+     * @param record
+     * @return {Promise<void>}
+     */
+    async create(record) {
+        return this.newQueryBuilder().insert(record);
+    }
 }
 
 module.exports = Model;
