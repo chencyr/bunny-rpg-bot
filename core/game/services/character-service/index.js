@@ -48,6 +48,31 @@ class CharacterService
 
         throw new Error('User already created character error.');
     }
+
+    /**
+     * Get character instance, and return null if character not exists.
+     * @param id
+     * @return {Promise<*>}
+     */
+    async getById(id) {
+        const objType = 'character';
+        const model = this.characterModel();
+
+        if (this.context.hasObject(objType, id)) {
+            return this.context.getObject(objType, id);
+        }
+
+        const records = await model.getById(id);
+        if (records.length > 0) {
+            const player = new Player({}, this);
+            player.setStatus(records[0]);
+            this.context.setObject(objType, player, id);
+
+            return player;
+        }
+
+        return null;
+    }
 }
 
 
