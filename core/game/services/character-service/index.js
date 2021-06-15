@@ -31,11 +31,12 @@ class CharacterService
         // new is only support type=player
         const condition = { user_id: data.userId };
         const player = new Player({ name: data.name, user_id: data.userId }, this);
+        const model = this.characterModel();
 
-        if (! await this.characterModel().exist(condition)) {
+        if (! await model.exist(condition)) {
             await player.storeStatus();
 
-            const records = await this.characterModel().getRecord(condition);
+            const records = await model.getRecord(condition);
             player.setStatus(records[0]);
 
             const objType = 'character';

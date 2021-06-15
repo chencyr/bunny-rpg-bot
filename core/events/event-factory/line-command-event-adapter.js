@@ -60,14 +60,10 @@ class LineCommandEventAdapter extends Adapter
     async getActor() {
         const source = this.context.event.source;
         const condition = { line_id: source.userId };
-        const model = () => this.context.gameEngine.createModel('users');
 
-        if (! await model().exist(condition)) {
-            const newUser = Object.assign({ name: 'New Player' }, condition);
-            await model().insert(newUser);
-        }
-
-        const records = await model().getRecord(condition);
+        const user = Object.assign({ name: 'New Player' }, condition);
+        const model = this.context.gameEngine.createModel('users');
+        const records = await model.forceRecord(user);
 
         return { userId: records[0].id };
     }
