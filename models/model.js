@@ -59,6 +59,24 @@ class Model
     }
 
     /**
+     * Create new connection.
+     * @return {*}
+     */
+    newConnection() {
+        const table = this.getTable();
+        return db[this.$conntionName](table);
+    }
+
+    /**
+     * Reset new connection
+     * @return {Model}
+     */
+    resetConnection() {
+        this.$connection = this.newConnection();
+        return this;
+    }
+
+    /**
      * Define table name.
      * @return {string}
      */
@@ -127,14 +145,28 @@ class Model
 
     /**
      * Get a record by condition
-     * @param condition
+     * @param condition {object}
      * @return {*}
      */
-    getRecord(condition) {
-        return this.select('*')
+    async getRecord(condition) {
+        return await this.newConnection().select('*')
             .where(condition)
             .limit(1)
             .offset(0);
+    }
+
+    /**
+     * Get record or create new record.
+     * @param condition
+     * @return {Promise<void>}
+     */
+    async forceRecord(condition) {
+        const isExist = await this.exist(condition);
+        if (!isExist) {
+            await this.newConnection().insert(condition);
+        }
+
+        return await this.getRecord(condition);
     }
 
     /**
