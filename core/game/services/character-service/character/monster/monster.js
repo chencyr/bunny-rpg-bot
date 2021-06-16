@@ -45,16 +45,6 @@ class Monster extends Character
     }
 
     /**
-     * Get random number.
-     * @param min
-     * @param max
-     * @return {*}
-     */
-    getRandom(min, max){
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
-
-    /**
      * Generate character ID.
      * @return {string}
      */
@@ -69,35 +59,35 @@ class Monster extends Character
     }
 
     computeHP() {
-        return this.getRandom(1, 5000);
+        return this.getRandom(1, 100);
     }
 
     computeMP() {
-        return this.getRandom(1, 5000);
+        return this.getRandom(1, 100);
     }
 
     computeSTR() {
-        return this.getRandom(1, 300);
+        return this.getRandom(1, 20);
     }
 
     computeVIT() {
-        return this.getRandom(1, 300);
+        return this.getRandom(1, 20);
     }
 
     computeDEX() {
-        return this.getRandom(1, 300);
+        return this.getRandom(1, 20);
     }
 
     computeAGI() {
-        return this.getRandom(1, 300);
+        return this.getRandom(1, 20);
     }
 
     computeINT() {
-        return this.getRandom(1, 300);
+        return this.getRandom(1, 20);
     }
 
     computeLUK() {
-        return this.getRandom(1, 300);
+        return this.getRandom(1, 20);
     }
 
 }
