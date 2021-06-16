@@ -66,6 +66,9 @@ class LineCommandEventAdapter extends Adapter
 
             const user = { line_id: source.userId, name: 'New Player' };
             const records = await model.forceRecord(user);
+            if (! records.length > 0) {
+                throw new Error('Create new user failed');
+            }
 
             const fromObj = { userId: records[0].id };
             console.info(`Event: action-from object:`, fromObj);
