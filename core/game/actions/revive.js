@@ -1,16 +1,16 @@
-
+const Action = require('./action');
 
 /**
  * Revive action.
  */
-class Revive
+class Revive extends Action
 {
     /**
      * Constructor
      * @param context
      */
     constructor(context) {
-        this.context = context;
+        super(context);
     }
 
     /**
@@ -34,79 +34,40 @@ class Revive
         ];
     }
 
-
     /**
-     * Check object can do the action.
-     * @param object
-     * @return {boolean}
-     */
-    isObjectCanAction(object) {
-        return true;
-    }
-
-    /**
-     * Check action to the object.
-     * @param object
-     */
-    isActionCanToObject(object) {
-        return true;
-    }
-
-    /**
-     * Execute action.
+     * Execute action for child class implement
      * @param from
      * @param to
      * @param args
-     * @return this
      */
-    async exec(from, to, args) {
-        this.isObjectCanAction(from);
-        this.isActionCanToObject(to);
+    async handler(from, to, args) {
+        const characterService = this.context.getService('character-service');
 
-        try {
-            const type = 'character';
-            if (!this.context.hasObject(type, from)) {
-                this.messages = {type: 'text', text: `你還沒加入不能復活別人啦!!`};
-                return this;
+        if (to.length == 0) {
+            if (! args[0]) {
+                throw new Error('Cannot find character error');
             }
-            const fromObj = this.context.getObject(type, from);
+            to.characterId = args[0];
+        }
+        else {
+            to = to[0];
+        }
 
-            if (!this.context.hasObject(type, to)) {
-                this.messages = {type: 'text', text: `你復活的對象還沒加入不能打啦!!`};
-                return this;
-            }
-            const toObj = this.context.getObject(type, to);
+        const character1 = await characterService.getById(from.characterId);
+        const character2 = await characterService.getById(to.characterId);
 
+        if (!character1 || !character2) {
+            throw new Error('Cannot find character error');
+        }
 
-            this.messages = [];
-            if (toObj.status.hp > 0) {
-                this.messages.push({
-                    type: 'text',
-                    text: `${fromObj.getName()} 大大，${toObj.getName()} 人都還沒屎，是在哈囉?`
-                });
-                return this;
-            }
-
-            toObj.status.hp = 0 + toObj.maxHp;
-            this.messages.push({
-                type: 'text',
-                text: `${fromObj.getName()} 復活了 ${toObj.getName()}，${toObj.getName()} 現在又是一條好漢!!`
-            });
-
+        if (! character2.state instanceof characterService.DeadState) {
+            this.writeMsg(`${character1.getName()} 大大，${character2.getName()} 人都還沒屎，是在哈囉?`);
             return this;
         }
-        catch (e) {
-            console.info("GameEngine: join action:", e);
-            this.messages = {type: 'text', text: `邀請失敗!! 不要亂搞!! \n你看錯誤發生了\n${e}`};
-        }
 
-        return this;
+        character2.changeState(characterService.NormalState.name());
+        this.writeMsg(`${character1.getName()} 復活了 ${character2.getName()}，${character2.getName()} 現在又是一條好漢!!`);
     }
-
-    getMessages() {
-        return this.messages;
-    }
-
 }
 
 module.exports = Revive;
