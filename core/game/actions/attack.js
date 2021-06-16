@@ -71,7 +71,7 @@ class Attack extends Action
         }
 
         this.writeMsg(`${character1.getName()} 攻擊了 ${character2.getName()}，${character2.getName()} 受到 -${result.damageHp} HP 損傷!!`);
-        if (result.hp == 0) {
+        if (character2.state instanceof characterService.DeadState) {
             this.writeMsg(`${character2.getName()} 已死亡倒在地上抖動!!`);
         }
 
