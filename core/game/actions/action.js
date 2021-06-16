@@ -45,6 +45,20 @@ class Action
     }
 
     /**
+     * Write info image. this is used to handler stage.
+     * @param url
+     */
+    writeImg(url) {
+        const host = this.context.getImageHost();
+        this.messages.push({
+            type: 'image', text: this.messageTemp,
+            originalContentUrl: `https://${host}/statics/skill-explosion.png`,
+            previewImageUrl: `https://${host}/statics/skill-explosion.png`,
+            animated: true
+        });
+    }
+
+    /**
      * Write info message. this is used to handler stage.
      * @param message
      */
