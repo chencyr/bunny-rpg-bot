@@ -1,4 +1,5 @@
 const path = require("path");
+const imageConfig = require('./system/configs/image');
 
 /**
  * Game engine
@@ -37,6 +38,14 @@ class Engine {
         this.loadService();
         
         console.info(`GameEngine: InitEngineModule: Finished`);
+    }
+
+    /**
+     * Get image host
+     * @return {string}
+     */
+    getImageHost() {
+        return imageConfig.host;
     }
 
     /**
