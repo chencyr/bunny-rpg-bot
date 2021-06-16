@@ -64,49 +64,52 @@ class Attack
         this.isActionCanToObject(to);
 
         try {
-            const type = 'character';
-            if (!this.context.hasObject(type, from)) {
-                this.messages = {type: 'text', text: `你還沒加入不能打別人啦!!`};
-                return this;
-            }
-            const fromObj = this.context.getObject(type, from);
+            const characterService = this.context.getService('character-service');
 
-            if (!this.context.hasObject(type, to)) {
-                this.messages = {type: 'text', text: `你攻擊的對象還沒加入不能打啦!!`};
-                return this;
+            if (to.length == 0) {
+                if (! args[0]) {
+                    throw new Error('Cannot find character error');
+                }
+                to.characterId = args[0];  
             }
-            const toObj = this.context.getObject(type, to);
 
-            const damage = fromObj.createDamage();
-            const result = toObj.receiveDamage(damage);
+            const character1 = await characterService.getById(from.characterId);
+            const character2 = await characterService.getById(to.characterId);
+
+            if (!character1 || !character2) {
+                throw new Error('Cannot find character error');
+            }
+
+            const damage = character1.createDamage();
+            const result = character2.receiveDamage(damage);
 
             this.messages = [];
 
             if (result.isMiss == true) {
                 this.messages.push({
                     type: 'text',
-                    text: `${fromObj.getName()} 攻擊了 ${toObj.getName()}，但技巧很差被 ${toObj.getName()} 閃過了!!`
+                    text: `${character1.getName()} 攻擊了 ${character2.getName()}，但技巧很差被 ${character2.getName()} 閃過了!!`
                 });
                 return this;
             }
 
             this.messages.push({
                 type: 'text',
-                text: `${fromObj.getName()} 攻擊了 ${toObj.getName()}，${toObj.getName()} 受到 -${result.damageHp} HP 損傷!! 剩下 ????? HP!!`
+                text: `${character1.getName()} 攻擊了 ${character2.getName()}，${character2.getName()} 受到 -${result.damageHp} HP 損傷!! 剩下 ????? HP!!`
             });
 
             if (result.hp == 0) {
                 this.messages.push({
                     type: 'text',
-                    text: `${toObj.getName()} 已死亡倒在地上抖動!!`
+                    text: `${character2.getName()} 已死亡倒在地上抖動!!`
                 });
             }
 
             if (result.exp > 0) {
-                const isLevelUp = fromObj.receivedExp(result.exp);
-                let expText = `${fromObj.getName()} 獲得經驗值 ${result.exp} exp!!`;
+                const isLevelUp = character1.receivedExp(result.exp);
+                let expText = `${character1.getName()} 獲得經驗值 ${result.exp} exp!!`;
                 if(isLevelUp) {
-                    expText += ` 你的等級提升了!! LV.${fromObj.getLevel()}`;
+                    expText += ` 你的等級提升了!! LV.${character1.getLevel()}`;
                 }
                 this.messages.push({
                     type: 'text',
@@ -115,8 +118,8 @@ class Attack
             }
         }
         catch (e) {
-            console.info("GameEngine: join action:", e);
-            this.messages = {type: 'text', text: `邀請失敗!! 不要亂搞!! \n你看錯誤發生了\n${e}`};
+            console.error("GameEngine: action:", e);
+            this.messages = {type: 'text', text: `不要亂搞!! 你看噴錯誤了啦!!\n${e}`};
         }
 
         return this;
