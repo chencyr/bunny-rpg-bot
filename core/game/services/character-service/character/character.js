@@ -35,7 +35,23 @@ class Character
         this.job = "無職業";
         this.title = "無稱號";
         this.state = Character.createState(NormalState.name(), this);
-        this.expBase = 500;
+    }
+
+    /**
+     * Convert the object to exp value.
+     * @return {number}
+     */
+    toExp() {
+        const status = this.status;
+        const exp = status.max_hp + status.max_mp
+            + status.str
+            + status.vit
+            + status.dex
+            + status.agi
+            + status.int
+            + status.luk;
+
+        return exp;
     }
 
     /**
@@ -135,6 +151,10 @@ class Character
         return this.status.exp;
     }
 
+    getNextExp() {
+        return this.status.next_exp;
+    }
+
     /**
      * Change state to new state
      * @param name
@@ -164,25 +184,33 @@ class Character
         return this.state.receiveDamage(damage);
     }
 
+    /**
+     * Received exp
+     * @param exp
+     * @return {boolean}
+     */
     receivedExp(exp) {
         this.status.exp += exp;
         let isLevelUp = false;
 
-        if (exp >= this.status.next_exp) {
-            this.status.levelUp();
+        while (this.status.exp >= this.status.next_exp) {
+            this.levelUp();
             isLevelUp = true;
         }
 
         return isLevelUp;
     }
 
+    /**
+     * Level up
+     */
     levelUp() {
         this.status.level += 1;
-        this.status.next_exp = (this.status.level) * this.expBase;
+        this.status.next_exp = this.computeNextExp();
 
         const hp = this.status.max_hp += this.computeHP();
         const mp = this.status.max_mp += this.computeMP();
-        this.status = {
+        const newStatus = Object.assign(this.status,{
             hp: hp,
             max_hp: hp,
             mp: mp,
@@ -193,7 +221,31 @@ class Character
             agi: this.status.agi += this.computeAGI(),
             int: this.status.int += this.computeINT(),
             luk: this.status.luk += this.computeLUK(),
+        });
+
+        this.setStatus(newStatus);
+    }
+
+    /**
+     * Compute next level exp value
+     * @return {number}
+     */
+    computeNextExp() {
+        return this.fib(this.status.level);
+    }
+
+    /**
+     * Fibonacci function
+     * @param num
+     * @return {*}
+     */
+    fib(num) {
+        if (num < 2) return num
+        const arr = [0, 498]
+        for (let i = 2; i <= num; i++) {
+            arr[i] = arr[i-1] + (arr[i-2])
         }
+        return arr[num]
     }
 }
 
