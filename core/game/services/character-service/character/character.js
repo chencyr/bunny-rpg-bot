@@ -1,3 +1,6 @@
+const NormalState = require('./state/normal');
+const DeadState = require('./state/dead');
+
 /**
  * Character base class
  *
@@ -31,9 +34,19 @@ class Character
 
         this.job = "無職業";
         this.title = "無稱號";
-        this.state = "無狀態";
+        this.state = Character.createState(NormalState.name(), this);
         this.expBase = 500;
     }
+
+    /**
+     * Get random number.
+     * @param min
+     * @param max
+     * @return {*}
+     */
+    getRandom(min, max){
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
 
     computeHP() {
         throw new Error('Not implement method.');
@@ -95,6 +108,39 @@ class Character
         return this.status.exp;
     }
 
+    /**
+     * Create new state instance.
+     * @param name {string}
+     * @param context
+     * @return {Normal}
+     */
+    static createState(name, context) {
+        if (name == NormalState.name()) {
+            return new NormalState(context);
+        }
+        if(name == DeadState.name()) {
+            return new DeadState(context);
+        }
+
+        throw new Error("Change to unknown state error.");
+    }
+
+    /**
+     * Change state to new state
+     * @param name
+     */
+    changeState(name) {
+        this.state.down();
+        this.state = Character.createState(name, this);
+        this.state.up();
+
+        return this;
+    }
+
+    /**
+     * Create damage info.
+     * @return {{accuracy: number, value: number}}
+     */
     createDamage() {
         // 傷害隨機倍率參數
         const atkParam = this.getRandom(80, 120) / 100;
@@ -108,21 +154,16 @@ class Character
         return {value: value, accuracy: accuracy};
     }
 
-    receiveDamage(damage) {
-        const result = {
-            isMiss: false,
-            damageHp: 0,
-            isCritical: false,
-            exp: 0,
-        };
-
-        // 防禦隨機倍率參數
-        const defParam = this.getRandom(90, 100) / 100;
-
+    /**
+     * Check is dodged
+     * @param damage {object} damage info
+     * @return {boolean}
+     */
+    isDodge(damage) {
         // 迴避隨機倍率參數
         const dodgeParam = this.getRandom(90, 100) / 100;
+        const baseDodgeProb = 20; // percentage
 
-        let value = this.status.vit * defParam * 3;
         let dodge = this.status.agi * dodgeParam;
 
         // 閃避補正
@@ -134,33 +175,33 @@ class Character
             dodComp = 100;
         }
 
-        // Base 20% miss
-        if (this.getRandom(0, 100) <= (20 + dodComp)) {
-            result.isMiss = true;
+        if (this.getRandom(0, 100) <= (baseDodgeProb + dodComp)) {
+            return true;
         }
 
-        let damageHp = Math.floor(damage.value - value);
+        return false;
+    }
+
+    /**
+     * Compute damage HP value.
+     * @param damage
+     * @return {number}
+     */
+    computeDamageHp(damage) {
+        // 防禦隨機倍率參數
+        const defParam = this.getRandom(90, 100) / 100;
+        let defValue = this.status.vit * defParam * 3;
+
+        let damageHp = Math.floor(damage.value - defValue);
         if (damageHp < 0) {
             damageHp = 0;
         }
 
-        result.damageHp = damageHp;
-        this.status.hp = Math.floor(this.status.hp - damageHp);
-        if (this.status.hp <= 0) {
-            this.status.hp = 0;
-            const decrease = this.expBase * this.status.level * 0.1;
-            result.exp = decrease;
+        return damageHp;
+    }
 
-            this.status.exp -= decrease;
-            if (this.status.exp < 0) {
-                this.status.exp = 0;
-            }
-        }
-
-        result.hp = this.status.hp;
-
-
-        return result;
+    receiveDamage(damage) {
+        return this.state.receiveDamage(damage);
     }
 
     receivedExp(exp) {
