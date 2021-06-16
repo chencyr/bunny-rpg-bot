@@ -83,6 +83,7 @@ class Action
      * @return {{}|*}
      */
     getMessages() {
+        this.sendMsg();
         return this.messages;
     }
 
