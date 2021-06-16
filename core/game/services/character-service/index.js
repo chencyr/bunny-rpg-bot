@@ -79,6 +79,7 @@ class CharacterService
 
         const records = await model.getById(id);
         if (records.length > 0) {
+            //TODO: should auto get character type
             const player = new Player({}, this);
             player.setStatus(records[0]);
             this.context.setObject(objType, player, id);
