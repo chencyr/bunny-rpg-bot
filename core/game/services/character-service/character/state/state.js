@@ -113,6 +113,23 @@ class State
 
         return result;
     }
+
+    /**
+     * Create damage info.
+     * @return {{accuracy: number, value: number}}
+     */
+    createDamage() {
+        // 傷害隨機倍率參數
+        const atkParam = this.getRandom(80, 120) / 100;
+
+        // 精准度隨機倍率參數
+        const accParam = this.getRandom(80, 100) / 100;
+
+        let value = this.status.str * atkParam * 10;
+        let accuracy = this.status.dex * accParam;
+
+        return {value: value, accuracy: accuracy};
+    }
 }
 
 module.exports = State;
