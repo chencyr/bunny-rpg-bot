@@ -1,4 +1,5 @@
 const Player = require('./character/player/player');
+const Monster = require('./character/monster/monster');
 
 /**
  * Character service, service should run as singleton.
@@ -29,24 +30,38 @@ class CharacterService
      */
     async new(type, data) {
         // new is only support type=player
-        const condition = { user_id: data.userId };
-        const player = new Player({ name: data.name, user_id: data.userId }, this);
-        const model = this.characterModel();
+        if (type == 'player') {
+            const condition = { user_id: data.userId };
+            const player = new Player({ name: data.name, user_id: data.userId }, this);
+            const model = this.characterModel();
 
-        if (! await model.exist(condition)) {
-            await player.storeStatus();
+            if (! await model.exist(condition)) {
+                await player.storeStatus();
 
-            const records = await model.getRecord(condition);
-            player.setStatus(records[0]);
+                const records = await model.getRecord(condition);
+                player.setStatus(records[0]);
 
-            const objType = 'character';
-            const objectId = player.getStatus().id;
-            this.context.setObject(objType, player, objectId);
+                const objType = 'character';
+                const objectId = player.getStatus().id;
+                this.context.setObject(objType, player, objectId);
 
-            return null;
+                return player;
+            }
+
+            throw new Error('User already created character error.');
         }
 
-        throw new Error('User already created character error.');
+        if (type == 'monster') {
+            const monster = new Monster({ name: "初級怪物", user_id: "SYSTEM" }, this);
+            const objType = 'character';
+            const objectId = monster.getStatus().id;
+            this.context.setObject(objType, monster, objectId);
+
+            return monster;
+        }
+
+
+        throw new Error('Create new character failed.');
     }
 
     /**
