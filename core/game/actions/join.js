@@ -78,12 +78,10 @@ class Attack
 
             const name = character.name;
             this.messages = {type: 'text', text: `${name}, 恭喜您成功加入這個糞Game!!`};
-
-            return this;
         }
         catch (e) {
-            console.info("GameEngine: join action:", e);
-            this.messages = {type: 'text', text: `${args[0]}, 不要亂搞!! \n你看錯誤發生了\n${e}`};
+            console.error("GameEngine: action:", e);
+            this.messages = {type: 'text', text: `不要亂搞!! 你看噴錯誤了啦!!\n${e}`};
         }
 
         return this;
