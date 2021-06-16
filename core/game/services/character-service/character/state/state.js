@@ -3,6 +3,10 @@
  */
 class State
 {
+    /**
+     * Constructor
+     * @param context {Character}
+     */
     constructor(context) {
         this.context = context;
     }
@@ -110,6 +114,7 @@ class State
             this.context.changeState('dead');
         }
         result.hp = this.status.hp;
+        result.exp = this.context.toExp();
 
         return result;
     }
