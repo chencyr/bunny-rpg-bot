@@ -49,9 +49,10 @@ class Summon extends Action
 
         const monster = await characterService.new('monster', {});
 
-        this.writeMsg(`${player.getName()}, 成功召喚了一隻極為兇猛的怪物 !!`)
+        this.writeMsg(`${player.getName()} 成功召喚了一隻極為兇猛的怪物 !!`)
+            .writeMsg(`其偉大的名字為...「${monster.getName()}」!!!`)
+            .writeMsg("")
             .writeMsg(`${monster.getStatus().id}`)
-            .writeMsg(`其偉大的名字為...${monster.getName()}」!!!`)
     }
 }
 
