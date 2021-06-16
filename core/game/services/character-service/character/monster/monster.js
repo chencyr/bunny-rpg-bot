@@ -69,35 +69,35 @@ class Monster extends Character
     }
 
     computeHP() {
-        return this.getRandom(100, 500);
+        return this.getRandom(1, 5000);
     }
 
     computeMP() {
-        return this.getRandom(20, 500);
+        return this.getRandom(1, 5000);
     }
 
     computeSTR() {
-        return this.getRandom(10, 30);
+        return this.getRandom(1, 300);
     }
 
     computeVIT() {
-        return this.getRandom(10, 30);
+        return this.getRandom(1, 300);
     }
 
     computeDEX() {
-        return this.getRandom(10, 30);
+        return this.getRandom(1, 300);
     }
 
     computeAGI() {
-        return this.getRandom(10, 30);
+        return this.getRandom(1, 300);
     }
 
     computeINT() {
-        return this.getRandom(10, 30);
+        return this.getRandom(1, 300);
     }
 
     computeLUK() {
-        return this.getRandom(10, 30);
+        return this.getRandom(1, 300);
     }
 
 }
