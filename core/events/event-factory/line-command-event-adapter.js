@@ -79,6 +79,10 @@ class LineCommandEventAdapter extends Adapter
             const user = { line_id: source.userId };
             const records = await model.characters().where(user).limit(1).offset(0);
 
+            if (! records.length > 0) {
+                throw new Error('Action from user not joined error');
+            }
+
             const fromObj = { characterId: records[0].id };
             console.info(`Event: action-from object:`, fromObj);
 
@@ -128,15 +132,18 @@ class LineCommandEventAdapter extends Adapter
         try {
             const result = await super.trigger();
             return {
-                hasException: () => false,
+                notReply: () => false,
                 getMessages: () => result.messages,
             };
         }
         catch (e) {
             console.error('Event:', e);
+            const returnMessages = {
+                type: 'text', text: `不要亂搞!! 你看噴錯誤了啦!!\n${e}`
+            };
             return {
-                hasException: () => true,
-                getMessages: () => [],
+                notReply: () => false,
+                getMessages: () => [returnMessages],
             };
         }
     }
