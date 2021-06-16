@@ -63,8 +63,6 @@ class Attack extends Action
         const damage = character1.createDamage();
         const result = character2.receiveDamage(damage);
 
-        this.messages = [];
-
         if (result.isDodge == true) {
             this.writeMsg(`${character1.getName()} 攻擊了 ${character2.getName()}，但技巧很差被 ${character2.getName()} 閃過了!!`);
             return this;
@@ -77,11 +75,10 @@ class Attack extends Action
 
         if (result.exp > 0) {
             const isLevelUp = character1.receivedExp(result.exp);
-            let expText = `${character1.getName()} 獲得經驗值 ${result.exp} exp!!`;
+            this.writeMsg(`${character1.getName()} 獲得經驗值 ${result.exp} exp!!`);
             if(isLevelUp) {
-                expText += ` 你的等級提升了!! LV.${character1.getLevel()}`;
+                this.writeMsg(`你的等級提升了!! LV.${character1.getLevel()}`);
             }
-            this.writeMsg(expText);
         }
     }
 }
