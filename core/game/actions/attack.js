@@ -95,7 +95,7 @@ class Attack
 
             this.messages.push({
                 type: 'text',
-                text: `${character1.getName()} 攻擊了 ${character2.getName()}，${character2.getName()} 受到 -${result.damageHp} HP 損傷!! 剩下 ????? HP!!`
+                text: `${character1.getName()} 攻擊了 ${character2.getName()}，${character2.getName()} 受到 -${result.damageHp} HP 損傷!!`
             });
 
             if (result.hp == 0) {
