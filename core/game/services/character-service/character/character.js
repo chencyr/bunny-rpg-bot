@@ -1,6 +1,5 @@
 const NormalState = require('./state/normal');
 const DeadState = require('./state/dead');
-const Service = require('../index');
 
 /**
  * Character base class
@@ -35,8 +34,25 @@ class Character
 
         this.job = "無職業";
         this.title = "無稱號";
-        this.state = Service.createState(NormalState.name(), this);
+        this.state = Character.createState(NormalState.name(), this);
         this.expBase = 500;
+    }
+
+    /**
+     * Create new state instance.
+     * @param name {string}
+     * @param context
+     * @return {Normal}
+     */
+    static createState(name, context) {
+        if (name == NormalState.name()) {
+            return new NormalState(context);
+        }
+        if (name == DeadState.name()) {
+            return new DeadState(context);
+        }
+
+        throw new Error("Change to unknown state error.");
     }
 
     /**

@@ -109,23 +109,6 @@ class CharacterService
     get DeadState() {
         return DeadState;
     }
-
-    /**
-     * Create new state instance.
-     * @param name {string}
-     * @param context
-     * @return {Normal}
-     */
-    static createState(name, context) {
-        if (name == NormalState.name()) {
-            return new NormalState(context);
-        }
-        if (name == DeadState.name()) {
-            return new DeadState(context);
-        }
-
-        throw new Error("Change to unknown state error.");
-    }
 }
 
 
