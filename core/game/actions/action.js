@@ -58,6 +58,7 @@ class Action
      */
     sendMsg() {
         this.messages.push({type: 'text', text: this.messageTemp});
+        this.messageTemp = "";
         return this;
     }
 
