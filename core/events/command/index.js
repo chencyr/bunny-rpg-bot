@@ -52,7 +52,7 @@ class CommandEvent {
         const result = await engine.action(action, from, to);
 
         console.info('Event: trigger return: ', result);
-        return result
+        return result;
     }
 }
 
