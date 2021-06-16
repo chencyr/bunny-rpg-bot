@@ -120,7 +120,7 @@ class LineCommandEventAdapter extends Adapter
         }
         else {
             // TODO: Test after refactor
-            return {};
+            return [];
         }
     }
 
