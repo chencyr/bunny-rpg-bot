@@ -139,13 +139,13 @@ class Character
             result.isMiss = true;
         }
 
-        let damageHp = damage.value - value;
+        let damageHp = Math.floor(damage.value - value);
         if (damageHp < 0) {
             damageHp = 0;
         }
 
         result.damageHp = damageHp;
-        this.status.hp -= damageHp;
+        this.status.hp = Math.floor(this.status.hp - damageHp);
         if (this.status.hp <= 0) {
             this.status.hp = 0;
             const decrease = this.expBase * this.status.level * 0.1;
