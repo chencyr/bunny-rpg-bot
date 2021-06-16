@@ -112,9 +112,10 @@ class State
         if (this.status.hp <= 0) {
             this.status.hp = 0;
             this.context.changeState('dead');
+            result.exp = this.context.toExp();
         }
         result.hp = this.status.hp;
-        result.exp = this.context.toExp();
+
 
         return result;
     }

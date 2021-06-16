@@ -35,10 +35,17 @@ class Player extends Character
 
     /**
      * Store status into database
+     * @param updateMode {boolean}
      * @return this
      */
-    async storeStatus() {
-        await this.context.characterModel().create(this.status);
+    async storeStatus(updateMode) {
+        if(updateMode) {
+            await this.context.characterModel().updateById(this.status.id, this.status);
+        }
+        else {
+            await this.context.characterModel().create(this.status);
+        }
+
         return this;
     }
 
@@ -74,6 +81,17 @@ class Player extends Character
         return this.getRandom(10, 30);
     }
 
+    /**
+     * Received exp
+     * @param exp
+     * @return {boolean}
+     */
+    receivedExp(exp) {
+        let isLevelUp = super.receivedExp(exp);
+        this.storeStatus(true);
+
+        return isLevelUp;
+    }
 }
 
 module.exports = Player;

@@ -186,6 +186,22 @@ class Model
     async create(record) {
         return this.newQueryBuilder().insert(record);
     }
+
+    /**
+     * Update record by id
+     * @param id
+     * @param record
+     * @return {Promise<*>}
+     */
+    async updateById(id, record) {
+        const theTable = this.getTable();
+        const primaryKey = this.getPrimaryKey();
+        const condition = {};
+
+        condition[`${theTable}.${primaryKey}`] = id;
+
+        return this.newQueryBuilder().where(condition).update(record);
+    }
 }
 
 module.exports = Model;
