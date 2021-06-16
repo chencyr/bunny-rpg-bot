@@ -92,12 +92,39 @@ class CharacterService
         return null;
     }
 
+    /**
+     * Get class
+     * @return {Normal}
+     * @constructor
+     */
     get NormalState() {
         return NormalState;
     }
 
+    /**
+     * Get class
+     * @return {Dead}
+     * @constructor
+     */
     get DeadState() {
         return DeadState;
+    }
+
+    /**
+     * Create new state instance.
+     * @param name {string}
+     * @param context
+     * @return {Normal}
+     */
+    static createState(name, context) {
+        if (name == NormalState.name()) {
+            return new NormalState(context);
+        }
+        if (name == DeadState.name()) {
+            return new DeadState(context);
+        }
+
+        throw new Error("Change to unknown state error.");
     }
 }
 
