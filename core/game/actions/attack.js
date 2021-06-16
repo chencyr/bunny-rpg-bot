@@ -49,6 +49,9 @@ class Attack extends Action
             }
             to.characterId = args[0];
         }
+        else {
+            to = to[0];
+        }
 
         const character1 = await characterService.getById(from.characterId);
         const character2 = await characterService.getById(to.characterId);
