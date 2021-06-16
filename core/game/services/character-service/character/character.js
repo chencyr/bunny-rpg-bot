@@ -39,6 +39,16 @@ class Character
     }
 
     /**
+     * Set status new value
+     * @param data {Object} new values
+     * @return this
+     */
+    setStatus(data) {
+        this.status = Object.assign(this.status, data);
+        return this;
+    }
+
+    /**
      * Create new state instance.
      * @param name {string}
      * @param context

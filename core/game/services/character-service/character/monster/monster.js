@@ -35,16 +35,6 @@ class Monster extends Character
     }
 
     /**
-     * Set status new value
-     * @param data {Object} new values
-     * @return this
-     */
-    setStatus(data) {
-        this.status = Object.assign(this.status, data);
-        return this;
-    }
-
-    /**
      * Generate character ID.
      * @return {string}
      */

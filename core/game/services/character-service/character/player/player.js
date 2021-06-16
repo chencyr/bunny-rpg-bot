@@ -34,16 +34,6 @@ class Player extends Character
     }
 
     /**
-     * Set status new value
-     * @param data {Object} new values
-     * @return this
-     */
-    setStatus(data) {
-        this.status = Object.assign(this.status, data);
-        return this;
-    }
-
-    /**
      * Store status into database
      * @return this
      */
