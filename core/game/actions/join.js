@@ -39,8 +39,9 @@ class Join extends Action
      * @param args
      */
     async handler(from, to, args) {
-        if ( !args[0]) {
+        if (! args[0]) {
             this.writeMsg(`請輸入您的角色名稱`);
+            return this;
         }
 
         const userService = this.context.getService('user-service');
