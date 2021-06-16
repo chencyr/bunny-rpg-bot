@@ -1,5 +1,7 @@
 const Player = require('./character/player/player');
 const Monster = require('./character/monster/monster');
+const NormalState = require('./character/state/normal');
+const DeadState = require('./character/state/dead');
 
 /**
  * Character service, service should run as singleton.
@@ -88,6 +90,14 @@ class CharacterService
         }
 
         return null;
+    }
+
+    get NormalState() {
+        return NormalState;
+    }
+
+    get DeadState() {
+        return DeadState;
     }
 }
 
