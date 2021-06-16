@@ -65,7 +65,7 @@ class Attack extends Action
 
         this.messages = [];
 
-        if (result.isMiss == true) {
+        if (result.isDodge == true) {
             this.writeMsg(`${character1.getName()} 攻擊了 ${character2.getName()}，但技巧很差被 ${character2.getName()} 閃過了!!`);
             return this;
         }
