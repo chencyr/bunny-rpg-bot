@@ -1,16 +1,16 @@
-
+const Action = require('./action');
 
 /**
  * Summon action.
  */
-class Summon
+class Summon extends Action
 {
     /**
      * Constructor
      * @param context
      */
     constructor(context) {
-        this.context = context;
+        super(context);
     }
 
     /**
@@ -33,59 +33,26 @@ class Summon
     }
 
     /**
-     * Check actor can do the action.
-     * @param actor
-     * @return {boolean}
-     */
-    isActorCanAction(actor) {
-        return true;
-    }
-
-    /**
-     * Check action to the object.
-     * @param object
-     */
-    isActionCanTo(object) {
-        return true;
-    }
-
-    /**
-     * Execute action.
+     * Execute action for child class implement
      * @param from
      * @param to
      * @param args
      */
-    async exec(from, to, args) {
-        this.isActorCanAction(from);
-        this.isActionCanTo(to);
+    async handler(from, to, args) {
+        const characterService = this.context.getService('character-service');
 
-        try {
-            const characterService = this.context.getService('character-service');
-            const player = await characterService.getById(from.characterId);
-
-            if (!player) {
-                this.messages = {type: 'text', text: `抓到了吼～你還沒加入！\n輸入 /join {角色名稱} 加入這個美好相殘的故事八`};
-                return this;
-            }
-
-            const monster = await characterService.new('monster', {});
-            this.messages = [
-                {type: 'text', text: `${player.getName()}, 成功召喚了一隻兇猛的怪物 !! ${monster.getStatus().id}`},
-                {type: 'text', text: `其偉大的名字為...「${monster.getName()}」!!!`},
-            ];
-        }
-        catch (e) {
-            console.error("GameEngine: action:", e);
-            this.messages = {type: 'text', text: `不要亂搞!! 你看噴錯誤了啦!!\n${e}`};
+        const player = await characterService.getById(from.characterId);
+        if (!player) {
+            this.writeMsg(`抓到了吼～你還沒加入！\n輸入 /join {角色名稱} 加入這個美好相殘的故事八`);
+            return this;
         }
 
-        return this;
-    }
+        const monster = await characterService.new('monster', {});
 
-    getMessages() {
-        return this.messages;
+        this.writeMsg(`${player.getName()}, 成功召喚了一隻極為兇猛的怪物 !!`)
+            .writeMsg(`${monster.getStatus().id}`)
+            .writeMsg(`其偉大的名字為...${monster.getName()}」!!!`)
     }
-
 }
 
 module.exports = Summon;

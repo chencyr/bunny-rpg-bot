@@ -50,6 +50,7 @@ class Action
      */
     writeMsg(message) {
         this.messageTemp += "" + message + "\n";
+        return this;
     }
 
     /**
@@ -57,6 +58,7 @@ class Action
      */
     sendMsg() {
         this.messages.push({type: 'text', text: this.messageTemp});
+        return this;
     }
 
     /**
