@@ -74,7 +74,7 @@ class Action
         }
         catch (e) {
             console.error("GameEngine: action:", e);
-            this.messages = {type: 'text', text: `不要亂搞!! 你看噴錯誤了啦!!\n${e}`};
+            this.writeMsg(`不要亂搞!! 你看噴錯誤了啦!!\n${e}`);
         }
 
         return this;
