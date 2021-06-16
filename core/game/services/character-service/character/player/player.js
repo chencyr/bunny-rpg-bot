@@ -17,7 +17,7 @@ class Player extends Character
 
         this.context = context;
 
-        this.job = "路人";
+        this.job = "初心者";
         const hp = this.computeHP();
         const mp = this.computeMP();
 
