@@ -32,6 +32,10 @@ class Character
             luk: 10,
         };
 
+
+        this.revive_timer = 0; // sec
+        this.revive_limit = 60; // sec
+
         this.job = "無職業";
         this.title = "無稱號";
         this.state = Character.createState(NormalState.name(), this);

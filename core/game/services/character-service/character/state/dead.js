@@ -10,7 +10,33 @@ class Dead extends State
     }
 
     toString() {
-        return "死亡";
+        return `死亡(${this.context.revive_limit - this.context.revive_timer})`;
+    }
+
+    /**
+     * Hook for state change up
+     * @return {State}
+     */
+    up() {
+        this.reviveIntervalId = setInterval(() => {
+            this.context.revive_timer++;
+            if(this.context.revive_timer >= this.context.revive_limit) {
+                this.context.changeState('normal');
+            }
+        }, 1000);
+        return this;
+    }
+
+    /**
+     * Hook for state change down
+     * @return {State}
+     */
+    down() {
+        if(this.reviveIntervalId) {
+            clearInterval(this.reviveIntervalId)
+        }
+        this.context.revive_timer = 0;
+        return this;
     }
 
     /**

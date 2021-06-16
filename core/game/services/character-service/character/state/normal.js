@@ -14,6 +14,26 @@ class Normal extends State
     }
 
     /**
+     * Hook for state change up
+     * @return {State}
+     */
+    up() {
+        const status = Object.assign({}, this.status);
+        this.status.hp = status.max_hp;
+        this.status.mp = status.max_mp;
+
+        return this;
+    }
+
+    /**
+     * Hook for state change down
+     * @return {State}
+     */
+    down() {
+        return this;
+    }
+
+    /**
      * Create damage for attack other object.
      * @return {{accuracy: number, value: number}}
      */
