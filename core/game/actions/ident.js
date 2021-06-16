@@ -40,7 +40,6 @@ class Ident extends Action
      * @param args
      */
     async handler(from, to, args) {
-        // TODO: refactor for all type game objects.
         const characterService = this.context.getService('character-service');
 
         if (to.length == 0) {
