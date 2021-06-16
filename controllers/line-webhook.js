@@ -94,30 +94,38 @@ class Controller extends BaseController {
      * @return {*}
      */
     async handleEvent(event, req, res) {
+        try {
+            console.info('LineWebhook: received message:', event);
+            console.info('LineWebhook: received mention', event.message.mention);
 
-        console.info('LineWebhook: received message:', event);
-        console.info('LineWebhook: received mention', event.message.mention);
+            if (Controller.isAllowedEventObject(event)) {
+                return null;
+            }
 
-        if (Controller.isAllowedEventObject(event)) {
+            if (!Controller.isCommandText(event.message.text)) {
+                return null;
+            }
+
+            const options = { gameEngine: this.app.gameEngine, app: this.app };
+            const cmdEvent = this.eventFactory.createBotCmdAdapter(event, options);
+
+            const result = await cmdEvent.trigger();
+            if (result.notReply()) {
+                return null;
+            }
+
+            const returnMessages = result.getMessages();
+
+            console.info('LineWebhook: reply messages:', returnMessages);
+            return await this.client.replyMessage(event.replyToken, returnMessages);
+        }
+        catch (e) {
+            console.error('LineWebhook:', e);
             return null;
         }
 
-        if (!Controller.isCommandText(event.message.text)) {
-            return null;
-        }
 
-        const options = { gameEngine: this.app.gameEngine, app: this.app };
-        const cmdEvent = this.eventFactory.createBotCmdAdapter(event, options);
-        const result = await cmdEvent.trigger();
 
-        if (result.hasException()) {
-            return null;
-        }
-
-        const returnMessages = result.getMessages();
-
-        console.info('LineWebhook: reply messages:', returnMessages);
-        return await this.client.replyMessage(event.replyToken, returnMessages);
 
         // if(event.message.text == '/attack leo' || event.message.text == '/打 leo' || event.message.text == '/攻擊 leo') {
         //     let damage = this.getRandomInt(1000);
