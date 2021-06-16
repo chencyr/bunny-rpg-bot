@@ -11,7 +11,8 @@ class Action
      */
     constructor(context) {
         this.context = context;
-        this.messages = {};
+        this.messages = [];
+        this.messageTemp = "";
     }
 
 
@@ -41,6 +42,21 @@ class Action
      */
     async handler(from, to, args) {
         throw new Error('Not implement error');
+    }
+
+    /**
+     * Write info message. this is used to handler stage.
+     * @param message
+     */
+    writeMsg(message) {
+        this.messageTemp += "" + message + "\n";
+    }
+
+    /**
+     * Output info message. this is used to handler stage.
+     */
+    sendMsg() {
+        this.messages.push({type: 'text', text: this.messageTemp});
     }
 
     /**

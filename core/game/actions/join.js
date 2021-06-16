@@ -39,8 +39,8 @@ class Join extends Action
      * @param args
      */
     async handler(from, to, args) {
-        if (!args[0]) {
-            this.messages = {type: 'text', text: `請輸入您的角色名稱`};
+        if ( !args[0]) {
+            this.writeMsg(`請輸入您的角色名稱`);
         }
 
         const userService = this.context.getService('user-service');
@@ -54,7 +54,7 @@ class Join extends Action
         await characterService.new('player', character);
 
         const name = character.name;
-        this.messages = {type: 'text', text: `${name}, 恭喜您成功加入這個糞Game!!`};
+        this.writeMsg(`${name}, 恭喜您成功加入這個糞Game!!`);
     }
 }
 
