@@ -99,23 +99,29 @@ class LineCommandEventAdapter extends Adapter
      * @return {array|object}
      */
     async getActionTo() {
-        // TODO: Test after refactor
-        const mention = this.context.event.message.mention;
-        const toObj = [];
+        if (this.getAction().name == 'invite') {
+            // TODO: Test after refactor
+            const mention = this.context.event.message.mention;
+            const toObj = [];
 
-        if (mention) {
-            const model = this.context.gameEngine.createModel('users');
+            if (mention) {
+                const model = this.context.gameEngine.createModel('users');
 
-            for(let item in mention.mentionees) {
-                const user = { line_id: item.userId, name: 'New Player' };
-                const records = await model.forceRecord(user);
+                for(let item in mention.mentionees) {
+                    const user = { line_id: item.userId, name: 'New Player' };
+                    const records = await model.forceRecord(user);
 
-                toObj.push({ characterId: records[0].id });
+                    toObj.push({ userId: records[0].id });
+                }
             }
-        }
-        console.info(`Event: action-to object:`, toObj);
+            console.info(`Event: action-to object:`, toObj);
 
-        return toObj;
+            return toObj;
+        }
+        else {
+            // TODO: Test after refactor
+            return {};
+        }
     }
 
     /**
