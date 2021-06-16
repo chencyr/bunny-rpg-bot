@@ -100,14 +100,14 @@ class LineCommandEventAdapter extends Adapter
      */
     async getActionTo() {
         if (this.getAction().name == 'invite') {
-            // TODO: Test after refactor
             const mention = this.context.event.message.mention;
             const toObj = [];
 
             if (mention) {
                 const model = this.context.gameEngine.createModel('users');
 
-                for(let item in mention.mentionees) {
+                for(let index in mention.mentionees) {
+                    const item = mention.mentionees[index];
                     const user = { line_id: item.userId, name: 'New Player' };
                     const records = await model.forceRecord(user);
 
@@ -119,8 +119,26 @@ class LineCommandEventAdapter extends Adapter
             return toObj;
         }
         else {
-            // TODO: Test after refactor
-            return [];
+            const mention = this.context.event.message.mention;
+            const toObj = [];
+
+            if (mention) {
+                const model = this.context.gameEngine.createModel('users');
+                for(let index in mention.mentionees) {
+                    const item = mention.mentionees[index];
+                    const user = { line_id: item.userId };
+                    const records = await model.characters().where(user).limit(1).offset(0);
+
+                    if (! records.length > 0) {
+                        throw new Error('Action to user not joined error');
+                    }
+
+                    toObj.push({ characterId: records[0].id });
+                }
+            }
+
+            console.info(`Event: action-to object:`, toObj);
+            return toObj;
         }
     }
 
