@@ -128,6 +128,7 @@ class LineCommandEventAdapter extends Adapter
                     const item = mention.mentionees[index];
                     const user = { line_id: item.userId };
                     const records = await model.characters().where(user).limit(1).offset(0);
+                    model.resetQueryBuilder();
 
                     if (! records.length > 0) {
                         throw new Error('Action to user not joined error');
