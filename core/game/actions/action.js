@@ -52,8 +52,8 @@ class Action
         const host = this.context.getImageHost();
         this.messages.push({
             type: 'image', text: this.messageTemp,
-            originalContentUrl: `https://${host}/statics/skill-explosion.png`,
-            previewImageUrl: `https://${host}/statics/skill-explosion.png`,
+            originalContentUrl: `https://${host}/${url}`,
+            previewImageUrl: `https://${host}/${url}`,
             animated: true
         });
     }

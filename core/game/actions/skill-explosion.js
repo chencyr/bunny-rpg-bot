@@ -101,7 +101,7 @@ class SkillExplosion extends Action
     }
 
     afterSend(damage, sender, receivers, args) {
-        this.writeImg();
+        this.writeImg('statics/skill-explosion.png');
         this.writeMsg('吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion !!').sendMsg();
     }
 
