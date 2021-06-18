@@ -32,35 +32,42 @@ class SkillExplosion extends Action
         ];
     }
 
+    /* abstract */
     /**
-     * Get characters from all params.
+     * Get send game object for this action.
+     * @param from
+     * @param args
+     * @return {Promise<void>}
+     */
+    async getSendObjects(from, args) {
+
+    }
+
+    /* abstract */
+    /**
+     * Get received game object for this action.
      * @param to
      * @param args
      * @return {Promise<Array>}
      */
-    async getCharacters(to, args) {
+    async getReceivedObjects(to, args) {
         const characterService = this.context.getService('character-service');
-        const characters = [];
+        let ids = to.reduce((carry, item) => carry.push(item.characterId), [])
+            .filter((item) => item === undefined);
 
-        if (to.length > 0) {
-            for(let index in to) {
-                const item = to[index];
-                const character = await characterService.getById(item.characterId);
-                if (character) {
-                    characters.push(character);
-                }
-            }
-        }
+        ids = ids.concat(args);
+        ids = this.filterDuplicate(ids);
 
-        for(let index in args) {
-            const item = args[index];
-            const character = await characterService.getById(item);
-            if (character) {
-                characters.push(character);
-            }
-        }
+        return await characterService.getByIds(ids);
+    }
 
-        return characters;
+    /**
+     * Remove duplicate value in array.
+     * @param arr {array}
+     * @return {array}
+     */
+    filterDuplicate (arr) {
+        return arr.filter((item, index) => arr.indexOf(item) === index);
     }
 
     /**
@@ -72,7 +79,11 @@ class SkillExplosion extends Action
     async handler(from, to, args) {
         const characterService = this.context.getService('character-service');
         const character1 = await characterService.getById(from.characterId);
-        const characters = await this.getCharacters(to, args);
+        // const characters = await this.getCharacters(to, args);
+
+        const characters = await this.getReceivedObjects(to, args);
+        // const characters = await this.getSendObjects(from, args);
+
 
         if (! character1) {
             throw new Error('Cannot find character error');
@@ -97,7 +108,7 @@ class SkillExplosion extends Action
 
             if (result.isDodge == true) {
                 this.writeMsg(`${character1.getName()} 轟炸了 ${character2.getName()}，但技巧很差被 ${character2.getName()} 閃過了!!`);
-                return this;
+                continue;
             }
 
             this.writeMsg(`${character1.getName()} 爆裂了 ${character2.getName()}，${character2.getName()} 受到 -${result.damageHp} HP 損傷!!`);
