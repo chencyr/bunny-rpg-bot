@@ -73,7 +73,7 @@ class SkillExplosion extends Action
         return arr.filter((item, index) => arr.indexOf(item) === index);
     }
 
-    before(senders, receivers) {
+    beforeInteraction(senders, receivers) {
         if (senders.length == 0) {
             this.writeMsg(`沒有可執行 [${this.getNames()[0]}] 此操作的對象`); return false;
         }
@@ -83,6 +83,61 @@ class SkillExplosion extends Action
         }
     }
 
+    afterInteraction(senders, receivers) {
+
+    }
+
+    beforeSend(sender, receivers, args) {
+
+    }
+
+    sending(sender, receivers, args) {
+        // TODO: refactor use magic attack (compute by int)
+        const damage = sender.createDamage();
+        damage.accuracy += 999999;
+        damage.value = damage.value * 10;
+
+        return damage;
+    }
+
+    afterSend(damage, sender, receivers, args) {
+        this.writeImg();
+        this.writeMsg('吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion !!').sendMsg();
+    }
+
+    beforeReceived(interaction, sender, receiver, args) {
+
+    }
+
+    receiving(interaction, sender, receiver, args) {
+        const characterService = this.context.getService('character-service');
+        const result = receiver.receiveDamage(interaction);
+
+        if (result.isDodge == true) {
+            this.writeMsg(`${sender.getName()} 轟炸了 ${receiver.getName()}，但技巧很差被 ${receiver.getName()} 閃過了!!`);
+            result.continue = true;
+        }
+
+        this.writeMsg(`${sender.getName()} 爆裂了 ${receiver.getName()}，${receiver.getName()} 受到 -${result.damageHp} HP 損傷!!`);
+        if (receiver.state instanceof characterService.DeadState) {
+            this.writeMsg(`${receiver.getName()} 炸開成為屑屑!!`);
+        }
+
+        if (result.exp > 0) {
+            const isLevelUp = sender.receivedExp(result.exp);
+            this.writeMsg(`${sender.getName()} 獲得經驗值 ${result.exp} exp!!`);
+            if(isLevelUp) {
+                this.writeMsg(`你的等級提升了!! LV.${sender.getLevel()}`);
+            }
+        }
+
+        return result;
+    }
+
+    afterReceived(result, interaction, sender, receiver, args) {
+
+    }
+
     /**
      * Execute action for child class implement
      * @param from
@@ -90,51 +145,33 @@ class SkillExplosion extends Action
      * @param args
      */
     async handler(from, to, args) {
-        const characterService = this.context.getService('character-service');
-        const character1 = await characterService.getById(from.characterId);
-        // const characters = await this.getCharacters(to, args);
-
-
         const receivers = await this.getReceivedObjects(to, args);
         const senders = await this.getSendObjects(from, args);
 
-
-        if (! this.before(senders, receivers)) {
+        if (this.beforeInteraction(senders, receivers, args)) {
             return this;
         }
 
+        for (let sender of senders.values()) {
 
-        // TODO: refactor use magic attack (compute by int)
-        const damage = character1.createDamage();
-        damage.accuracy += 999999;
-        damage.value = damage.value * 10;
+            this.beforeSend(sender, receivers, args);
+            const interaction = this.sending(sender, receivers, args);
+            this.afterSend(interaction, sender, receivers, args);
 
-        this.writeImg();
-        this.writeMsg('吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion !!').sendMsg();
+            for(let receiver of receivers.values()) {
 
-        for(let index in receivers) {
-            const character2 = receivers[index];
-            const result = character2.receiveDamage(damage);
-
-            if (result.isDodge == true) {
-                this.writeMsg(`${character1.getName()} 轟炸了 ${character2.getName()}，但技巧很差被 ${character2.getName()} 閃過了!!`);
-                continue;
-            }
-
-            this.writeMsg(`${character1.getName()} 爆裂了 ${character2.getName()}，${character2.getName()} 受到 -${result.damageHp} HP 損傷!!`);
-            if (character2.state instanceof characterService.DeadState) {
-                this.writeMsg(`${character2.getName()} 炸開成為屑屑!!`);
-            }
-
-            if (result.exp > 0) {
-                const isLevelUp = character1.receivedExp(result.exp);
-                this.writeMsg(`${character1.getName()} 獲得經驗值 ${result.exp} exp!!`);
-                if(isLevelUp) {
-                    this.writeMsg(`你的等級提升了!! LV.${character1.getLevel()}`);
-                }
+                this.beforeReceived(interaction, sender, receiver, args);
+                const result = this.receiving(interaction, sender, receiver, args);
+                if (result.break) break;
+                if (result.continue) continue;
+                if (result.terminate) return this;
+                this.afterReceived(result, interaction, sender, receiver, args);
             }
         }
 
+        if (this.afterInteraction(senders, receivers, args)) {
+            return this;
+        }
     }
 }
 
