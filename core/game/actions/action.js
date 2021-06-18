@@ -71,7 +71,10 @@ class Action
      * Output info message. this is used to handler stage.
      */
     sendMsg() {
-        this.messages.push({type: 'text', text: this.messageTemp});
+        if (this.messageTemp.length > 0) {
+            this.messages.push({type: 'text', text: this.messageTemp});
+        }
+
         this.messageTemp = "";
         return this;
     }
