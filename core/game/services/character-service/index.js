@@ -67,6 +67,25 @@ class CharacterService
     }
 
     /**
+     * Get character instances by id list array, and ignore id if character not exists.
+     * @param ids
+     * @return {Promise<Array>}
+     */
+    async getByIds(ids) {
+        const characters = [];
+
+        for(let index in ids) {
+            const id = ids[index];
+            const character = await this.getById(id);
+            if (character) {
+                characters.push(character);
+            }
+        }
+
+        return characters;
+    }
+
+    /**
      * Get character instance, and return null if character not exists.
      * @param id
      * @return {Promise<*>}
