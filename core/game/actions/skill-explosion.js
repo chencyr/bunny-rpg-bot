@@ -40,7 +40,10 @@ class SkillExplosion extends Action
      * @return {Promise<void>}
      */
     async getSendObjects(from, args) {
-
+        const characterService = this.context.getService('character-service');
+        let ids = [from]
+            .reduce((carry, item) => carry.concat([item.characterId]), [])
+        return await characterService.getByIds(ids);
     }
 
     /* abstract */
@@ -52,12 +55,12 @@ class SkillExplosion extends Action
      */
     async getReceivedObjects(to, args) {
         const characterService = this.context.getService('character-service');
-        let ids = to.reduce((carry, item) => carry.push(item.characterId), [])
-            .filter((item) => item === undefined);
+        let ids = to
+            .reduce((carry, item) => carry.concat([item.characterId]), [])
+            .filter((item) => item === undefined)
+            .concat(args);
 
-        ids = ids.concat(args);
         ids = this.filterDuplicate(ids);
-
         return await characterService.getByIds(ids);
     }
 
@@ -68,6 +71,16 @@ class SkillExplosion extends Action
      */
     filterDuplicate (arr) {
         return arr.filter((item, index) => arr.indexOf(item) === index);
+    }
+
+    before(senders, receivers) {
+        if (senders.length == 0) {
+            this.writeMsg(`沒有可執行 [${this.getNames()[0]}] 此操作的對象`); return false;
+        }
+
+        if (receivers.length == 0) {
+            this.writeMsg(`沒有可接受 [${this.getNames()[0]}] 此操作的對象`); return false;
+        }
     }
 
     /**
@@ -81,18 +94,15 @@ class SkillExplosion extends Action
         const character1 = await characterService.getById(from.characterId);
         // const characters = await this.getCharacters(to, args);
 
-        const characters = await this.getReceivedObjects(to, args);
-        // const characters = await this.getSendObjects(from, args);
+
+        const receivers = await this.getReceivedObjects(to, args);
+        const senders = await this.getSendObjects(from, args);
 
 
-        if (! character1) {
-            throw new Error('Cannot find character error');
-        }
-
-        if (characters.length == 0) {
-            this.writeMsg(`施放失敗，沒有指定施放的對象`);
+        if (! this.before(senders, receivers)) {
             return this;
         }
+
 
         // TODO: refactor use magic attack (compute by int)
         const damage = character1.createDamage();
@@ -102,8 +112,8 @@ class SkillExplosion extends Action
         this.writeImg();
         this.writeMsg('吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion !!').sendMsg();
 
-        for(let index in characters) {
-            const character2 = characters[index];
+        for(let index in receivers) {
+            const character2 = receivers[index];
             const result = character2.receiveDamage(damage);
 
             if (result.isDodge == true) {
