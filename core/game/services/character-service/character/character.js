@@ -34,7 +34,7 @@ class Character
 
 
         this.revive_timer = 0; // sec
-        this.revive_limit = 60; // sec
+        this.revive_limit = 300; // sec
 
         this.job = "無職業";
         this.title = "無稱號";
