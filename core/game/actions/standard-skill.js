@@ -3,14 +3,14 @@ const InteractionAction = require('./interaction');
 /**
  * Skill action.
  */
-class SkillExplosion extends InteractionAction
+class StandardSkill extends InteractionAction
 {
     /**
      * Get action ID.
      * @return {string}
      */
     getId() {
-        return "skill-explosion";
+        return "standard-skill";
     }
 
     /**
@@ -19,9 +19,16 @@ class SkillExplosion extends InteractionAction
      */
     getNames() {
         return [
-            "explosion",
-            "爆裂魔法",
+            "standard-skill",
         ];
+    }
+
+    /**
+     * Get skill name.
+     * @return {string} standard name
+     */
+    getSkillName() {
+        throw new Error("Skill's standard name not defined error.");
     }
 
     /**
@@ -30,7 +37,9 @@ class SkillExplosion extends InteractionAction
      */
     async getSkill() {
         if (! this.skill) {
-            this.skill = await this.context.getService("skill-service").getByName("explosion");
+            this.skill = await this.context
+                .getService("skill-service")
+                .getByName(this.getSkillName());
         }
 
         return this.skill;
@@ -79,23 +88,26 @@ class SkillExplosion extends InteractionAction
      */
     async receiving(effect, sender, receiver, args) {
         const characterService = this.context.getService('character-service');
+        const skill = await this.getSkill();
         const result = receiver.receiveDamage(effect);
 
+        this.writeMsg(`[${sender.getName()}] 對 [${receiver.getName()}] 使用了 [${skill.getDisplayName()}] !!`);
+
         if (result.isDodge == true) {
-            this.writeMsg(`${sender.getName()} 轟炸了 ${receiver.getName()}，但技巧很差被 ${receiver.getName()} 閃過了!!`);
+            this.writeMsg(`但被 [${receiver.getName()}] 走位很風騷的閃過了!!`);
             result.continue = true;
         }
 
-        this.writeMsg(`${sender.getName()} 爆裂了 ${receiver.getName()}，${receiver.getName()} 受到 -${result.damageHp} HP 損傷!!`);
+        this.writeMsg(`[${receiver.getName()}] 受到 -${result.damageHp} HP 損傷!!`);
         if (receiver.state instanceof characterService.DeadState) {
-            this.writeMsg(`${receiver.getName()} 炸開成為屑屑!!`);
+            this.writeMsg(`[${receiver.getName()}] 已死亡，倒在地上抖動!!`);
         }
 
         if (result.exp > 0) {
             const isLevelUp = sender.receivedExp(result.exp);
-            this.writeMsg(`${sender.getName()} 獲得經驗值 ${result.exp} exp!!`);
+            this.writeMsg(`[${sender.getName()}] 獲得經驗值 ${result.exp} exp!!`);
             if(isLevelUp) {
-                this.writeMsg(`你的等級提升了!! LV.${sender.getLevel()}`);
+                this.writeMsg(`[${sender.getName()}] 的等級提升了!! LV.${sender.getLevel()}`);
             }
         }
 
@@ -103,4 +115,4 @@ class SkillExplosion extends InteractionAction
     }
 }
 
-module.exports = SkillExplosion;
+module.exports = StandardSkill;

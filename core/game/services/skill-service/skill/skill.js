@@ -12,6 +12,14 @@ class Skill
     }
 
     /**
+     * Get display name.
+     * @return {string}
+     */
+    getDisplayName() {
+        return "技能";
+    }
+
+    /**
      * Hooker for before interaction
      * @param senders
      * @param receivers

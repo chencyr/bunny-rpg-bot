@@ -6,6 +6,14 @@ const Skill = require('./skill');
 class Explosion extends Skill
 {
     /**
+     * Get display name.
+     * @return {string}
+     */
+    getDisplayName() {
+        return "爆裂魔法";
+    }
+
+    /**
      * Hooker for before interaction
      * @param senders
      * @param receivers
