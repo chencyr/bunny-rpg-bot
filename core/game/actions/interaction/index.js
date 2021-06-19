@@ -85,7 +85,7 @@ class InteractionAction extends Action
      * @param receivers
      * @return {boolean}
      */
-    beforeInteraction(senders, receivers) {
+    async beforeInteraction(senders, receivers) {
         // Nothing to do.
     }
 
@@ -95,17 +95,7 @@ class InteractionAction extends Action
      * @param receivers
      * @return {boolean}
      */
-    afterInteraction(senders, receivers) {
-        // Nothing to do.
-    }
-
-    /**
-     * Hooker for before send
-     * @param sender
-     * @param receivers
-     * @param args
-     */
-    beforeSend(sender, receivers, args) {
+    async afterInteraction(senders, receivers, args) {
         // Nothing to do.
     }
 
@@ -116,56 +106,22 @@ class InteractionAction extends Action
      * @param args
      * @return {object}
      */
-    sending(sender, receivers, args) {
+    async sending(sender, receivers, args) {
         // Nothing to do.
         return {};
     }
 
     /**
-     * Hooker for after send
-     * @param damage
-     * @param sender
-     * @param receivers
-     * @param args
-     */
-    afterSend(damage, sender, receivers, args) {
-        // Nothing to do.
-    }
-
-    /**
-     * Hooker for before received
-     * @param interaction
-     * @param sender
-     * @param receiver
-     * @param args
-     */
-    beforeReceived(interaction, sender, receiver, args) {
-        // Nothing to do.
-    }
-
-    /**
      * Hooker for receiving
-     * @param interaction
+     * @param effect
      * @param sender
      * @param receiver
      * @param args
      * @return {object}
      */
-    receiving(interaction, sender, receiver, args) {
+    async receiving(effect, sender, receiver, args) {
         // Nothing to do.
         return {};
-    }
-
-    /**
-     * Hooker for after received
-     * @param result
-     * @param interaction
-     * @param sender
-     * @param receiver
-     * @param args
-     */
-    afterReceived(result, interaction, sender, receiver, args) {
-        // Nothing to do.
     }
 }
 

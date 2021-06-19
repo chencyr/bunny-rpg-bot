@@ -15,28 +15,25 @@ class AppInteraction extends Interaction
         const receivers = await this.getReceivedObjects(to, args);
         const senders = await this.getSendObjects(from, args);
 
-        if (this.beforeInteraction(senders, receivers, args)) {
+        if (await this.beforeInteraction(senders, receivers, args)) {
             return this;
         }
 
         for (let sender of senders.values()) {
-
-            this.beforeSend(sender, receivers, args);
-            const interaction = this.sending(sender, receivers, args);
-            this.afterSend(interaction, sender, receivers, args);
+            const effect = await this.sending(sender, receivers, args);
+            if (effect.break) break;
+            if (effect.continue) continue;
+            if (effect.terminate) return this;
 
             for(let receiver of receivers.values()) {
-
-                this.beforeReceived(interaction, sender, receiver, args);
-                const result = this.receiving(interaction, sender, receiver, args);
+                const result = await this.receiving(effect, sender, receiver, args);
                 if (result.break) break;
                 if (result.continue) continue;
                 if (result.terminate) return this;
-                this.afterReceived(result, interaction, sender, receiver, args);
             }
         }
 
-        if (this.afterInteraction(senders, receivers, args)) {
+        if (await this.afterInteraction(senders, receivers, args)) {
             return this;
         }
     }
