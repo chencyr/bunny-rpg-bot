@@ -1,9 +1,9 @@
-const Action = require('./interaction');
+const InteractionAction = require('./interaction');
 
 /**
  * Skill action.
  */
-class SkillExplosion extends Action
+class SkillExplosion extends InteractionAction
 {
     /**
      * Get action ID.
@@ -25,12 +25,24 @@ class SkillExplosion extends Action
     }
 
     /**
+     * Get skill instance from service.
+     * @return {Promise<*>}
+     */
+    async getSkill() {
+        if (! this.skill) {
+            this.skill = await this.context.getService("skill-service").getByName("explosion");
+        }
+
+        return this.skill;
+    }
+
+    /**
      * Hooker for before interaction
      * @param senders
      * @param receivers
-     * @return {boolean}
+     * @return {boolean} return true will break interaction flow
      */
-    beforeInteraction(senders, receivers) {
+    async beforeInteraction(senders, receivers) {
         if (senders.length == 0) {
             this.writeMsg(`沒有可執行 [${this.getNames()[0]}] 此操作的對象`); return true;
         }
@@ -39,17 +51,10 @@ class SkillExplosion extends Action
             this.writeMsg(`沒有可接受 [${this.getNames()[0]}] 此操作的對象`); return true;
         }
 
-        // for (let is in senders) {
-        //     const sender = sneders[is];
-        //     const service = this.context.getService('character-service');
-        //     if (sender.state instanceof service.DeadState) {
-        //         this.writeMsg(`${receiver.getName()} 炸開成為屑屑!!`);
-        //     }
-        // }
-        //
-        // for (let ir in receivers) {
-        //
-        // }
+        const skill = await this.getSkill();
+        if (await skill.beforeInteraction(senders, receivers)) {
+            return true;
+        }
     }
 
     /**
@@ -59,38 +64,22 @@ class SkillExplosion extends Action
      * @param args
      * @return {object}
      */
-    sending(sender, receivers, args) {
-        // TODO: refactor use magic attack (compute by int)
-        const damage = sender.createDamage();
-        damage.accuracy += 999999;
-        damage.value = damage.value * 10;
-
-        return damage;
-    }
-
-    /**
-     * Hooker for after send
-     * @param damage
-     * @param sender
-     * @param receivers
-     * @param args
-     */
-    afterSend(damage, sender, receivers, args) {
-        this.writeImg('statics/skill-explosion.png');
-        this.writeMsg('吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion !!').sendMsg();
+    async sending(sender, receivers, args) {
+        const skill = await this.getSkill();
+        return await skill.sending(sender, receivers, this, args);
     }
 
     /**
      * Hooker for receiving
-     * @param interaction
+     * @param effect
      * @param sender
      * @param receiver
      * @param args
      * @return {object}
      */
-    receiving(interaction, sender, receiver, args) {
+    async receiving(effect, sender, receiver, args) {
         const characterService = this.context.getService('character-service');
-        const result = receiver.receiveDamage(interaction);
+        const result = receiver.receiveDamage(effect);
 
         if (result.isDodge == true) {
             this.writeMsg(`${sender.getName()} 轟炸了 ${receiver.getName()}，但技巧很差被 ${receiver.getName()} 閃過了!!`);
@@ -102,18 +91,6 @@ class SkillExplosion extends Action
             this.writeMsg(`${receiver.getName()} 炸開成為屑屑!!`);
         }
 
-        return result;
-    }
-
-    /**
-     * Hooker for after received
-     * @param result
-     * @param interaction
-     * @param sender
-     * @param receiver
-     * @param args
-     */
-    afterReceived(result, interaction, sender, receiver, args) {
         if (result.exp > 0) {
             const isLevelUp = sender.receivedExp(result.exp);
             this.writeMsg(`${sender.getName()} 獲得經驗值 ${result.exp} exp!!`);
@@ -121,8 +98,9 @@ class SkillExplosion extends Action
                 this.writeMsg(`你的等級提升了!! LV.${sender.getLevel()}`);
             }
         }
-    }
 
+        return result;
+    }
 }
 
 module.exports = SkillExplosion;
