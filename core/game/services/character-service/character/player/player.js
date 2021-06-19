@@ -50,35 +50,35 @@ class Player extends Character
     }
 
     computeHP() {
-        return this.getRandom(100, 500);
+        return this.getRandom(200, 5000);
     }
 
     computeMP() {
-        return this.getRandom(20, 500);
+        return this.getRandom(200, 5000);
     }
 
     computeSTR() {
-        return this.getRandom(10, 30);
+        return this.getRandom(3, 30);
     }
 
     computeVIT() {
-        return this.getRandom(10, 30);
+        return this.getRandom(3, 30);
     }
 
     computeDEX() {
-        return this.getRandom(10, 30);
+        return this.getRandom(3, 30);
     }
 
     computeAGI() {
-        return this.getRandom(10, 30);
+        return this.getRandom(3, 30);
     }
 
     computeINT() {
-        return this.getRandom(10, 30);
+        return this.getRandom(3, 30);
     }
 
     computeLUK() {
-        return this.getRandom(10, 30);
+        return this.getRandom(3, 30);
     }
 
     /**
