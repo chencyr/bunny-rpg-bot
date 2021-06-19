@@ -37,7 +37,7 @@ class Explosion extends Skill
      * @return {Promise<void>}
      */
     async afterInteraction(senders, receivers, action, args) {
-
+        action.writeMsg('Leo覺得很舒服');
     }
 
     /**

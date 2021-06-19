@@ -113,6 +113,20 @@ class StandardSkill extends InteractionAction
 
         return result;
     }
+
+    /**
+     * Hooker for after interaction
+     * @param senders
+     * @param receivers
+     * @param args
+     * @return {boolean}
+     */
+    async afterInteraction(senders, receivers, args) {
+        const skill = await this.getSkill();
+        if (await skill.beforeInteraction(senders, receivers)) {
+            return true;
+        }
+    }
 }
 
 module.exports = StandardSkill;

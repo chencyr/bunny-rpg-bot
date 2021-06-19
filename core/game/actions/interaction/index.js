@@ -93,6 +93,7 @@ class InteractionAction extends Action
      * Hooker for after interaction
      * @param senders
      * @param receivers
+     * @param args
      * @return {boolean}
      */
     async afterInteraction(senders, receivers, args) {
