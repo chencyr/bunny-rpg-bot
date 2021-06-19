@@ -123,7 +123,7 @@ class StandardSkill extends InteractionAction
      */
     async afterInteraction(senders, receivers, args) {
         const skill = await this.getSkill();
-        if (await skill.beforeInteraction(senders, receivers)) {
+        if (await skill.afterInteraction(senders, receivers, this, args)) {
             return true;
         }
     }
