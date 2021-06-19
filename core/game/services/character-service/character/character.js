@@ -39,6 +39,11 @@ class Character
         this.job = "無職業";
         this.title = "無稱號";
         this.state = Character.createState(NormalState.name(), this);
+
+        this.skills = {
+            actives: {},
+
+        };
     }
 
     /**
@@ -47,7 +52,7 @@ class Character
      */
     toExp() {
         const status = this.status;
-        const exp = status.max_hp + status.max_mp
+        const exp = (status.max_hp / 10) + (status.max_mp / 10)
             + status.str
             + status.vit
             + status.dex

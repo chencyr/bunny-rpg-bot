@@ -156,6 +156,14 @@ class InteractionAction extends Action
         return {};
     }
 
+    /**
+     * Hooker for after received
+     * @param result
+     * @param interaction
+     * @param sender
+     * @param receiver
+     * @param args
+     */
     afterReceived(result, interaction, sender, receiver, args) {
         // Nothing to do.
     }
