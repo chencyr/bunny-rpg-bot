@@ -205,6 +205,7 @@ class Engine {
     initObjectPool() {
         this.$object = {
             character: {},
+            skill: {},
         };
     }
 
