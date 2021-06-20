@@ -83,9 +83,10 @@ class InteractionAction extends Action
      * Hooker for before interaction
      * @param senders
      * @param receivers
+     * @param args
      * @return {boolean}
      */
-    async beforeInteraction(senders, receivers) {
+    async beforeInteraction(senders, receivers, args) {
         // Nothing to do.
     }
 

@@ -14,18 +14,58 @@ class Explosion extends Skill
     }
 
     /**
+     * Get standard name.
+     * @return {string}
+     */
+    getStandardName() {
+        return "explosion";
+    }
+
+    /**
+     * Restriction Pipeline
+     * @param data {object}
+     * @param conditions
+     * @return {Promise<boolean>}
+     */
+    async restrict(data, ...conditions) {
+        let result = false;
+
+        for (let i in conditions) {
+            let condition = conditions[i];
+            if(typeof condition === 'string') {
+                condition = require(`./condition/${condition}`);
+            }
+            result = result || await condition.dispatch(data);
+        }
+
+        return result;
+    }
+
+    /**
      * Hooker for before interaction
      * @param senders
      * @param receivers
      * @param action
      * @param args
-     * @return {Promise<void>}
+     * @return {Promise<boolean>}
      */
     async beforeInteraction(senders, receivers, action, args) {
         // check sender has skill
         // check cost is enough
         // check sender can send effect to receiver
 
+        const data = {
+            skill: this,
+            senders: senders,
+            receivers: receivers,
+            action: action,
+            args: args
+        };
+
+        return await this.restrict(data,
+            'characters-has-skill',
+            'characters-has-skill'
+        );
     }
 
     /**

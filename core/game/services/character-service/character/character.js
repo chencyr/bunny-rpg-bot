@@ -92,6 +92,15 @@ class Character
     }
 
     /**
+     *
+     * @param standardName
+     * @return
+     */
+    hasSkill(standardName) {
+        return this.skills.hasOwnProperty(standardName);
+    }
+
+    /**
      * Create new state instance.
      * @param name {string}
      * @param context

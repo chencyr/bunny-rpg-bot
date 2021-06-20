@@ -49,9 +49,10 @@ class StandardSkill extends InteractionAction
      * Hooker for before interaction
      * @param senders
      * @param receivers
+     * @param args
      * @return {boolean} return true will break interaction flow
      */
-    async beforeInteraction(senders, receivers) {
+    async beforeInteraction(senders, receivers, args) {
         if (senders.length == 0) {
             this.writeMsg(`沒有可執行 [${this.getNames()[0]}] 此操作的對象`); return true;
         }
@@ -61,7 +62,7 @@ class StandardSkill extends InteractionAction
         }
 
         const skill = await this.getSkill();
-        if (await skill.beforeInteraction(senders, receivers)) {
+        if (await skill.beforeInteraction(senders, receivers, this, args)) {
             return true;
         }
     }
