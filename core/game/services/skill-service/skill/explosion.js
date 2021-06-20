@@ -44,7 +44,8 @@ class Explosion extends Skill
 
         return await this.restrict(data,
             'characters-has-skill',
-            'characters-cost-enough'
+            'characters-cost-enough',
+            'receivers-is-character',
         );
     }
 
