@@ -20,11 +20,14 @@ class Monster extends Character
         this.job = "初級怪物";
         const hp = this.computeHP();
         const mp = this.computeMP();
+        const sp = this.computeSP();
 
         this.status.max_hp = hp;
         this.status.hp = hp;
         this.status.max_mp = mp;
         this.status.mp = mp;
+        this.status.max_sp = sp;
+        this.status.sp = sp;
         this.status.str = this.computeSTR();
         this.status.vit = this.computeVIT();
         this.status.dex = this.computeDEX();
@@ -53,6 +56,10 @@ class Monster extends Character
     }
 
     computeMP() {
+        return this.getRandom(1, 100);
+    }
+
+    computeSP() {
         return this.getRandom(1, 100);
     }
 

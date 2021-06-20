@@ -23,6 +23,8 @@ class Character
             hp: 100,
             max_hp: 100,
             mp: 20,
+            max_sp: 100,
+            sp: 20,
             max_mp: 20,
             str: 10,
             vit: 10,
@@ -92,13 +94,22 @@ class Character
     }
 
     /**
-     *
+     * Check character has skill.
      * @param standardName
      * @return
      */
     hasSkill(standardName) {
         return this.skills.hasOwnProperty(standardName);
     }
+
+    /**
+     * Get skill info
+     * @param standardName
+     */
+    getSkill(standardName) {
+        return this.skills[standardName];
+    }
+
 
     /**
      * Create new state instance.
@@ -132,6 +143,10 @@ class Character
     }
 
     computeMP() {
+        throw new Error('Not implement method.');
+    }
+
+    computeSP() {
         throw new Error('Not implement method.');
     }
 
@@ -189,6 +204,18 @@ class Character
 
     getNextExp() {
         return this.status.next_exp;
+    }
+
+    afterCostHP(value) {
+        return this.status.hp - value;
+    }
+
+    afterCostMP(value) {
+        return this.status.mp - value;
+    }
+
+    afterCostSP(value) {
+        return this.status.sp - value;
     }
 
     /**
