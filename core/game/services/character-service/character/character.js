@@ -207,15 +207,27 @@ class Character
     }
 
     afterCostHP(value) {
-        return this.status.hp - value;
+        return this.status.hp - value.hp;
     }
 
     afterCostMP(value) {
-        return this.status.mp - value;
+        return this.status.mp - value.mp;
     }
 
     afterCostSP(value) {
-        return this.status.sp - value;
+        return this.status.sp - value.sp;
+    }
+
+    costHP(value) {
+        this.status.hp = this.afterCostHP(value);
+    }
+
+    costMP(value) {
+        this.status.mp = this.afterCostMP(value);
+    }
+
+    costSP(value) {
+        this.status.sp = this.afterCostSP(value);
     }
 
     /**

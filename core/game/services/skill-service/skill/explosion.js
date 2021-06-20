@@ -30,10 +30,6 @@ class Explosion extends Skill
      * @return {Promise<boolean>}
      */
     async beforeInteraction(senders, receivers, action, args) {
-        // check sender has skill
-        // check cost is enough
-        // check sender can send effect to receiver
-
         const data = {
             skill: this,
             senders: senders,
@@ -47,6 +43,19 @@ class Explosion extends Skill
             'characters-cost-enough',
             'receivers-is-character',
         );
+    }
+
+    /**
+     * Get cost info
+     * @param options {object}
+     * @return {{mp: number, hp: number, sp: number}}
+     */
+    getCost(options) {
+        return {
+            hp: 500,
+            mp: 10000,
+            sp: 1000,
+        };
     }
 
     /**
@@ -70,12 +79,17 @@ class Explosion extends Skill
      * @return {Promise<void>}
      */
     async sending(sender, receivers, action, args) {
-        // cost mp, hp, sp
-
         // TODO: refactor use magic attack (compute by int)
         const damage = sender.createDamage();
         damage.accuracy += 999999;
         damage.value = damage.value * 10;
+
+        const characterSkill = sender.getSkill(this.getStandardName());
+        const cost = this.getCost({ level: characterSkill.level });
+
+        sender.costHP(cost);
+        sender.costMP(cost);
+        sender.costSP(cost);
 
         action.writeImg('statics/skill-explosion.png');
         action.writeMsg('吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion !!').sendMsg();

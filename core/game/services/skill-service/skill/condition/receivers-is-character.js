@@ -18,7 +18,7 @@ class ReceiversIsCharacter
 
         for (let i in senders) {
             const receiver = receivers[i];
-            if (!(receivers instanceof Character)) {
+            if (! (receiver instanceof Character)) {
                 action.writeMsg(`技能 [${skill.getDisplayName()}] 的使用對象 [${receiver.getName()}] 必須是必須是角色`);
                 return true;
             }

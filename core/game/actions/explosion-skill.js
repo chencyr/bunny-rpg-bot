@@ -25,7 +25,7 @@ class ExplosionSkill extends StandardSkill
     }
 
     /**
-     * Get skill name.
+     * Get skill name. (should same as skill class file name)
      * @return {string} standard name
      */
     getSkillName() {

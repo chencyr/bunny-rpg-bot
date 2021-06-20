@@ -26,15 +26,15 @@ class CharactersCostEnough
             const characterSkill = sender.getSkill(skill.getStandardName());
             const cost = skill.getCost({ level: characterSkill.level });
 
-            if (sender.afterCostHP(cost.hp) <= 0) {
+            if (sender.afterCostHP(cost) <= 0) {
                 action.writeMsg(`[${sender.getName()}] 沒有足夠的 HP 使用技能 [${skill.getDisplayName()}]`);
                 return true;
             }
-            if (sender.afterCostMP(cost.mp) < 0) {
+            if (sender.afterCostMP(cost) < 0) {
                 action.writeMsg(`[${sender.getName()}] 沒有足夠的 MP 使用技能 [${skill.getDisplayName()}]`);
                 return true;
             }
-            if (sender.afterCostSP(cost.sp) < 0) {
+            if (sender.afterCostSP(cost) < 0) {
                 action.writeMsg(`[${sender.getName()}] 沒有足夠的 SP 使用技能 [${skill.getDisplayName()}]`);
                 return true;
             }
