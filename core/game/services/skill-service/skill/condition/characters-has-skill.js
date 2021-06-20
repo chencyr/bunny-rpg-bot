@@ -1,7 +1,7 @@
 const Character = require('../../../character-service/character/character');
 
 /**
- * CharactersHasSkill action.
+ * CharactersHasSkill condition.
  */
 class CharactersHasSkill
 {

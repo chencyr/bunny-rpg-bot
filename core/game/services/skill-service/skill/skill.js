@@ -20,6 +20,39 @@ class Skill
     }
 
     /**
+     * Get cost info
+     * @param options {object}
+     * @return {{mp: number, hp: number, sp: number}}
+     */
+    getCost(options) {
+        return {
+            hp: 0,
+            mp: 100000000,
+            sp: 0,
+        };
+    }
+
+    /**
+     * Restriction Pipeline
+     * @param data {object}
+     * @param conditions
+     * @return {Promise<boolean>}
+     */
+    async restrict(data, ...conditions) {
+        let result = false;
+
+        for (let i in conditions) {
+            let condition = conditions[i];
+            if(typeof condition === 'string') {
+                condition = require(`./condition/${condition}`);
+            }
+            result = result || await condition.dispatch(data);
+        }
+
+        return result;
+    }
+
+    /**
      * Hooker for before interaction
      * @param senders
      * @param receivers
