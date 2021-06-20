@@ -128,6 +128,11 @@ class Character
         throw new Error("Change to unknown state error.");
     }
 
+    static States = {
+        Normal: NormalState,
+        Dead: DeadState,
+    };
+
     /**
      * Get random number.
      * @param min

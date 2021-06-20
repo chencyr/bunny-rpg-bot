@@ -23,6 +23,12 @@ class CharactersCostEnough
                 return true;
             }
 
+            // TODO: remove duplicate
+            if (sender.state instanceof Character.States.Dead) {
+                action.writeMsg(`[${sender.getName()}] 為 [${sender.state}] 狀態，無法使用技能 [${skill.getDisplayName()}]`);
+                return true;
+            }
+
             const characterSkill = sender.getSkill(skill.getStandardName());
             const cost = skill.getCost({ level: characterSkill.level });
 
