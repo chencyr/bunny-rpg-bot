@@ -40,10 +40,7 @@ class Character
         this.title = "無稱號";
         this.state = Character.createState(NormalState.name(), this);
 
-        this.skills = {
-            actives: {},
-
-        };
+        this.skills = {};
     }
 
     /**
@@ -70,6 +67,27 @@ class Character
      */
     setStatus(data) {
         this.status = Object.assign(this.status, data);
+
+        return this;
+    }
+
+    /**
+     * Set characters skills.
+     * @param skills
+     * @return {Character}
+     */
+    setSkills(skills) {
+        for (let i in skills) {
+            const skill = skills[i];
+            this.skills[skill.standard_name] = {
+                id: skill.skill_id,
+                standard_name: skill.standard_name,
+                display_name: skill.display_name,
+                level: skill.skill_lv,
+                type: skill.type,
+            };
+        }
+
         return this;
     }
 

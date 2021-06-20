@@ -38,7 +38,7 @@ class CharacterService
             const model = this.characterModel();
 
             if (! await model.exist(condition)) {
-                await player.storeStatus();
+                await player.storeStatus(false);
 
                 const records = await model.getRecord(condition);
                 player.setStatus(records[0]);
@@ -103,6 +103,13 @@ class CharacterService
             //TODO: should auto get character type
             const player = new Player({}, this);
             player.setStatus(records[0]);
+
+            const skills = await model.resetQueryBuilder()
+                .where({ 'characters.id': id })
+                .skills();
+
+            player.setSkills(skills);
+
             this.context.setObject(objType, player, id);
 
             return player;
