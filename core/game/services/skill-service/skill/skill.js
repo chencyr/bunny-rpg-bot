@@ -27,7 +27,7 @@ class Skill
     getCost(options) {
         return {
             hp: 0,
-            mp: 100000000,
+            mp: 0,
             sp: 0,
         };
     }
