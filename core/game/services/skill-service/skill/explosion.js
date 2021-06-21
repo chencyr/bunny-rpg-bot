@@ -83,6 +83,7 @@ class Explosion extends Skill
         const damage = sender.createDamage();
         damage.accuracy += 999999;
         damage.value = damage.value * 10;
+        damage.max_to = 50;
 
         const characterSkill = sender.getSkill(this.getStandardName());
         const cost = this.getCost({ level: characterSkill.level });
