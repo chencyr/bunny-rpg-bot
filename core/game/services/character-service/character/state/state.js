@@ -12,6 +12,22 @@ class State
     }
 
     /**
+     * Define state name.
+     * @return {string}
+     */
+    static name() {
+        return "state";
+    }
+
+    /**
+     * Get current instance state name.
+     * @return {string}
+     */
+    getName() {
+        return this.constructor.name();
+    }
+
+    /**
      * Hook for state change up
      * @return {State}
      */
@@ -134,7 +150,13 @@ class State
         let value = this.status.str * atkParam * 10;
         let accuracy = this.status.dex * accParam;
 
-        return {value: value, accuracy: accuracy};
+        return {
+            value: value,
+            accuracy: accuracy,
+            repeat: 1,
+            max_to: 1,
+            ignore: (repeatIndex, sender, receiver, args) => receiver.isState('dead'),
+        };
     }
 }
 
