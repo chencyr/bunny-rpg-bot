@@ -22,6 +22,8 @@ class UltramanSpaceiumBeamSkill extends StandardSkill
             "ultraman-spaceium-beam",
             "宇宙物質光線",
             "奧特曼光線",
+            "宇宙物質光束",
+            "奧特曼光束",
         ];
     }
 
