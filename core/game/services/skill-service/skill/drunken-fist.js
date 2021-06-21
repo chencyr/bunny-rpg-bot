@@ -86,6 +86,7 @@ class DrunkenFist extends Skill
 
         action.writeImg('statics/skill-drunken-fist.jpg');
 
+        action.writeMsg('摸摸大鼻子，搖搖晃晃的打出一拳!!').sendMsg();
         this.cost(sender);
         return damage;
     }
