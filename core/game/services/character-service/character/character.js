@@ -110,6 +110,40 @@ class Character
         return this.skills[standardName];
     }
 
+    /**
+     * Check self's state
+     * @param name {string}
+     * @return {boolean}
+     */
+    isState(name) {
+        return Character.isState(this, name);
+    }
+
+    /**
+     * Check GameObject state.
+     * @param object
+     * @param stateName {string}
+     * @return {boolean}
+     */
+    static isState(object, stateName) {
+        const State = Character.getState(stateName);
+        return (object.state instanceof State);
+    }
+
+    /**
+     * Get State class.
+     * @param name
+     * @return {[string, (Normal | Dead)]}
+     */
+    static getState(name) {
+        for (const [Enum, State] of Object.entries(Character.States)) {
+            if (name == State.name()) {
+                return State;
+            }
+        }
+
+        throw new Error("Get unknown state error.");
+    }
 
     /**
      * Create new state instance.
@@ -118,14 +152,16 @@ class Character
      * @return {Normal}
      */
     static createState(name, context) {
-        if (name == NormalState.name()) {
-            return new NormalState(context);
-        }
-        if (name == DeadState.name()) {
-            return new DeadState(context);
-        }
+        // if (name == NormalState.name()) {
+        //     return new NormalState(context);
+        // }
+        // if (name == DeadState.name()) {
+        //     return new DeadState(context);
+        // }
+        // throw new Error("Change to unknown state error.");
 
-        throw new Error("Change to unknown state error.");
+        const State = Character.getState(name);
+        return new State(context);
     }
 
     static States = {
