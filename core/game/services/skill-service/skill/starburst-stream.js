@@ -1,16 +1,16 @@
 const Skill = require('./skill');
 
 /**
- * Explosion skill
+ * StarburstStream skill
  */
-class Explosion extends Skill
+class StarburstStream extends Skill
 {
     /**
      * Get display name.
      * @return {string}
      */
     getDisplayName() {
-        return "爆裂魔法";
+        return "星爆氣流斬";
     }
 
     /**
@@ -18,7 +18,7 @@ class Explosion extends Skill
      * @return {string}
      */
     getStandardName() {
-        return "explosion";
+        return "starburst-stream";
     }
 
     /**
@@ -52,8 +52,8 @@ class Explosion extends Skill
      */
     getCost(options) {
         return {
-            hp: 500,
-            mp: 10000,
+            hp: 0,
+            mp: 100,
             sp: 1000,
         };
     }
@@ -81,12 +81,10 @@ class Explosion extends Skill
     async sending(sender, receivers, action, args) {
         // TODO: refactor use magic attack (compute by int)
         const damage = sender.createDamage();
-        damage.accuracy += 999999;
-        damage.value = damage.value * 10;
-        damage.max_to = 50;
+        damage.repeat = 16;
 
-        action.writeImg('statics/skill-explosion.png');
-        action.writeMsg('吾名惠惠。紅魔族首屈一指的魔法師，操縱爆裂魔法之人。好好見識吾之力量吧！Explosion !!').sendMsg();
+        action.writeImg('statics/skill-starburst-stream.gif');
+        action.writeMsg('亞絲娜，克萊因。拜託了！幫我撐個10秒左右就好！！').sendMsg();
 
         this.cost(sender);
         return damage;
@@ -94,4 +92,4 @@ class Explosion extends Skill
 }
 
 
-module.exports = Explosion;
+module.exports = StarburstStream;

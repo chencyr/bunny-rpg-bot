@@ -32,6 +32,29 @@ class Skill
         };
     }
 
+    //  TODO: refactor to StandardSkill class.
+    /**
+     * Get standard name.
+     * @return {string}
+     */
+    getStandardName() {
+        return "skill";
+    }
+
+    // TODO: refactor to StandardSkill class.
+    /**
+     * Cost to object.
+     * @param object
+     */
+    cost(object) {
+        const characterSkill = object.getSkill(this.getStandardName());
+        const cost = this.getCost({ level: characterSkill.level });
+
+        object.costHP(cost);
+        object.costMP(cost);
+        object.costSP(cost);
+    }
+
     /**
      * Restriction Pipeline
      * @param data {object}
