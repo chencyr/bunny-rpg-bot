@@ -13,13 +13,12 @@ class AllCharacterReceiverGetter extends Getter
      */
     async getReceivedObjects(to, args) {
         const characterService = this.context.getService('character-service');
-        let ids = to
-            .reduce((carry, item) => carry.concat([item.characterId]), [])
-            .filter((item) => item === undefined)
-            .concat(args);
+        let ids = to.map((item) => item.characterId)
+                    .filter((item) => !(item === undefined))
+                    .concat(args)
 
-        ids = AllCharacterReceiverGetter.filterDuplicate(ids);
-        return await characterService.getByIds(ids);
+        const characters = await characterService.getByIds(ids);
+        return  AllCharacterReceiverGetter.filterDuplicate(characters);
     }
 
     /**
