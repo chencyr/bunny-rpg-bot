@@ -96,12 +96,12 @@ class StandardSkill extends InteractionAction
 
         if (result.isDodge == true) {
             this.writeMsg(`但被 [${receiver.getName()}] 走位很風騷的閃過了!!`);
-            result.continue = true;
         }
-
-        this.writeMsg(`[${receiver.getName()}] 受到 -${result.damageHp} HP 損傷!!`);
-        if (receiver.state instanceof characterService.DeadState) {
-            this.writeMsg(`[${receiver.getName()}] 已死亡，倒在地上抖動!!`);
+        else {
+            this.writeMsg(`[${receiver.getName()}] 受到 -${result.damageHp} HP 損傷!!`);
+            if (receiver.state instanceof characterService.DeadState) {
+                this.writeMsg(`[${receiver.getName()}] 已死亡，倒在地上抖動!!`);
+            }
         }
 
         if (result.exp > 0) {
