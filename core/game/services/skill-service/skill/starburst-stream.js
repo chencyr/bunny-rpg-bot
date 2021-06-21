@@ -83,7 +83,7 @@ class StarburstStream extends Skill
         const damage = sender.createDamage();
         damage.repeat = 16;
 
-        action.writeImg('statics/skill-starburst-stream.gif');
+        action.writeImg('statics/skill-starburst-stream.jpg');
         action.writeMsg('亞絲娜，克萊因。拜託了！幫我撐個10秒左右就好！！').sendMsg();
 
         this.cost(sender);

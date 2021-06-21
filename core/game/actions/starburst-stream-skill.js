@@ -22,6 +22,7 @@ class StarburstStreamSkill extends StandardSkill
             "starburst-stream",
             "星爆氣流斬",
             "C8763",
+            "c8763",
         ];
     }
 
