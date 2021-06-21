@@ -83,7 +83,7 @@ class RazorLeaf extends Skill
         const damage = sender.createDamage();
         damage.value = damage.value * 10;
 
-        action.writeImg('statics/skill-razor-leaf.jpg');
+        action.writeImg('statics/skill-razor-leaf.png');
 
         this.cost(sender);
         return damage;
