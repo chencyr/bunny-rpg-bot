@@ -29,7 +29,7 @@ module.exports = function (app, EventFactory) {
     });
 
     client.on("messageCreate", (message) => {
-        console.log(message);
+        // console.log(message);
 
         if (message.content.startsWith("/凱文")) {
             message.channel.send("凱文又在亂把妹紙了!");
@@ -41,7 +41,6 @@ module.exports = function (app, EventFactory) {
 
         if (message.content.startsWith("HI Bunny")) {
             message.channel.send("HI~HI~");
-
         }
 
         if (message.content.startsWith("跟助教一樣渣...")) {
