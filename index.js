@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const GameEngine = require('./core/game');
+const Discord = require('./discord');
 
 
 /**
@@ -123,3 +124,7 @@ const router = require(global.path.routers + '/index.js');
 router(app);
 
 app.listen(process.env.PORT || 3000);
+
+
+Discord(app, require(global.path.app + '/core/events/event-factory/discord-factory'));
+

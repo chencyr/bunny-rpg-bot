@@ -16,7 +16,10 @@
   "author": "Rex Chen",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/rest": "^0.2.0-canary.0",
     "@line/bot-sdk": "^7.3.0",
+    "discord-api-types": "^0.25.2",
+    "discord.js": "^13.4.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "knex": "^0.95.6",
