@@ -1,6 +1,7 @@
 const NormalState = require('./state/normal');
 const DeadState = require('./state/dead');
 
+
 /**
  * Character base class
  *
@@ -42,7 +43,25 @@ class Character
         this.title = "無稱號";
         this.state = Character.createState(NormalState.name(), this);
 
+        this.buffs = [];
         this.skills = {};
+
+        this.setBuffs(initInfo.buffs);
+    }
+
+    /**
+     * Set buff class list.
+     *
+     * @param buffs {array|undefined} [StandardBuff, StandardBuff, ...]
+     */
+    setBuffs(buffs) {
+        buffs = buffs || [];
+
+        for(let i in buffs) {
+            const buffClass = buffs[i];
+            const buff = new buffClass(this);
+            this.buffs.push(buff);
+        }
     }
 
     /**

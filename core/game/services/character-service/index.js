@@ -2,6 +2,9 @@ const Player = require('./character/player/player');
 const Monster = require('./character/monster/monster');
 const NormalState = require('./character/state/normal');
 const DeadState = require('./character/state/dead');
+const AutoHpRegenBuff = require('./character/buff/auto-hp-regen-buff');
+const AutoMpRegenBuff = require('./character/buff/auto-mp-regen-buff');
+const AutoSpRegenBuff = require('./character/buff/auto-sp-regen-buff');
 
 /**
  * Character service, service should run as singleton.
@@ -34,7 +37,8 @@ class CharacterService
         // new is only support type=player
         if (type == 'player') {
             const condition = { user_id: data.userId };
-            const player = new Player({ name: data.name, user_id: data.userId }, this);
+            const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff];
+            const player = new Player({ name: data.name, user_id: data.userId, buffs: buffs }, this);
             const model = this.characterModel();
 
             if (! await model.exist(condition)) {
@@ -101,7 +105,10 @@ class CharacterService
         const records = await model.getById(id);
         if (records.length > 0) {
             //TODO: should auto get character type
-            const player = new Player({}, this);
+            //TODO: store buff list into database
+            const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff]
+
+            const player = new Player({buffs: buffs}, this);
             player.setStatus(records[0]);
 
             const skills = await model.resetQueryBuilder()
