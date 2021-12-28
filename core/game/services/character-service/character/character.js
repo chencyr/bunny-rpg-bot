@@ -337,11 +337,14 @@ class Character
 
         const hp = this.status.max_hp += this.computeHP();
         const mp = this.status.max_mp += this.computeMP();
+        const sp = this.status.max_sp += this.computeSP();
         const newStatus = Object.assign(this.status,{
             hp: hp,
             max_hp: hp,
             mp: mp,
             max_mp: mp,
+            sp: sp,
+            max_sp: sp,
             str: this.status.str += this.computeSTR(),
             vit: this.status.vit += this.computeVIT(),
             dex: this.status.dex += this.computeDEX(),
