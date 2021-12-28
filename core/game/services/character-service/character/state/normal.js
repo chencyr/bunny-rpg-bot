@@ -21,6 +21,7 @@ class Normal extends State
         const status = Object.assign({}, this.status);
         this.status.hp = status.max_hp;
         this.status.mp = status.max_mp;
+        this.status.sp = status.max_sp;
 
         return this;
     }
