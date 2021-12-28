@@ -35,6 +35,33 @@ class Attack extends Action
         ];
     }
 
+    // TODO refactor by standard skill
+    /**
+     * Get cost info
+     * @param options {object}
+     * @return {{mp: number, hp: number, sp: number}}
+     */
+    getCost(options) {
+        return {
+            hp: 0,
+            mp: 0,
+            sp: 20,
+        };
+    }
+
+    // TODO refactor by standard skill
+    /**
+     * Cost to object.
+     * @param object
+     */
+    cost(object) {
+        const cost = this.getCost({});
+
+        object.costHP(cost);
+        object.costMP(cost);
+        object.costSP(cost);
+    }
+
     /**
      * Execute action for child class implement
      * @param from
@@ -62,6 +89,8 @@ class Attack extends Action
         }
 
         const damage = character1.createDamage();
+        this.cost(character1);
+
         const result = character2.receiveDamage(damage);
 
         if (result.isDodge == true) {
