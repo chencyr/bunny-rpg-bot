@@ -30,6 +30,7 @@ class Attack extends Action
             "attack",
             "攻擊",
             "打",
+            "肛",
             "Attack",
         ];
     }
