@@ -39,6 +39,9 @@ class Invite extends Action
      * @param args
      */
     async handler(from, to, args) {
+        this.writeMsg(`指令維修中`);
+        return;
+
         const userService = this.context.getService('user-service');
         const characterService = this.context.getService('character-service');
 
