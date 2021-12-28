@@ -17,7 +17,7 @@ module.exports = function (app, EventFactory) {
 
     function isCommandText(text) {
         try {
-            return (text.substring(0, 1) == '/');
+            return (text.substring(0, 1) == ':');
         }
         catch (e) {
             return false;
@@ -57,7 +57,7 @@ module.exports = function (app, EventFactory) {
                 if(messages) {
                     messages.forEach((msg) => {
                         if(msg.type == 'text') {
-                            message.channel.send(msg.text);
+                            message.reply(msg.text);
                         }
                     });
                 }

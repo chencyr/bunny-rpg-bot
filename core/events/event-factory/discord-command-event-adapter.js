@@ -26,7 +26,7 @@ class DiscordCommandEventAdapter extends Adapter
         if (!this.action) {
             let text = this.context.event.content;
 
-            const regex = /(^\/[\u4e00-\u9fa5_a-zA-Z0-9\-]+( )*)([\u4e00-\u9fa5_a-zA-Z0-9\-@]( )*)*/g;
+            const regex = /(^:[\u4e00-\u9fa5_a-zA-Z0-9\-]+( )*)([\u4e00-\u9fa5_a-zA-Z0-9\-@]( )*)*/g;
             const match = text.match(regex);
 
             if (match == null || match == undefined || match == []) {
@@ -34,7 +34,7 @@ class DiscordCommandEventAdapter extends Adapter
             }
 
             text = match[0];
-            if (text.substring(0, 1) == '/') {
+            if (text.substring(0, 1) == ':') {
                 text = text.slice(1);
             }
 
