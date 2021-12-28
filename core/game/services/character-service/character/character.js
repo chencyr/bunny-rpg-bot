@@ -152,14 +152,6 @@ class Character
      * @return {Normal}
      */
     static createState(name, context) {
-        // if (name == NormalState.name()) {
-        //     return new NormalState(context);
-        // }
-        // if (name == DeadState.name()) {
-        //     return new DeadState(context);
-        // }
-        // throw new Error("Change to unknown state error.");
-
         const State = Character.getState(name);
         return new State(context);
     }
