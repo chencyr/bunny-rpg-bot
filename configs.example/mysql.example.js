@@ -5,16 +5,16 @@
 module.exports = {
     connections: {
         default: {
-            user: 'b25e803b6fc50b',
-            password: 'f16c16ed',
-            host: 'us-cdbr-east-04.cleardb.com',
-            database: 'heroku_f0392c0473d3f0f',
+            user: 'user',
+            password: 'password',
+            host: 'localhost',
+            database: 'db',
         },
         replica: {
-            user: 'b25e803b6fc50b',
-            password: 'f16c16ed',
-            host: 'us-cdbr-east-04.cleardb.com',
-            database: 'heroku_f0392c0473d3f0f',
+            user: 'user',
+            password: 'password',
+            host: 'localhost',
+            database: 'db',
         },
     }
 };
