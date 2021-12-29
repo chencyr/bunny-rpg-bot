@@ -1,7 +1,9 @@
 const Player = require('./character/player/player');
 const Monster = require('./character/monster/monster');
+
 const NormalState = require('./character/state/normal');
 const DeadState = require('./character/state/dead');
+
 const AutoHpRegenBuff = require('./character/buff/auto-hp-regen-buff');
 const AutoMpRegenBuff = require('./character/buff/auto-mp-regen-buff');
 const AutoSpRegenBuff = require('./character/buff/auto-sp-regen-buff');
@@ -114,6 +116,15 @@ class CharacterService
             const skills = await model.resetQueryBuilder()
                 .where({ 'characters.id': id })
                 .skills();
+
+            // TODO: implement with default list.
+            skills.push({
+                standard_name: 'str-attack',
+                id: 75,
+                display_name: '攻擊',
+                level: 1,
+                type: 'standard',
+            });
 
             player.setSkills(skills);
 

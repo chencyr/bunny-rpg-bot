@@ -27,11 +27,11 @@ class Attack extends Action
      */
     getNames() {
         return [
-            "attack",
-            "攻擊",
-            "打",
-            "肛",
-            "Attack",
+            // "attack",
+            // "攻擊",
+            // "打",
+            // "肛",
+            // "Attack",
         ];
     }
 
