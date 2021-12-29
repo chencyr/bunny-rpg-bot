@@ -52,9 +52,9 @@ class Explosion extends Skill
      */
     getCost(options) {
         return {
-            hp: 500,
+            hp: 10000,
             mp: 10000,
-            sp: 1000,
+            sp: 100,
         };
     }
 

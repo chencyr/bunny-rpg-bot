@@ -54,7 +54,7 @@ class UltramanSpaceiumBeam extends Skill
         return {
             hp: 0,
             mp: 1000,
-            sp: 100,
+            sp: 50,
         };
     }
 

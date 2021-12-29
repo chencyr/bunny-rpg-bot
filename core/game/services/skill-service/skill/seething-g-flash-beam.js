@@ -54,7 +54,7 @@ class SeethingGFlashBeam extends Skill
         return {
             hp: 10000,
             mp: 10000,
-            sp: 10000,
+            sp: 150,
         };
     }
 

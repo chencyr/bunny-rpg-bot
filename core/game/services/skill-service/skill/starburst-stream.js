@@ -54,7 +54,7 @@ class StarburstStream extends Skill
         return {
             hp: 0,
             mp: 100,
-            sp: 1000,
+            sp: 100,
         };
     }
 

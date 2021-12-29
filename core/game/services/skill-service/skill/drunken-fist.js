@@ -54,7 +54,7 @@ class DrunkenFist extends Skill
         return {
             hp: 100,
             mp: 100,
-            sp: 100,
+            sp: 70,
         };
     }
 

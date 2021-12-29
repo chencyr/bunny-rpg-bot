@@ -52,8 +52,8 @@ class ChickenPooPoo extends Skill
      */
     getCost(options) {
         return {
-            hp: 100,
-            mp: 0,
+            hp: 1000,
+            mp: 1000,
             sp: 10,
         };
     }
