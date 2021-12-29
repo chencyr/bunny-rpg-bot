@@ -5,16 +5,16 @@
 module.exports = {
     connections: {
         default: {
-            user: 'user',
-            password: 'password',
-            host: 'localhost',
-            database: 'db',
+            user: 'user_',
+            password: 'password_',
+            host: 'localhost_',
+            database: 'db_',
         },
         replica: {
-            user: 'user',
-            password: 'password',
-            host: 'localhost',
-            database: 'db',
+            user: 'user_',
+            password: 'password_',
+            host: 'localhost_',
+            database: 'db_',
         },
     }
 };

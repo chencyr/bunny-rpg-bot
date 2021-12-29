@@ -5,6 +5,6 @@
  * @type {{applicationID: string, botToken: string}}
  */
 module.exports = {
-    botToken: 'BOT_TOKEN',
-    applicationID: 'APPLICATION_ID',
+    botToken: 'BOT_TOKEN_',
+    applicationID: 'APPLICATION_ID_',
 };
