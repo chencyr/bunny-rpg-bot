@@ -1,9 +1,12 @@
-const StandardSkill = require('./standard-skill');
+const Skill = require('./skill');
+
+const SendingBehavior = require('./skill/attack-sending-behavior');
+const ReceivingBehavior = require('./skill/attack-receiving-behavior');
 
 /**
  * Skill action.
  */
-class SeethingGFlashBeamSkill extends StandardSkill
+class SeethingGFlashBeamSkill extends Skill
 {
     /**
      * Get action ID.
@@ -30,6 +33,22 @@ class SeethingGFlashBeamSkill extends StandardSkill
      */
     getSkillName() {
         return "seething-g-flash-beam"
+    }
+
+    /**
+     * Get sending behavior.
+     * @return {SendingBehavior}
+     */
+    getSendingBehavior() {
+        return SendingBehavior;
+    }
+
+    /**
+     * Get receiving behavior.
+     * @return {ReceivingBehavior}
+     */
+    getReceivingBehavior() {
+        return ReceivingBehavior
     }
 }
 

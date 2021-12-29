@@ -28,6 +28,14 @@ class ExplosionSkill extends Skill
     }
 
     /**
+     * Get skill name. (should same as skill class file name)
+     * @return {string} standard name
+     */
+    getSkillName() {
+        return "explosion"
+    }
+
+    /**
      * Get sending behavior.
      * @return {SendingBehavior}
      */
@@ -41,14 +49,6 @@ class ExplosionSkill extends Skill
      */
     getReceivingBehavior() {
         return ReceivingBehavior
-    }
-
-    /**
-     * Get skill name. (should same as skill class file name)
-     * @return {string} standard name
-     */
-    getSkillName() {
-        return "explosion"
     }
 }
 

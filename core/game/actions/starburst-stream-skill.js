@@ -1,9 +1,12 @@
-const StandardSkill = require('./standard-skill');
+const Skill = require('./skill');
+
+const SendingBehavior = require('./skill/attack-sending-behavior');
+const ReceivingBehavior = require('./skill/attack-receiving-behavior');
 
 /**
  * Skill action.
  */
-class StarburstStreamSkill extends StandardSkill
+class StarburstStreamSkill extends Skill
 {
     /**
      * Get action ID.
@@ -32,6 +35,22 @@ class StarburstStreamSkill extends StandardSkill
      */
     getSkillName() {
         return "starburst-stream"
+    }
+
+    /**
+     * Get sending behavior.
+     * @return {SendingBehavior}
+     */
+    getSendingBehavior() {
+        return SendingBehavior;
+    }
+
+    /**
+     * Get receiving behavior.
+     * @return {ReceivingBehavior}
+     */
+    getReceivingBehavior() {
+        return ReceivingBehavior
     }
 }
 

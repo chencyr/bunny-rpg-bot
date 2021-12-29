@@ -1,9 +1,12 @@
-const StandardSkill = require('./standard-skill');
+const Skill = require('./skill');
+
+const SendingBehavior = require('./skill/attack-sending-behavior');
+const ReceivingBehavior = require('./skill/attack-receiving-behavior');
 
 /**
  * Skill action.
  */
-class BackToNatureSkill extends StandardSkill
+class BackToNatureSkill extends Skill
 {
     /**
      * Get action ID.
@@ -30,6 +33,22 @@ class BackToNatureSkill extends StandardSkill
      */
     getSkillName() {
         return "back-to-nature"
+    }
+
+    /**
+     * Get sending behavior.
+     * @return {SendingBehavior}
+     */
+    getSendingBehavior() {
+        return SendingBehavior;
+    }
+
+    /**
+     * Get receiving behavior.
+     * @return {ReceivingBehavior}
+     */
+    getReceivingBehavior() {
+        return ReceivingBehavior
     }
 }
 
