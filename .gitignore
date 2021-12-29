@@ -1,3 +1,1 @@
-configs/discord.js
-configs/line.js
-configs/mysql.js
+configs/*

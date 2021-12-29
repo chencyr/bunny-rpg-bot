@@ -25,7 +25,7 @@ class AutoHpRegenBuff extends StandardBuff
             return;
         }
 
-        const regen = Math.floor(status.max_hp * 0.03);
+        const regen = Math.floor(status.max_hp * 0.01);
 
         if(status.hp + regen > max) {
             status.hp = max;
@@ -33,7 +33,7 @@ class AutoHpRegenBuff extends StandardBuff
         else {
             status.hp += regen;
         }
-        console.log(`Character regen HP +${regen}, Current HP: ${status.hp}/${status.max_hp}`);
+        console.log(`Character ${status.name} regen HP +${regen}, Current HP: ${status.hp}/${status.max_hp}`);
     }
 
     /**
