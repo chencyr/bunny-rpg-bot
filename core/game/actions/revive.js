@@ -60,13 +60,15 @@ class Revive extends Action
             throw new Error('Cannot find character error');
         }
 
-        if (! character2.state instanceof characterService.DeadState) {
-            this.writeMsg(`${character1.getName()} 大大，${character2.getName()} 人都還沒屎，是在哈囉?`);
-            return this;
-        }
+        this.writeMsg(`${character1.getName()} 大大，你不要偷用 GM 的指令鴨 !!`);
 
-        character2.changeState(characterService.NormalState.name());
-        this.writeMsg(`${character1.getName()} 復活了 ${character2.getName()}，${character2.getName()} 現在又是一條好漢!!`);
+        // if (! character2.state instanceof characterService.DeadState) {
+        //     this.writeMsg(`${character1.getName()} 大大，${character2.getName()} 人都還沒屎，是在哈囉?`);
+        //     return this;
+        // }
+        //
+        // character2.changeState(characterService.NormalState.name());
+        // this.writeMsg(`${character1.getName()} 復活了 ${character2.getName()}，${character2.getName()} 現在又是一條好漢!!`);
     }
 }
 
