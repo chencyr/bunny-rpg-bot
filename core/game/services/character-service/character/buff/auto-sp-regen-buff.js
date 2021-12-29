@@ -41,7 +41,7 @@ class AutoSpRegenBuff extends StandardBuff
      * @return {number} ms
      */
     getFrequency() {
-        return 1000 * 10;
+        return 1000 * 5;
     }
 
     /**
