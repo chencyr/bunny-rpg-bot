@@ -33,6 +33,8 @@ class Character
             agi: 10,
             int: 10,
             luk: 10,
+            // TODO add gender
+            // gender: 1,
         };
 
 
