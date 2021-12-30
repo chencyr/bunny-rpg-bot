@@ -101,17 +101,17 @@ class StandardBuff
      */
     getNames() {
         return [
-            this.getName(),
+            "standard-buff",
         ];
     }
 
     /**
-     * Get buff master name
+     * Get buff name
      *
      * @return {string}
      */
-    getName() {
-        return "standard-buff";
+    getDisplayName() {
+        return "加護"
     }
 
     /**

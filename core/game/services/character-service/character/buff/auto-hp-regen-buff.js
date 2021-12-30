@@ -31,11 +31,21 @@ class AutoHpRegenBuff extends StandardBuff
     }
 
     /**
+     * Get buff alias names
+     * @return {Array}
+     */
+    getNames() {
+        return [
+            "auto-hp-regen-buff",
+        ];
+    }
+
+    /**
      * Get buff name
      *
      * @return {string}
      */
-    getName() {
+    getDisplayName() {
         return "HP 自然恢復"
     }
 

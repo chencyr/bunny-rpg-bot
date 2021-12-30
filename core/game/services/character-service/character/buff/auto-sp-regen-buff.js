@@ -31,11 +31,21 @@ class AutoSpRegenBuff extends StandardBuff
     }
 
     /**
+     * Get buff alias names
+     * @return {Array}
+     */
+    getNames() {
+        return [
+            "auto-sp-regen-buff",
+        ];
+    }
+
+    /**
      * Get buff name
      *
      * @return {string}
      */
-    getName() {
+    getDisplayName() {
         return "SP 自然恢復"
     }
 

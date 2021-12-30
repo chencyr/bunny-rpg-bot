@@ -27,7 +27,17 @@ class TestBuff extends StandardBuff
      * @return {string}
      */
     getId() {
-        return "standard-buff";
+        return "as-boss";
+    }
+
+    /**
+     * Get buff alias names
+     * @return {Array}
+     */
+    getNames() {
+        return [
+            "as-boss",
+        ];
     }
 
     /**
@@ -35,7 +45,7 @@ class TestBuff extends StandardBuff
      *
      * @return {string}
      */
-    getName() {
+    getDisplayName() {
         return "10分鐘魔王的加護"
     }
 

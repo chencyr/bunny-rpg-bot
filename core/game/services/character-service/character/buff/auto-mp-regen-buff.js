@@ -31,11 +31,21 @@ class AutoMpRegenBuff extends StandardBuff
     }
 
     /**
+     * Get buff alias names
+     * @return {Array}
+     */
+    getNames() {
+        return [
+            "auto-mp-regen-buff",
+        ];
+    }
+
+    /**
      * Get buff name
      *
      * @return {string}
      */
-    getName() {
+    getDisplayName() {
         return "MP 自然恢復"
     }
 

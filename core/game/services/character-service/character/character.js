@@ -76,7 +76,7 @@ class Character
         for(let i = 0; i < buffs.length; i++){
             const currentBuff = buffs[i];
             if(currentBuff === buff) {
-                console.info(`Delete buff ${buff.getName()} from character ${this.getName()}`);
+                console.info(`Delete buff ${buff.getDisplayName()} from character ${this.getName()}`);
                 buffs.splice(i, 1);
             }
         }
