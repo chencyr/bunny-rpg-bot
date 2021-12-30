@@ -1,9 +1,7 @@
 const Skill = require('./skill');
 
-const Buff = require('../../character-service/character/buff/test-buff');
-
 /**
- * TestBuff skill
+ * AsBoss skill
  */
 class AsBoss extends Skill
 {

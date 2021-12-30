@@ -1,9 +1,9 @@
 const StandardBuff = require('./standard-buff');
 
 /**
- * TestBuff
+ * AsBossBuff
  */
-class TestBuff extends StandardBuff
+class AsBossBuff extends StandardBuff
 {
     /**
      * Constructor
@@ -111,4 +111,4 @@ class TestBuff extends StandardBuff
     }
 }
 
-module.exports = TestBuff;
+module.exports = AsBossBuff;
