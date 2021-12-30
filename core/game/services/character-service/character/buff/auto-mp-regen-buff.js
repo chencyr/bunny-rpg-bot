@@ -53,21 +53,21 @@ class AutoMpRegenBuff extends StandardBuff
      * Effective
      */
     effect() {
-        const status = this.getContext().getStatus();
-        const max = status.max_mp;
-        const regen = Math.floor(status.max_mp * 0.03);
+        const character = this.getContext();
+        const max = character.maxMP;
+        const regen = Math.floor(character.maxMP * 0.03);
 
-        if(max == status.mp) {
+        if(max == character.currentMP) {
             return;
         }
 
-        if(status.mp + regen > max) {
-            status.mp = max;
+        if(character.currentMP + regen > max) {
+            character.currentMP = max;
         }
         else {
-            status.mp += regen;
+            character.currentMP += regen;
         }
-        console.log(`Character ${status.name} regen MP +${regen}, Current MP: ${status.mp}/${status.max_mp}`);
+        console.log(`Character ${character.getName()} regen MP +${regen}, Current MP: ${character.currentMP}/${character.maxMP}`);
     }
 
     /**
