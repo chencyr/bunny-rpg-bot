@@ -98,6 +98,8 @@ class Character
      */
     receiveBuff(buff) {
 
+        buff.setCharacter(this);
+
         if(buff.immediately) {
             buff.trigger();
         }

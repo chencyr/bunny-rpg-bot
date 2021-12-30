@@ -11,6 +11,14 @@ class StandardBuff
      * @param character {Character}
      */
     constructor(character) {
+        // not things to do.
+    }
+
+    /**
+     * Set character as context.
+     * @param character
+     */
+    setCharacter(character) {
         this.context = character;
     }
 
