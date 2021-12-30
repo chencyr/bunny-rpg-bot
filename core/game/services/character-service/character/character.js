@@ -427,6 +427,198 @@ class Character
         }
         return arr[num]
     }
+
+    /**
+     * Getter for str
+     * @return {number}
+     */
+    get str() {
+        return this.status.str;
+    }
+
+    /**
+     * Getter for vit
+     * @return {number}
+     */
+    get vit() {
+        return this.status.vit;
+    }
+
+    /**
+     * Getter for dex
+     * @return {number}
+     */
+    get dex() {
+        return this.status.dex;
+    }
+
+    /**
+     * Getter for agi
+     * @return {number}
+     */
+    get agi() {
+        return this.status.agi;
+    }
+
+    /**
+     * Getter for int
+     * @return {number}
+     */
+    get int() {
+        return this.status.int;
+    }
+
+    /**
+     * Getter for luk
+     * @return {number}
+     */
+    get luk() {
+        return this.status.luk;
+    }
+
+    /**
+     * Getter for HP
+     * @return {number}
+     */
+    get currentHP() {
+        return this.status.hp;
+    }
+
+    /**
+     * Getter for MP
+     * @return {number}
+     */
+    get currentMP() {
+        return this.status.mp;
+    }
+
+    /**
+     * Getter for SP
+     * @return {number}
+     */
+    get currentSP() {
+        return this.status.sp;
+    }
+
+    /**
+     * Getter for max HP
+     * @return {number}
+     */
+    get maxHP() {
+        return this.status.max_hp;
+    }
+
+    /**
+     * Getter for max MP
+     * @return {number}
+     */
+    get maxMP() {
+        return this.status.max_mp;
+    }
+
+    /**
+     * Getter for max SP
+     * @return {number}
+     */
+    get maxSP () {
+        return this.status.max_sp;
+    }
+
+    /**
+     * Setter for str
+     * @param argv
+     */
+    set str(argv) {
+        this.status.str = argv;
+    }
+
+    /**
+     * Setter for vit
+     * @param argv
+     */
+    set vit(argv) {
+        this.status.vit = argv;
+    }
+
+    /**
+     * Setter for dex
+     * @param argv
+     */
+    set dex(argv) {
+        this.status.dex = argv;
+    }
+
+    /**
+     * Setter for agi
+     * @param argv
+     */
+    set agi(argv) {
+        this.status.agi = argv;
+    }
+
+    /**
+     * Setter for int
+     * @param argv
+     */
+    set int(argv) {
+        this.status.int = argv;
+    }
+
+    /**
+     * Setter for luk
+     * @param argv
+     */
+    set luk(argv) {
+        this.status.luk = argv;
+    }
+
+    /**
+     * Setter for HP
+     * @param argv
+     */
+    set currentHP(argv) {
+        this.status.hp = argv;
+    }
+
+    /**
+     * Setter for MP
+     * @param argv
+     */
+    set currentMP(argv) {
+        this.status.mp = argv;
+    }
+
+    /**
+     * Setter for SP
+     * @param argv
+     */
+    set currentSP(argv) {
+        this.status.sp = argv;
+    }
+
+    /**
+     * Setter for max HP
+     * @param argv
+     */
+    set maxHP(argv) {
+        this.status.max_hp = argv;
+    }
+
+    /**
+     * Setter for max MP
+     * @param argv
+     */
+    set maxMP(argv) {
+        this.status.max_mp = argv;
+    }
+
+    /**
+     * Setter for max SP
+     * @param argv
+     */
+    set maxSP (argv) {
+        this.status.max_sp = argv;
+    }
 }
 
 module.exports = Character;
