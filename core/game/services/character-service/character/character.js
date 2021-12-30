@@ -52,7 +52,7 @@ class Character
     /**
      * Set buff class list.
      *
-     * @param buffs {array|undefined} [StandardBuff, StandardBuff, ...]
+     * @param buffs {array|undefined} [StandardBuff Class, StandardBuff Class, ...]
      */
     setBuffs(buffs) {
         // TODO set by collection/object.
@@ -62,7 +62,8 @@ class Character
 
         for(let i in buffs) {
             const buffClass = buffs[i];
-            this.receiveBuff(buffClass);
+            const buff = new buffClass(this);
+            this.receiveBuff(buff);
         }
     }
 
@@ -95,10 +96,14 @@ class Character
      *
      * @return {Object}
      */
-    receiveBuff(Buff) {
-        const buff = new Buff(this);
+    receiveBuff(buff) {
+
+        if(buff.immediately) {
+            buff.trigger();
+        }
+
         this.buffs.push(buff);
-        // TODO check can receive
+        // TODO check can receiving
 
         return {
             isFail: false,

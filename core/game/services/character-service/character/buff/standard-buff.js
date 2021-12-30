@@ -12,7 +12,12 @@ class StandardBuff
      */
     constructor(character) {
         this.context = character;
+    }
 
+    /**
+     * Trigger
+     */
+    trigger() {
         const time = this.getEffectTime();
         const self = this;
         this.up();
@@ -28,12 +33,77 @@ class StandardBuff
     }
 
     /**
-     * Get buff name
+     * Getter for property ignore.
+     * @return {function(*, *, *, *): boolean}
+     */
+    get ignore() {
+        return this.getIgnoreCondition();
+    }
+
+    /**
+     * Setter for property ignore.
+     * @param argv
+     */
+    set ignore(argv) {
+        throw new Error("Cannot set the protected property ignore.");
+    }
+
+    /**
+     * Getter for property immediately
+     */
+    get immediately() {
+        return this.getImmediatelyCondition();
+    }
+
+    /**
+     * Setter for property immediately
+     * @param argv
+     */
+    set immediately(argv) {
+        throw new Error("Cannot set the protected property ignore.");
+    }
+
+    /**
+     * Internal inject for ignore property.
+     * @return {function(*, *, *, *): boolean}
+     */
+    getIgnoreCondition() {
+        throw new Error('Not implement error.');
+    }
+
+    /**
+     * Internal inject for immediately property.
+     * @return {boolean}
+     */
+    getImmediatelyCondition() {
+        return true;
+    }
+
+    /**
+     * Get buff ID.
+     * @return {string}
+     */
+    getId() {
+        return "standard-buff";
+    }
+
+    /**
+     * Get buff alias names
+     * @return {Array}
+     */
+    getNames() {
+        return [
+            this.getName(),
+        ];
+    }
+
+    /**
+     * Get buff master name
      *
      * @return {string}
      */
     getName() {
-        throw new Error('Not implement method.');
+        return "standard-buff";
     }
 
     /**
@@ -64,7 +134,7 @@ class StandardBuff
      * Effective
      */
     effect() {
-        throw new Error('Not implement method.');
+        // not things to do
     }
 
     /**
@@ -73,7 +143,7 @@ class StandardBuff
      * @return {number} ms
      */
     getFrequency() {
-        throw new Error('Not implement method.');
+        return 1;
     }
 
     /**
@@ -82,7 +152,7 @@ class StandardBuff
      * @return {number} ms, if time = 0 forever
      */
     getEffectTime() {
-        throw new Error('Not implement method.');
+        return 1;
     }
 }
 

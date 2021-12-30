@@ -81,11 +81,15 @@ class TestBuff extends Skill
      * @return {Promise<void>}
      */
     async sending(sender, receivers, action, args) {
+        const buffName = 'as-boss';
+        const characterService = this.context.getService('character-service');
+        const buff = characterService.createBuff(buffName); // get buff instance.
+
+        // some adjust for buff.
+
         this.cost(sender);
-        return {
-            buff: Buff,
-            ignore: (repeatIndex, sender, receiver, args) => receiver.isState('dead'),
-        };
+
+        return buff;
     }
 }
 

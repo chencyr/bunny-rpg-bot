@@ -15,6 +15,31 @@ class AutoSpRegenBuff extends StandardBuff
     }
 
     /**
+     * Internal inject for ignore property.
+     * @return {function(*, *, *, *): boolean}
+     */
+    getIgnoreCondition() {
+        return (repeatIndex, sender, receiver, args) => receiver.isState('dead');
+    }
+
+    /**
+     * Get buff ID.
+     * @return {string}
+     */
+    getId() {
+        return "auto-sp-regen-buff";
+    }
+
+    /**
+     * Get buff name
+     *
+     * @return {string}
+     */
+    getName() {
+        return "SP 自然恢復"
+    }
+
+    /**
      * Effective
      */
     effect() {
