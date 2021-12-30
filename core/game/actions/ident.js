@@ -59,15 +59,15 @@ class Ident extends Action
             throw new Error('Cannot find character error');
         }
 
-        const status = character2.getStatus();
-
         let text = `名稱: ${character2.getName()}   等級: ${character2.getLevel()}   職業: ${character2.getJob()}\n`;
         text += `狀態: ${character2.getState()}   稱號: ${character2.getTitle()}\n`;
         text += `經驗值: ${character2.getExp()}\n`;
-        text += `HP: ${status.hp}/${status.max_hp}    MP: ${status.mp}/${status.max_mp} SP: ${status.sp}/${status.max_sp}\n`;
-        text += `STR: ${status.str}    VIT: ${status.vit}\n`;
-        text += `DEX: ${status.dex}    AGI: ${status.agi}\n`;
-        text += `INT: ${status.int}    LUK: ${status.luk}\n`;
+        text += `HP: ${character2.currentHP}/${character2.maxHP}\n`;
+        text += `MP: ${character2.currentMP}/${character2.maxMP}\n`;
+        text += `SP: ${character2.currentSP}/${character2.maxSP}\n`;
+        text += `STR: ${character2.str}    VIT: ${character2.vit}\n`;
+        text += `DEX: ${character2.dex}    AGI: ${character2.agi}\n`;
+        text += `INT: ${character2.int}    LUK: ${character2.luk}\n`;
 
         this.writeMsg(`${character1.getName()} 對 ${character2.getName()} 使用了鑑定 !!`)
             .writeMsg(" ")
