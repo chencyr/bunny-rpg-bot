@@ -57,7 +57,7 @@ class AutoSpRegenBuff extends StandardBuff
         else {
             status.sp += regen;
         }
-        console.log(`Character ${status.name}  regen SP +${regen}, Current SP: ${status.sp}/${status.max_sp}`);
+        console.log(`Character ${status.name} regen SP +${regen}, Current SP: ${status.sp}/${status.max_sp}`);
     }
 
     /**
