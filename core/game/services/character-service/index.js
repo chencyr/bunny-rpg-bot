@@ -60,7 +60,8 @@ class CharacterService
         }
 
         if (type == 'monster') {
-            const monster = new Monster({ name: "初級怪物", user_id: "SYSTEM" }, this);
+            const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff];
+            const monster = new Monster({ name: "中級怪物", user_id: "SYSTEM", level: 15, buffs: buffs }, this);
             const objType = 'character';
             const objectId = monster.getStatus().id;
             this.context.setObject(objType, monster, objectId);
