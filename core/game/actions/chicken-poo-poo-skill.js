@@ -24,6 +24,13 @@ class ChickenPooPooSkill extends Skill
         return [
             "chicken-poo-poo",
             "雞哥便便連擊",
+            "雞哥愛丟大便",
+            "大便病發作",
+            "辣雞便秘擊",
+            "天空便便落",
+            "天空落便便",
+            "辣雞便便連擊",
+            "雞哥挖便便",
         ];
     }
 
