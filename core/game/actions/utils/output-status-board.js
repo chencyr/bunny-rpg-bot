@@ -1,4 +1,11 @@
 
+const signFormatter = function (number) {
+    if(number >= 0) {
+        return `-${number}`;
+    }
+    return number;
+};
+
 /**
  * Output character status board.
  *
@@ -16,9 +23,9 @@ const OutputStatusBoard = function(character) {
     text += `MP: ${character.currentMP}/${character.maxMP}\n`;
     text += `SP: ${character.currentSP}/${character.maxSP}\n`;
     text += '-----------------------------------------------\n';
-    text += `STR: ${character.str}(${character.adjustSTR})    VIT: ${character.vit}\n`;
-    text += `DEX: ${character.dex}    AGI: ${character.agi}\n`;
-    text += `INT: ${character.int}    LUK: ${character.luk}\n`;
+    text += `STR: ${character.str} (${signFormatter(character.adjustSTR)})    VIT: ${character.vit} (${signFormatter(character.adjustVIT)})\n`;
+    text += `DEX: ${character.dex} (${signFormatter(character.adjustDEX)})    AGI: ${character.agi} (${signFormatter(character.adjustAGI)})\n`;
+    text += `INT: ${character.int} (${signFormatter(character.adjustINT)})    LUK: ${character.luk} (${signFormatter(character.adjustLUK)})\n`;
     text += '-----------------------------------------------\n';
 
     return text;
