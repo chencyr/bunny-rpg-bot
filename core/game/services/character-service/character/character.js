@@ -287,6 +287,14 @@ class Character
     }
 
     /**
+     * Get character ID
+     * @return {*}
+     */
+    getId() {
+        return this.status.id;
+    }
+
+    /**
      * Get character name.
      * @return {*}
      */
