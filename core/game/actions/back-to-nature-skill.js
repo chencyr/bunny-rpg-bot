@@ -24,6 +24,8 @@ class BackToNatureSkill extends Skill
         return [
             "back-to-nature",
             "回歸大自然",
+            "大自然屌",
+            "我的大自然屌",
         ];
     }
 
