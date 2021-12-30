@@ -276,58 +276,120 @@ class Character
         throw new Error('Not implement method.');
     }
 
+    /**
+     *
+     * @return {{vit: number, agi: number, mp: number, luk: number, level: number, hp: number, max_hp: number, int: number, str: number, max_mp: number, user_id: *, dex: number, max_sp: number, name: *, next_exp: number, exp: number, sp: number}|*}
+     */
     getStatus() {
+        // TODO remove
+        throw new Error("Remove the method.");
         return this.status;
     }
 
+    /**
+     * Get character name.
+     * @return {*}
+     */
     getName() {
         return this.status.name;
     }
 
+    /**
+     * Get character job.
+     * @return {string}
+     */
     getJob() {
         return this.job;
     }
 
+    /**
+     * Get character level.
+     * @return {number}
+     */
     getLevel() {
         return this.status.level;
     }
 
+    /**
+     * Get character title list.
+     * @return {string}
+     */
     getTitle() {
+        // TODO refactor as title list.
         return this.title;
     }
 
+    /**
+     * Get character current state.
+     * @return {Normal|*}
+     */
     getState() {
         return this.state;
     }
 
+    /**
+     * Get character current exp.
+     * @return {number}
+     */
     getExp() {
         return this.status.exp;
     }
 
+    /**
+     * Get character next level exp.
+     * @return {number}
+     */
     getNextExp() {
         return this.status.next_exp;
     }
 
+    /**
+     * Get value of after cost HP.
+     * @param value
+     * @return {number}
+     */
     afterCostHP(value) {
         return this.status.hp - value.hp;
     }
 
+    /**
+     * Get value of after cost MP.
+     * @param value
+     * @return {number}
+     */
     afterCostMP(value) {
         return this.status.mp - value.mp;
     }
 
+    /**
+     * Get value of after cost SP.
+     * @param value
+     * @return {number}
+     */
     afterCostSP(value) {
         return this.status.sp - value.sp;
     }
 
+    /**
+     * Cost HP.
+     * @param value
+     */
     costHP(value) {
         this.status.hp = this.afterCostHP(value);
     }
 
+    /**
+     * Cost MP.
+     * @param value
+     */
     costMP(value) {
         this.status.mp = this.afterCostMP(value);
     }
 
+    /**
+     * Cost SP.
+     * @param value
+     */
     costSP(value) {
         this.status.sp = this.afterCostSP(value);
     }
