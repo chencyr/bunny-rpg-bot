@@ -26,6 +26,7 @@ class ChickenPooPooSkill extends Skill
             "雞哥便便連擊",
             "雞哥愛丟大便",
             "大便病發作",
+            "便意發作",
             "辣雞便秘擊",
             "天空便便落",
             "天空落便便",
