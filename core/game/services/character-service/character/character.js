@@ -55,13 +55,56 @@ class Character
      * @param buffs {array|undefined} [StandardBuff, StandardBuff, ...]
      */
     setBuffs(buffs) {
+        // TODO set by collection/object.
+        // TODO fix set duplicate buff problem
+
         buffs = buffs || [];
 
         for(let i in buffs) {
             const buffClass = buffs[i];
-            const buff = new buffClass(this);
-            this.buffs.push(buff);
+            this.receiveBuff(buffClass);
         }
+    }
+
+    /**
+     * Remove buff for the character
+     * @param buff
+     */
+    removeBuff(buff) {
+        const buffs = this.getBuffs();
+        for(let i = 0; i < buffs.length; i++){
+            const currentBuff = buffs[i];
+            if(currentBuff === buff) {
+                console.info(`Delete buff ${buff.getName()} from character ${this.getName()}`);
+                buffs.splice(i, 1);
+            }
+        }
+    }
+
+    /**
+     * Get current buff list.
+     * @return {Array}
+     */
+    getBuffs() {
+        return this.buffs;
+    }
+
+    /**
+     * Receive a buff for the character
+     * @param Buff {StandardBuff}
+     *
+     * @return {Object}
+     */
+    receiveBuff(Buff) {
+        const buff = new Buff(this);
+        this.buffs.push(buff);
+        // TODO check can receive
+
+        return {
+            isFail: false,
+            failReason: () => "Unknown",
+            buff: buff,
+        };
     }
 
     /**
