@@ -46,7 +46,7 @@ class AsBossBuff extends StandardBuff
      * @return {string}
      */
     getDisplayName() {
-        return "10分鐘魔王的加護"
+        return `魔王的加護 (${(this.getEffectTime()/1000) - this.timer}s)`
     }
 
     /**

@@ -29,11 +29,14 @@ class StandardBuff
         const time = this.getEffectTime();
         const self = this;
         this.up();
-        const interval = setInterval(function() {self.effect()}, this.getFrequency());
+        this.interval = setInterval(function() {self.effect()}, this.getFrequency());
+
+        this.timer = 0;
+        this.timerInterval = setInterval(function() { self.timer++ }, 1000);
 
         if(time > 0) {
             setTimeout(() => {
-                clearInterval(interval);
+                clearInterval(self.interval);
                 self.down();
                 this.context.removeBuff(self);
             }, time);
@@ -136,6 +139,7 @@ class StandardBuff
      */
     down(options) {
         // not things to do
+        clearInterval(this.timerInterval);
     }
 
     /**
