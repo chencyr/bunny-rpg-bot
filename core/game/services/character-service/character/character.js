@@ -279,16 +279,6 @@ class Character
     }
 
     /**
-     *
-     * @return {{vit: number, agi: number, mp: number, luk: number, level: number, hp: number, max_hp: number, int: number, str: number, max_mp: number, user_id: *, dex: number, max_sp: number, name: *, next_exp: number, exp: number, sp: number}|*}
-     */
-    getStatus() {
-        // TODO remove
-        throw new Error("Remove the method.");
-        return this.status;
-    }
-
-    /**
      * Get character ID
      * @return {*}
      */
