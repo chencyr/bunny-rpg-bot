@@ -52,7 +52,7 @@ class Summon extends Action
         this.writeMsg(`${player.getName()} 成功召喚了一隻極為兇猛的怪物 !!`)
             .writeMsg(`其偉大的名字為...「${monster.getName()}」!!!`)
             .sendMsg()
-            .writeMsg(`${monster.getStatus().id}`)
+            .writeMsg(`${monster.getId()}`)
     }
 }
 
