@@ -57,7 +57,7 @@ class AutoMpRegenBuff extends StandardBuff
         else {
             status.mp += regen;
         }
-        console.log(`Character regen MP +${regen}, Current MP: ${status.mp}/${status.max_mp}`);
+        console.log(`Character ${status.name}  regen MP +${regen}, Current MP: ${status.mp}/${status.max_mp}`);
     }
 
     /**
