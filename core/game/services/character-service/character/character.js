@@ -349,7 +349,7 @@ class Character
      * @return {number}
      */
     afterCostHP(value) {
-        return this.status.hp - value.hp;
+        return this.currentHP - value.hp;
     }
 
     /**
@@ -358,7 +358,7 @@ class Character
      * @return {number}
      */
     afterCostMP(value) {
-        return this.status.mp - value.mp;
+        return this.currentMP - value.mp;
     }
 
     /**
@@ -367,7 +367,7 @@ class Character
      * @return {number}
      */
     afterCostSP(value) {
-        return this.status.sp - value.sp;
+        return this.currentSP - value.sp;
     }
 
     /**
@@ -375,7 +375,7 @@ class Character
      * @param value
      */
     costHP(value) {
-        this.status.hp = this.afterCostHP(value);
+        this.currentHP = this.afterCostHP(value);
     }
 
     /**
@@ -383,7 +383,7 @@ class Character
      * @param value
      */
     costMP(value) {
-        this.status.mp = this.afterCostMP(value);
+        this.currentMP = this.afterCostMP(value);
     }
 
     /**
@@ -391,7 +391,7 @@ class Character
      * @param value
      */
     costSP(value) {
-        this.status.sp = this.afterCostSP(value);
+        this.currentSP = this.afterCostSP(value);
     }
 
     /**
@@ -473,7 +473,7 @@ class Character
      * @return {number}
      */
     computeNextExp() {
-        return this.fib(this.status.level);
+        return this.fib(this.getLevel());
     }
 
     /**
@@ -489,8 +489,6 @@ class Character
         }
         return arr[num]
     }
-
-
 
     /**
      * Getter for adjust str
@@ -509,11 +507,27 @@ class Character
     }
 
     /**
+     * Getter for adjust vit
+     * @return {number}
+     */
+    get adjustVIT() {
+        return this.buffs.reduce((previous, buff) => previous + buff.vit, 0);
+    }
+
+    /**
      * Getter for vit
      * @return {number}
      */
     get vit() {
-        return this.status.vit;
+        return this.status.vit + this.adjustVIT;
+    }
+
+    /**
+     * Getter for adjust dex
+     * @return {number}
+     */
+    get adjustDEX() {
+        return this.buffs.reduce((previous, buff) => previous + buff.dex, 0);
     }
 
     /**
@@ -521,7 +535,15 @@ class Character
      * @return {number}
      */
     get dex() {
-        return this.status.dex;
+        return this.status.dex + this.adjustDEX;
+    }
+
+    /**
+     * Getter for adjust agi
+     * @return {number}
+     */
+    get adjustAGI() {
+        return this.buffs.reduce((previous, buff) => previous + buff.dex, 0);
     }
 
     /**
@@ -529,7 +551,15 @@ class Character
      * @return {number}
      */
     get agi() {
-        return this.status.agi;
+        return this.status.agi + this.adjustAGI;
+    }
+
+    /**
+     * Getter for adjust int
+     * @return {number}
+     */
+    get adjustINT() {
+        return this.buffs.reduce((previous, buff) => previous + buff.int, 0);
     }
 
     /**
@@ -537,7 +567,15 @@ class Character
      * @return {number}
      */
     get int() {
-        return this.status.int;
+        return this.status.int + this.adjustINT;
+    }
+
+    /**
+     * Getter for adjust luk
+     * @return {number}
+     */
+    get adjustLUK() {
+        return this.buffs.reduce((previous, buff) => previous + buff.luk, 0);
     }
 
     /**
@@ -545,7 +583,7 @@ class Character
      * @return {number}
      */
     get luk() {
-        return this.status.luk;
+        return this.status.luk + this.adjustLUK;
     }
 
     /**
