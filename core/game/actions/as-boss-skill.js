@@ -6,14 +6,14 @@ const ReceivingBehavior = require('./skill/buff-receiving-behavior');
 /**
  * Skill action.
  */
-class TestBuffSkill extends Skill
+class AsBossBuffSkill extends Skill
 {
     /**
      * Get action ID.
      * @return {string}
      */
     getId() {
-        return "test-buff-skill";
+        return "as-boss-skill";
     }
 
     /**
@@ -34,7 +34,7 @@ class TestBuffSkill extends Skill
      * @return {string} standard name
      */
     getSkillName() {
-        return "test-buff"
+        return "as-boss"
     }
 
     /**
@@ -54,4 +54,4 @@ class TestBuffSkill extends Skill
     }
 }
 
-module.exports = TestBuffSkill;
+module.exports = AsBossBuffSkill;

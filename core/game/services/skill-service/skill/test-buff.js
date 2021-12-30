@@ -5,7 +5,7 @@ const Buff = require('../../character-service/character/buff/test-buff');
 /**
  * TestBuff skill
  */
-class TestBuff extends Skill
+class AsBoss extends Skill
 {
     /**
      * Get display name.
@@ -20,7 +20,7 @@ class TestBuff extends Skill
      * @return {string}
      */
     getStandardName() {
-        return "test-buff";
+        return "as-boss";
     }
 
     /**
@@ -94,4 +94,4 @@ class TestBuff extends Skill
 }
 
 
-module.exports = TestBuff;
+module.exports = AsBoss;
