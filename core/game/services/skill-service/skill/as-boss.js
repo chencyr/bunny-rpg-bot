@@ -1,5 +1,8 @@
 const Skill = require('./skill');
 
+// TODO refactor by service getter
+const Buff = require('../../character-service/character/buff/as-boss-buff');
+
 /**
  * AsBoss skill
  */
@@ -79,9 +82,8 @@ class AsBoss extends Skill
      * @return {Promise<void>}
      */
     async sending(sender, receivers, action, args) {
-        const buffName = 'as-boss';
-        const characterService = this.context.getService('character-service');
-        const buff = characterService.createBuff(buffName); // get buff instance.
+
+        const buff = new Buff();
 
         // some adjust for buff.
 

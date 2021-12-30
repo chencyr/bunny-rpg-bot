@@ -54,17 +54,7 @@ class AsBossBuff extends StandardBuff
      * @param options
      */
     up(options) {
-        const status = this.context.getStatus();
-        status.next_exp += 99999999;
-        status.max_hp += 30000;
-        status.max_mp += 30000;
-        status.max_sp += 1000;
-        status.str += 1000;
-        status.vit += 200;
-        status.dex += 1000;
-        status.agi += 50;
-        status.int += 1000;
-        status.luk += 1000;
+
     }
 
     /**
@@ -72,17 +62,7 @@ class AsBossBuff extends StandardBuff
      * @param options
      */
     down(options) {
-        const status = this.context.getStatus();
-        status.next_exp -= 99999999;
-        status.max_hp -= 30000;
-        status.max_mp -= 30000;
-        status.max_sp -= 1000;
-        status.str -= 1000;
-        status.vit -= 200;
-        status.dex -= 1000;
-        status.agi -= 50;
-        status.int -= 1000;
-        status.luk -= 1000;
+
     }
 
     /**
@@ -108,6 +88,14 @@ class AsBossBuff extends StandardBuff
      */
     getEffectTime() {
         return 1000 * 60 * 10;
+    }
+
+    /**
+     * Getter for str
+     * @return {number}
+     */
+    get str() {
+        return 1000;
     }
 }
 

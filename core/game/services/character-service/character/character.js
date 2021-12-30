@@ -500,12 +500,22 @@ class Character
         return arr[num]
     }
 
+
+
+    /**
+     * Getter for adjust str
+     * @return {number}
+     */
+    get adjustSTR() {
+        return this.buffs.reduce((previous, buff) => previous + buff.str, 0);
+    }
+
     /**
      * Getter for str
      * @return {number}
      */
     get str() {
-        return this.status.str;
+        return this.status.str + this.adjustSTR;
     }
 
     /**

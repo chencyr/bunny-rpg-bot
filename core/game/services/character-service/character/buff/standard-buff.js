@@ -162,6 +162,54 @@ class StandardBuff
     getEffectTime() {
         return 1;
     }
+
+    /**
+     * Getter for str
+     * @return {number}
+     */
+    get str() {
+        return 0;
+    }
+
+    /**
+     * Getter for vit
+     * @return {number}
+     */
+    get vit() {
+        return 0;
+    }
+
+    /**
+     * Getter for dex
+     * @return {number}
+     */
+    get dex() {
+        return 0;
+    }
+
+    /**
+     * Getter for agi
+     * @return {number}
+     */
+    get agi() {
+        return 0;
+    }
+
+    /**
+     * Getter for int
+     * @return {number}
+     */
+    get int() {
+        return 0;
+    }
+
+    /**
+     * Getter for luk
+     * @return {number}
+     */
+    get luk() {
+        return 0;
+    }
 }
 
 module.exports = StandardBuff;
