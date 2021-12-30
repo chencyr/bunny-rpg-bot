@@ -52,7 +52,7 @@ class StrAttack extends Skill
      */
     getCost(options) {
         return {
-            hp: 0,
+            hp: 100,
             mp: 0,
             sp: 20,
         };
