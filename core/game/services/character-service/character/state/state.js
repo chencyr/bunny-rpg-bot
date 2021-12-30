@@ -96,7 +96,7 @@ class State
     computeDamageHp(damage) {
         // 防禦隨機倍率參數
         const defParam = this.getRandom(90, 100) / 100;
-        let defValue = this.context.vit * defParam * 3;
+        let defValue = this.context.vit * defParam * 5;
 
         let damageHp = Math.floor(damage.value - defValue);
         if (damageHp < 0) {
