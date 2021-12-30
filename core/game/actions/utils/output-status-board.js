@@ -28,6 +28,11 @@ const OutputStatusBoard = function(character) {
     text += `INT: ${character.int} (${signFormatter(character.adjustINT)})    LUK: ${character.luk} (${signFormatter(character.adjustLUK)})\n`;
     text += '-----------------------------------------------\n';
 
+    text += `加護: \n`;
+    character.getBuffs().forEach((buff) => {
+        text += `${buff.getDisplayName()} \n`;
+    });
+
     return text;
 };
 
