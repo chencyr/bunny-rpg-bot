@@ -1,7 +1,7 @@
 
 const signFormatter = function (number) {
     if(number >= 0) {
-        return `-${number}`;
+        return `+${number}`;
     }
     return number;
 };
