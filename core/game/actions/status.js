@@ -1,4 +1,5 @@
 const Action = require('./action');
+const board = require('./utils/output-status-board')
 
 /**
  * State action.
@@ -47,17 +48,7 @@ class Status extends Action
             return this;
         }
 
-        let text = `名稱: ${player.getName()}   等級: ${player.getLevel()}   職業: ${player.getJob()}\n`;
-        text += `狀態:${player.getState()}   稱號: ${player.getTitle()}\n`;
-        text += `經驗值: ${player.getExp()}/${player.getNextExp()}\n`;
-        text += `HP: ${player.currentHP}/${player.maxHP}\n`;
-        text += `MP: ${player.currentMP}/${player.maxMP}\n`;
-        text += `SP: ${player.currentSP}/${player.maxSP}\n`;
-        text += `STR: ${player.str}    VIT: ${player.vit}\n`;
-        text += `DEX: ${player.dex}    AGI: ${player.agi}\n`;
-        text += `INT: ${player.int}    LUK: ${player.luk}\n`;
-
-        this.writeMsg(text);
+        this.writeMsg(board(player));
     }
 }
 
