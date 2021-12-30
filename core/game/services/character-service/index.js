@@ -87,7 +87,7 @@ class CharacterService
                 player.setStatus(records[0]);
 
                 const objType = 'character';
-                const objectId = player.getStatus().id;
+                const objectId = player.getId();
                 this.context.setObject(objType, player, objectId);
 
                 return player;
@@ -100,7 +100,7 @@ class CharacterService
             const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff];
             const monster = new Monster({ name: "中級怪物", user_id: "SYSTEM", level: 15, buffs: buffs }, this);
             const objType = 'character';
-            const objectId = monster.getStatus().id;
+            const objectId = monster.getId();
             this.context.setObject(objType, monster, objectId);
 
             return monster;
