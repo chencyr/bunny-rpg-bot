@@ -87,7 +87,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms, if time = 0 forever
      */
     getEffectTime() {
-        return 1000 * 60 * 10;
+        return 1000 * 60;
     }
 
     /**
@@ -96,6 +96,46 @@ class AsBossBuff extends StandardBuff
      */
     get str() {
         return 1000;
+    }
+
+    /**
+     * Getter for vit
+     * @return {number}
+     */
+    get vit() {
+        return 1000;
+    }
+
+    /**
+     * Getter for str
+     * @return {number}
+     */
+    get dex() {
+        return 500;
+    }
+
+    /**
+     * Getter for agi
+     * @return {number}
+     */
+    get agi() {
+        return 70;
+    }
+
+    /**
+     * Getter for int
+     * @return {number}
+     */
+    get int() {
+        return 1000;
+    }
+
+    /**
+     * Getter for int
+     * @return {number}
+     */
+    get luk() {
+        return -500;
     }
 }
 
