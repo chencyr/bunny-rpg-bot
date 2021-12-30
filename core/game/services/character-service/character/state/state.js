@@ -48,6 +48,7 @@ class State
      * @return {*}
      */
     get status() {
+        // TODO refactor by context.agi, str, ... by class getter
         return this.context.status;
     }
 
@@ -69,7 +70,7 @@ class State
         const dodgeParam = this.getRandom(90, 100) / 100;
         const baseDodgeProb = 20; // percentage
 
-        let dodge = this.status.agi * dodgeParam;
+        let dodge = this.context.agi * dodgeParam;
 
         // 閃避補正
         let dodComp = dodge - damage.accuracy;
@@ -95,7 +96,7 @@ class State
     computeDamageHp(damage) {
         // 防禦隨機倍率參數
         const defParam = this.getRandom(90, 100) / 100;
-        let defValue = this.status.vit * defParam * 3;
+        let defValue = this.context.vit * defParam * 5;
 
         let damageHp = Math.floor(damage.value - defValue);
         if (damageHp < 0) {
@@ -124,13 +125,13 @@ class State
             result.damageHp = this.computeDamageHp(damage);
         }
 
-        this.status.hp = Math.floor(this.status.hp - result.damageHp);
-        if (this.status.hp <= 0) {
-            this.status.hp = 0;
+        this.context.currentHP = Math.floor(this.context.currentHP - result.damageHp);
+        if (this.context.currentHP <= 0) {
+            this.context.currentHP = 0;
             this.context.changeState('dead');
             result.exp = this.context.toExp();
         }
-        result.hp = this.status.hp;
+        result.hp = this.context.currentHP;
 
 
         return result;
@@ -147,8 +148,8 @@ class State
         // 精准度隨機倍率參數
         const accParam = this.getRandom(80, 100) / 100;
 
-        let value = this.status.str * atkParam * 10;
-        let accuracy = this.status.dex * accParam;
+        let value = this.context.str * atkParam * 10;
+        let accuracy = this.context.dex * accParam;
 
         return {
             value: value,

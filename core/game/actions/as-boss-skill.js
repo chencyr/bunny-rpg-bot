@@ -1,19 +1,19 @@
 const Skill = require('./skill');
 
-const SendingBehavior = require('./skill/attack-sending-behavior');
-const ReceivingBehavior = require('./skill/attack-receiving-behavior');
+const SendingBehavior = require('./skill/buff-sending-behavior');
+const ReceivingBehavior = require('./skill/buff-receiving-behavior');
 
 /**
  * Skill action.
  */
-class DrunkenFistSkill extends Skill
+class AsBossBuffSkill extends Skill
 {
     /**
      * Get action ID.
      * @return {string}
      */
     getId() {
-        return "drunken-fist-skill";
+        return "as-boss-skill";
     }
 
     /**
@@ -22,8 +22,10 @@ class DrunkenFistSkill extends Skill
      */
     getNames() {
         return [
-            "drunken-fist",
-            "醉拳",
+            "as-boss",
+            "魔王的加護",
+            "成為魔王吧",
+            "魔王",
         ];
     }
 
@@ -32,7 +34,7 @@ class DrunkenFistSkill extends Skill
      * @return {string} standard name
      */
     getSkillName() {
-        return "drunken-fist"
+        return "as-boss"
     }
 
     /**
@@ -52,4 +54,4 @@ class DrunkenFistSkill extends Skill
     }
 }
 
-module.exports = DrunkenFistSkill;
+module.exports = AsBossBuffSkill;

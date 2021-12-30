@@ -26,6 +26,9 @@ class Engine {
         this.initEngineModules();
     }
 
+    /**
+     * Init Engine modules
+     */
     initEngineModules() {
         console.info(`GameEngine: InitEngineModule: Init...`);
         
@@ -148,23 +151,33 @@ class Engine {
     }
 
     /**
+     * Loader generator.
+     *
+     * @param componentName {String}
+     * @return {Function}
+     */
+    createLoader(componentName) {
+        return (container, data) => {
+            const ClassConstructor = data.object;
+            const instance = new ClassConstructor(this);
+
+            instance.getNames().forEach((name) => {
+                if(this[container][name]) {
+                    throw new Error(`Duplicate ${data.name} name [${name}] loading error.`);
+                }
+                this[container][name] = ClassConstructor;
+            });
+
+            console.debug(`${componentName}: ModulePool: ${data.name} [${instance.getId()}] loaded.`);
+        };
+    }
+
+    /**
      * Load actions
      */
     loadActions() {
         const name = this.$const.action;
-        const loader = (container, data) => {
-            const Action = data.object;
-            const action = new Action(this);
-
-            action.getNames().forEach((name) => {
-                if(this[container][name]) {
-                    throw new Error(`Duplicate ${data.name} name [${name}] loading error.`);
-                }
-                this[container][name] = Action;
-            });
-
-            console.debug(`GameEngine: ModulePool: ${data.name} [${action.getId()}] loaded.`);
-        };
+        const loader = this.createLoader("GameEngine");
 
         this.modulePoolLoader(name, name, loader);
 
@@ -231,6 +244,7 @@ class Engine {
      * @param id
      */
     setObject(type, object, id) {
+        // TODO refactor by redis or other cache connection drivers.
         this.$object[type][id] = object;
     }
 
@@ -251,7 +265,7 @@ class Engine {
             }
         }
 
-        throw new Error(`Cannot find [${type}] object from input: ` + JSON.stringify(object));
+        throw new Error(`Cannot find [${type}] object from input: ` + JSON.stringify(this.$object[type]));
     }
 
     /**

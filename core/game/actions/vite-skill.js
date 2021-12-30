@@ -6,14 +6,14 @@ const ReceivingBehavior = require('./skill/attack-receiving-behavior');
 /**
  * Skill action.
  */
-class DrunkenFistSkill extends Skill
+class Vite extends Skill
 {
     /**
      * Get action ID.
      * @return {string}
      */
     getId() {
-        return "drunken-fist-skill";
+        return "vite-skill";
     }
 
     /**
@@ -22,8 +22,13 @@ class DrunkenFistSkill extends Skill
      */
     getNames() {
         return [
-            "drunken-fist",
-            "醉拳",
+            "vite",
+            "Vite",
+            "Vite打包術",
+            "vite打包術",
+            "打包",
+            "打包術",
+            "包",
         ];
     }
 
@@ -32,7 +37,7 @@ class DrunkenFistSkill extends Skill
      * @return {string} standard name
      */
     getSkillName() {
-        return "drunken-fist"
+        return "vite"
     }
 
     /**
@@ -52,4 +57,4 @@ class DrunkenFistSkill extends Skill
     }
 }
 
-module.exports = DrunkenFistSkill;
+module.exports = Vite;

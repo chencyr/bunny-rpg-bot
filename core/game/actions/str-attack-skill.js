@@ -1,9 +1,12 @@
-const StandardSkill = require('./standard-skill');
+const Skill = require('./skill');
+
+const SendingBehavior = require('./skill/attack-sending-behavior');
+const ReceivingBehavior = require('./skill/attack-receiving-behavior');
 
 /**
  * Skill action.
  */
-class StrAttackSkill extends StandardSkill
+class StrAttackSkill extends Skill
 {
     /**
      * Get action ID.
@@ -33,6 +36,22 @@ class StrAttackSkill extends StandardSkill
      */
     getSkillName() {
         return "str-attack"
+    }
+
+    /**
+     * Get sending behavior.
+     * @return {SendingBehavior}
+     */
+    getSendingBehavior() {
+        return SendingBehavior;
+    }
+
+    /**
+     * Get receiving behavior.
+     * @return {ReceivingBehavior}
+     */
+    getReceivingBehavior() {
+        return ReceivingBehavior
     }
 }
 
