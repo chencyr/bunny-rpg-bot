@@ -350,7 +350,7 @@ class Character
      * @return {number}
      */
     getNextExp() {
-        return this.status.next_exp;
+        return Math.floor(this.status.next_exp);
     }
 
     /**
