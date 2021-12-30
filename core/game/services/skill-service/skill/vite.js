@@ -1,16 +1,16 @@
 const Skill = require('./skill');
 
 /**
- * StrAttack skill
+ * Vite skill
  */
-class StrAttack extends Skill
+class Vite extends Skill
 {
     /**
      * Get display name.
      * @return {string}
      */
     getDisplayName() {
-        return "攻擊";
+        return "Vite 打包術";
     }
 
     /**
@@ -18,7 +18,7 @@ class StrAttack extends Skill
      * @return {string}
      */
     getStandardName() {
-        return "str-attack";
+        return "vite";
     }
 
     /**
@@ -52,9 +52,9 @@ class StrAttack extends Skill
      */
     getCost(options) {
         return {
-            hp: 100,
+            hp: 10000,
             mp: 0,
-            sp: 20,
+            sp: 10,
         };
     }
 
@@ -79,7 +79,13 @@ class StrAttack extends Skill
      * @return {Promise<void>}
      */
     async sending(sender, receivers, action, args) {
+
         const damage = sender.createDamage();
+        damage.value = damage.value * 0.5;
+        damage.accuracy = damage.accuracy + 20000;
+        damage.max_to = 50;
+
+        action.writeMsg('Vite 妳們！啾咪 >_0').sendMsg();
 
         this.cost(sender);
         return damage;
@@ -87,4 +93,4 @@ class StrAttack extends Skill
 }
 
 
-module.exports = StrAttack;
+module.exports = Vite;

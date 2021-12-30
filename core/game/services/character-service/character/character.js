@@ -33,6 +33,8 @@ class Character
             agi: 10,
             int: 10,
             luk: 10,
+            // TODO add gender
+            // gender: 1,
         };
 
 
@@ -52,16 +54,66 @@ class Character
     /**
      * Set buff class list.
      *
-     * @param buffs {array|undefined} [StandardBuff, StandardBuff, ...]
+     * @param buffs {array|undefined} [StandardBuff Class, StandardBuff Class, ...]
      */
     setBuffs(buffs) {
+        // TODO set by collection/object.
+        // TODO fix set duplicate buff problem
+
         buffs = buffs || [];
 
         for(let i in buffs) {
             const buffClass = buffs[i];
             const buff = new buffClass(this);
-            this.buffs.push(buff);
+            this.receiveBuff(buff);
         }
+    }
+
+    /**
+     * Remove buff for the character
+     * @param buff
+     */
+    removeBuff(buff) {
+        const buffs = this.getBuffs();
+        for(let i = 0; i < buffs.length; i++){
+            const currentBuff = buffs[i];
+            if(currentBuff === buff) {
+                console.info(`Delete buff ${buff.getDisplayName()} from character ${this.getName()}`);
+                buffs.splice(i, 1);
+            }
+        }
+    }
+
+    /**
+     * Get current buff list.
+     * @return {Array}
+     */
+    getBuffs() {
+        return this.buffs;
+    }
+
+    /**
+     * Receive a buff for the character
+     * @param Buff {StandardBuff}
+     *
+     * @return {Object}
+     */
+    receiveBuff(buff) {
+
+        buff.setCharacter(this);
+
+        if(buff.immediately) {
+            buff.trigger();
+        }
+
+        this.buffs.push(buff);
+        // TODO check can receiving
+
+        return {
+            isFail: false,
+            failReason: () => "Unknown",
+            buff: buff,
+        };
     }
 
     /**
@@ -226,60 +278,120 @@ class Character
         throw new Error('Not implement method.');
     }
 
-    getStatus() {
-        return this.status;
+    /**
+     * Get character ID
+     * @return {*}
+     */
+    getId() {
+        return this.status.id;
     }
 
+    /**
+     * Get character name.
+     * @return {*}
+     */
     getName() {
         return this.status.name;
     }
 
+    /**
+     * Get character job.
+     * @return {string}
+     */
     getJob() {
         return this.job;
     }
 
+    /**
+     * Get character level.
+     * @return {number}
+     */
     getLevel() {
         return this.status.level;
     }
 
+    /**
+     * Get character title list.
+     * @return {string}
+     */
     getTitle() {
+        // TODO refactor as title list.
         return this.title;
     }
 
+    /**
+     * Get character current state.
+     * @return {Normal|*}
+     */
     getState() {
         return this.state;
     }
 
+    /**
+     * Get character current exp.
+     * @return {number}
+     */
     getExp() {
-        return this.status.exp;
+        return Math.floor(this.status.exp);
     }
 
+    /**
+     * Get character next level exp.
+     * @return {number}
+     */
     getNextExp() {
-        return this.status.next_exp;
+        return Math.floor(this.status.next_exp);
     }
 
+    /**
+     * Get value of after cost HP.
+     * @param value
+     * @return {number}
+     */
     afterCostHP(value) {
-        return this.status.hp - value.hp;
+        return this.currentHP - value.hp;
     }
 
+    /**
+     * Get value of after cost MP.
+     * @param value
+     * @return {number}
+     */
     afterCostMP(value) {
-        return this.status.mp - value.mp;
+        return this.currentMP - value.mp;
     }
 
+    /**
+     * Get value of after cost SP.
+     * @param value
+     * @return {number}
+     */
     afterCostSP(value) {
-        return this.status.sp - value.sp;
+        return this.currentSP - value.sp;
     }
 
+    /**
+     * Cost HP.
+     * @param value
+     */
     costHP(value) {
-        this.status.hp = this.afterCostHP(value);
+        this.currentHP = this.afterCostHP(value);
     }
 
+    /**
+     * Cost MP.
+     * @param value
+     */
     costMP(value) {
-        this.status.mp = this.afterCostMP(value);
+        this.currentMP = this.afterCostMP(value);
     }
 
+    /**
+     * Cost SP.
+     * @param value
+     */
     costSP(value) {
-        this.status.sp = this.afterCostSP(value);
+        this.currentSP = this.afterCostSP(value);
     }
 
     /**
@@ -361,7 +473,7 @@ class Character
      * @return {number}
      */
     computeNextExp() {
-        return this.fib(this.status.level);
+        return this.fib(this.getLevel());
     }
 
     /**
@@ -376,6 +488,246 @@ class Character
             arr[i] = arr[i-1] + (arr[i-2])
         }
         return arr[num]
+    }
+
+    /**
+     * Getter for adjust str
+     * @return {number}
+     */
+    get adjustSTR() {
+        return this.buffs.reduce((previous, buff) => previous + buff.str, 0);
+    }
+
+    /**
+     * Getter for str
+     * @return {number}
+     */
+    get str() {
+        return this.status.str + this.adjustSTR;
+    }
+
+    /**
+     * Getter for adjust vit
+     * @return {number}
+     */
+    get adjustVIT() {
+        return this.buffs.reduce((previous, buff) => previous + buff.vit, 0);
+    }
+
+    /**
+     * Getter for vit
+     * @return {number}
+     */
+    get vit() {
+        return this.status.vit + this.adjustVIT;
+    }
+
+    /**
+     * Getter for adjust dex
+     * @return {number}
+     */
+    get adjustDEX() {
+        return this.buffs.reduce((previous, buff) => previous + buff.dex, 0);
+    }
+
+    /**
+     * Getter for dex
+     * @return {number}
+     */
+    get dex() {
+        return this.status.dex + this.adjustDEX;
+    }
+
+    /**
+     * Getter for adjust agi
+     * @return {number}
+     */
+    get adjustAGI() {
+        return this.buffs.reduce((previous, buff) => previous + buff.dex, 0);
+    }
+
+    /**
+     * Getter for agi
+     * @return {number}
+     */
+    get agi() {
+        return this.status.agi + this.adjustAGI;
+    }
+
+    /**
+     * Getter for adjust int
+     * @return {number}
+     */
+    get adjustINT() {
+        return this.buffs.reduce((previous, buff) => previous + buff.int, 0);
+    }
+
+    /**
+     * Getter for int
+     * @return {number}
+     */
+    get int() {
+        return this.status.int + this.adjustINT;
+    }
+
+    /**
+     * Getter for adjust luk
+     * @return {number}
+     */
+    get adjustLUK() {
+        return this.buffs.reduce((previous, buff) => previous + buff.luk, 0);
+    }
+
+    /**
+     * Getter for luk
+     * @return {number}
+     */
+    get luk() {
+        return this.status.luk + this.adjustLUK;
+    }
+
+    /**
+     * Getter for HP
+     * @return {number}
+     */
+    get currentHP() {
+        return this.status.hp;
+    }
+
+    /**
+     * Getter for MP
+     * @return {number}
+     */
+    get currentMP() {
+        return this.status.mp;
+    }
+
+    /**
+     * Getter for SP
+     * @return {number}
+     */
+    get currentSP() {
+        return this.status.sp;
+    }
+
+    /**
+     * Getter for max HP
+     * @return {number}
+     */
+    get maxHP() {
+        return this.status.max_hp;
+    }
+
+    /**
+     * Getter for max MP
+     * @return {number}
+     */
+    get maxMP() {
+        return this.status.max_mp;
+    }
+
+    /**
+     * Getter for max SP
+     * @return {number}
+     */
+    get maxSP () {
+        return this.status.max_sp;
+    }
+
+    /**
+     * Setter for str
+     * @param argv
+     */
+    set str(argv) {
+        this.status.str = argv;
+    }
+
+    /**
+     * Setter for vit
+     * @param argv
+     */
+    set vit(argv) {
+        this.status.vit = argv;
+    }
+
+    /**
+     * Setter for dex
+     * @param argv
+     */
+    set dex(argv) {
+        this.status.dex = argv;
+    }
+
+    /**
+     * Setter for agi
+     * @param argv
+     */
+    set agi(argv) {
+        this.status.agi = argv;
+    }
+
+    /**
+     * Setter for int
+     * @param argv
+     */
+    set int(argv) {
+        this.status.int = argv;
+    }
+
+    /**
+     * Setter for luk
+     * @param argv
+     */
+    set luk(argv) {
+        this.status.luk = argv;
+    }
+
+    /**
+     * Setter for HP
+     * @param argv
+     */
+    set currentHP(argv) {
+        this.status.hp = argv;
+    }
+
+    /**
+     * Setter for MP
+     * @param argv
+     */
+    set currentMP(argv) {
+        this.status.mp = argv;
+    }
+
+    /**
+     * Setter for SP
+     * @param argv
+     */
+    set currentSP(argv) {
+        this.status.sp = argv;
+    }
+
+    /**
+     * Setter for max HP
+     * @param argv
+     */
+    set maxHP(argv) {
+        this.status.max_hp = argv;
+    }
+
+    /**
+     * Setter for max MP
+     * @param argv
+     */
+    set maxMP(argv) {
+        this.status.max_mp = argv;
+    }
+
+    /**
+     * Setter for max SP
+     * @param argv
+     */
+    set maxSP (argv) {
+        this.status.max_sp = argv;
     }
 }
 

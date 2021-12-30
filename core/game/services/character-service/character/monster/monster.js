@@ -17,7 +17,7 @@ class Monster extends Character
 
         this.context = context;
 
-        this.job = "初級怪物";
+        this.job = "怪物";
         const hp = this.computeHP();
         const mp = this.computeMP();
         const sp = this.computeSP();
@@ -35,6 +35,16 @@ class Monster extends Character
         this.status.int = this.computeINT();
         this.status.luk = this.computeLUK();
         this.status.id = this.generateID();
+
+        if(initInfo.level) {
+            this.addLevels(initInfo.level);
+        }
+    }
+
+    addLevels(level) {
+        for(let i = 0; i < level; i++) {
+            this.levelUp();
+        }
     }
 
     /**

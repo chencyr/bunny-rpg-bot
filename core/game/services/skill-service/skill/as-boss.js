@@ -1,16 +1,19 @@
 const Skill = require('./skill');
 
+// TODO refactor by service getter
+const Buff = require('../../character-service/character/buff/as-boss-buff');
+
 /**
- * StrAttack skill
+ * AsBoss skill
  */
-class StrAttack extends Skill
+class AsBoss extends Skill
 {
     /**
      * Get display name.
      * @return {string}
      */
     getDisplayName() {
-        return "攻擊";
+        return "成為魔王吧!!";
     }
 
     /**
@@ -18,7 +21,7 @@ class StrAttack extends Skill
      * @return {string}
      */
     getStandardName() {
-        return "str-attack";
+        return "as-boss";
     }
 
     /**
@@ -52,9 +55,9 @@ class StrAttack extends Skill
      */
     getCost(options) {
         return {
-            hp: 100,
-            mp: 0,
-            sp: 20,
+            hp: 1000,
+            mp: 1000,
+            sp: 1000,
         };
     }
 
@@ -79,12 +82,16 @@ class StrAttack extends Skill
      * @return {Promise<void>}
      */
     async sending(sender, receivers, action, args) {
-        const damage = sender.createDamage();
+
+        const buff = new Buff();
+
+        // some adjust for buff.
 
         this.cost(sender);
-        return damage;
+
+        return buff;
     }
 }
 
 
-module.exports = StrAttack;
+module.exports = AsBoss;

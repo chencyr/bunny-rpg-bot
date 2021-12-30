@@ -15,24 +15,59 @@ class AutoSpRegenBuff extends StandardBuff
     }
 
     /**
+     * Internal inject for ignore property.
+     * @return {function(*, *, *, *): boolean}
+     */
+    getIgnoreCondition() {
+        return (repeatIndex, sender, receiver, args) => receiver.isState('dead');
+    }
+
+    /**
+     * Get buff ID.
+     * @return {string}
+     */
+    getId() {
+        return "auto-sp-regen-buff";
+    }
+
+    /**
+     * Get buff alias names
+     * @return {Array}
+     */
+    getNames() {
+        return [
+            "auto-sp-regen-buff",
+        ];
+    }
+
+    /**
+     * Get buff name
+     *
+     * @return {string}
+     */
+    getDisplayName() {
+        return "SP 自然恢復"
+    }
+
+    /**
      * Effective
      */
     effect() {
-        const status = this.getContext().getStatus();
-        const max = status.max_sp;
-        const regen = Math.floor(status.max_sp * 0.03);
+        const character = this.getContext();
+        const max = character.maxSP;
+        const regen = Math.floor(character.maxSP * 0.03);
 
-        if(max == status.sp) {
+        if(max == character.currentSP) {
             return;
         }
 
-        if(status.sp + regen > max) {
-            status.sp = max;
+        if(character.currentSP + regen > max) {
+            character.currentSP = max;
         }
         else {
-            status.sp += regen;
+            character.currentSP += regen;
         }
-        console.log(`Character regen SP +${regen}, Current SP: ${status.sp}/${status.max_sp}`);
+        console.log(`Character ${character.getName()} regen SP +${regen}, Current SP: ${character.currentSP}/${character.maxSP}`);
     }
 
     /**

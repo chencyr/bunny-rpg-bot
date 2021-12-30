@@ -15,25 +15,61 @@ class AutoHpRegenBuff extends StandardBuff
     }
 
     /**
+     * Internal inject for ignore property.
+     * @return {function(*, *, *, *): boolean}
+     */
+    getIgnoreCondition() {
+        return (repeatIndex, sender, receiver, args) => receiver.isState('dead');
+    }
+
+    /**
+     * Get buff ID.
+     * @return {string}
+     */
+    getId() {
+        return "auto-hp-regen-buff";
+    }
+
+    /**
+     * Get buff alias names
+     * @return {Array}
+     */
+    getNames() {
+        return [
+            "auto-ha" +
+            "p-regen-buff",
+        ];
+    }
+
+    /**
+     * Get buff name
+     *
+     * @return {string}
+     */
+    getDisplayName() {
+        return "HP 自然恢復"
+    }
+
+    /**
      * Effective
      */
     effect() {
-        const status = this.getContext().getStatus();
-        const max = status.max_hp;
+        const character = this.getContext();
+        const max = character.maxHP;
 
-        if(max == status.hp) {
+        if(max == character.currentHP) {
             return;
         }
 
-        const regen = Math.floor(status.max_hp * 0.01);
+        const regen = Math.floor(character.maxHP * 0.01);
 
-        if(status.hp + regen > max) {
-            status.hp = max;
+        if(character.currentHP + regen > max) {
+            character.currentHP = max;
         }
         else {
-            status.hp += regen;
+            character.currentHP += regen;
         }
-        console.log(`Character ${status.name} regen HP +${regen}, Current HP: ${status.hp}/${status.max_hp}`);
+        console.log(`Character ${character.getName()} regen HP +${regen}, Current HP: ${character.currentHP}/${character.maxHP}`);
     }
 
     /**

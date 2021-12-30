@@ -19,6 +19,33 @@ class CharacterService
      */
     constructor(context) {
         this.context = context;
+        this.initServiceModules();
+    }
+
+    /**
+     * Init service modules
+     */
+    initServiceModules() {
+        console.info(`CharacterService: initServiceModules: Init...`);
+
+        this.$const = {};
+        this.$const.buff = 'buff';
+        this.loadBuff();
+
+        console.info(`CharacterService: initServiceModules: Finished`);
+    }
+
+    /**
+     *
+     */
+    loadBuff() {
+        const name = this.$const.buff;
+        const loader = this.context.createLoader("CharacterService");
+        const modulePath = `services/character-service/character/${name}`;
+
+        this.context.modulePoolLoader(name, modulePath, loader);
+
+        return this;
     }
 
     /**
@@ -27,6 +54,16 @@ class CharacterService
      */
     characterModel() {
         return this.context.createModel('characters');
+    }
+
+    /**
+     * Create Buff instance.
+     * @param name
+     *
+     * @return {StandardBuff}
+     */
+    createBuff(name) {
+        // TODO implement.
     }
 
     /**
@@ -50,7 +87,7 @@ class CharacterService
                 player.setStatus(records[0]);
 
                 const objType = 'character';
-                const objectId = player.getStatus().id;
+                const objectId = player.getId();
                 this.context.setObject(objType, player, objectId);
 
                 return player;
@@ -60,9 +97,10 @@ class CharacterService
         }
 
         if (type == 'monster') {
-            const monster = new Monster({ name: "初級怪物", user_id: "SYSTEM" }, this);
+            const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff];
+            const monster = new Monster({ name: "中級怪物", user_id: "SYSTEM", level: 15, buffs: buffs }, this);
             const objType = 'character';
-            const objectId = monster.getStatus().id;
+            const objectId = monster.getId();
             this.context.setObject(objType, monster, objectId);
 
             return monster;
