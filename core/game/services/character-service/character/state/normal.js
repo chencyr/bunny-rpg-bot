@@ -18,10 +18,9 @@ class Normal extends State
      * @return {State}
      */
     up() {
-        const status = Object.assign({}, this.status);
-        this.status.hp = status.max_hp;
-        this.status.mp = status.max_mp;
-        this.status.sp = status.max_sp;
+        this.context.currentHP = this.context.maxHP;
+        this.context.currentMP = this.context.maxMP;
+        this.context.currentSP = this.context.maxSP;
 
         return this;
     }
