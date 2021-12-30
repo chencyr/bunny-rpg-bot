@@ -54,7 +54,7 @@ class Vite extends Skill
         return {
             hp: 10000,
             mp: 0,
-            sp: 50,
+            sp: 10,
         };
     }
 
@@ -81,7 +81,7 @@ class Vite extends Skill
     async sending(sender, receivers, action, args) {
 
         const damage = sender.createDamage();
-        damage.value = damage.value * 0.1;
+        damage.value = damage.value * 0.5;
         damage.accuracy = damage.accuracy + 20000;
         damage.max_to = 50;
 
