@@ -15,13 +15,25 @@ class StandardBuff
 
         const time = this.getEffectTime();
         const self = this;
+        this.up();
         const interval = setInterval(function() {self.effect()}, this.getFrequency());
 
         if(time > 0) {
             setTimeout(() => {
                 clearInterval(interval);
+                self.down();
+                this.context.removeBuff(self);
             }, time);
         }
+    }
+
+    /**
+     * Get buff name
+     *
+     * @return {string}
+     */
+    getName() {
+        throw new Error('Not implement method.');
     }
 
     /**
@@ -30,6 +42,22 @@ class StandardBuff
      */
     getContext() {
         return this.context;
+    }
+
+    /**
+     * Buff up
+     * @param options
+     */
+    up(options) {
+        // not things to do
+    }
+
+    /**
+     * Buff down
+     * @param options
+     */
+    down(options) {
+        // not things to do
     }
 
     /**
