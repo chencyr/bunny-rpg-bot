@@ -231,6 +231,7 @@ class Engine {
      * @param id
      */
     setObject(type, object, id) {
+        // TODO refactor by redis or other cache connection drivers.
         this.$object[type][id] = object;
     }
 
@@ -251,7 +252,7 @@ class Engine {
             }
         }
 
-        throw new Error(`Cannot find [${type}] object from input: ` + JSON.stringify(object));
+        throw new Error(`Cannot find [${type}] object from input: ` + JSON.stringify(this.$object[type]));
     }
 
     /**
