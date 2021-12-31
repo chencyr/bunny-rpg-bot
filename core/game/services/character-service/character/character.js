@@ -424,6 +424,18 @@ class Character
     }
 
     /**
+     * Check the character is can receive damage.
+     *
+     * @param skill
+     * @param senders
+     * @param action
+     * @param args
+     */
+    verifyReceivedDamage(skill, senders, action, args) {
+        return this.state.verifyReceivedDamage(skill, senders, this, action, args);
+    }
+
+    /**
      * Received exp
      * @param exp
      * @return {boolean}

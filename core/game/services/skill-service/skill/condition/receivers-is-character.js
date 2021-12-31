@@ -23,7 +23,7 @@ class ReceiversIsCharacter
                 return true;
             }
 
-            const verify = receiver.status.verifyReceivedDamage(skill, senders, receiver, action, args);
+            const verify = receiver.verifyReceivedDamage(skill, senders, action, args);
             if(verify.canDo) {
                 action.writeMsg(verify.reason);
                 return true;
