@@ -53,7 +53,7 @@ class BackToNature extends Skill
     getCost(options) {
         return {
             hp: 0,
-            mp: 1000,
+            mp: 8000,
             sp: 10,
         };
     }
