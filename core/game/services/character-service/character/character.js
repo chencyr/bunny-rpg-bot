@@ -2,7 +2,6 @@ const NormalState = require('./state/normal');
 const DeadState = require('./state/dead');
 const KnockedOutState = require('./state/knocked-out');
 
-
 /**
  * Character base class
  *
@@ -12,10 +11,11 @@ class Character
     /**
      * Init player
      * @param initInfo
+     * @param context {CharacterService}
      * @constructor
      */
-    constructor(initInfo) {
-
+    constructor(initInfo, context) {
+        this.context = context;
         this.status = {
             user_id: initInfo.user_id,
             name: initInfo.name,
@@ -428,7 +428,18 @@ class Character
      * @return {{isDodge: boolean, isCritical: boolean, exp: number, damageHp: number}}
      */
     async receiveDamage(damage) {
-        return this.state.receiveDamage(damage);
+        const result = this.state.receiveDamage(damage);
+        await this.afterReceivedDamage(damage);
+        return result;
+    }
+
+    /**
+     * Behavior after damage.
+     * @param damage {Object}
+     * @return {Promise<void>}
+     */
+    async afterReceivedDamage(damage) {
+        // not thing to do
     }
 
     /**

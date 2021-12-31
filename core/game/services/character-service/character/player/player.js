@@ -13,9 +13,7 @@ class Player extends Character
      * @constructor
      */
     constructor(initInfo, context) {
-        super(initInfo);
-
-        this.context = context;
+        super(initInfo, context);
 
         this.job = "初心者";
         const hp = this.computeHP();
