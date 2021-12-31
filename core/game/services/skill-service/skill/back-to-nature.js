@@ -53,7 +53,7 @@ class BackToNature extends Skill
     getCost(options) {
         return {
             hp: 0,
-            mp: 10,
+            mp: 1000,
             sp: 10,
         };
     }
@@ -81,7 +81,7 @@ class BackToNature extends Skill
     async sending(sender, receivers, action, args) {
         const damage = sender.createDamage();
         damage.value = damage.value * 10;
-        damage.accuracy = damage.accuracy * 1000;
+        damage.accuracy = damage.accuracy * 3;
 
         this.cost(sender);
         return damage;
