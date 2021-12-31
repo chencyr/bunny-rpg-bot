@@ -65,7 +65,7 @@ class RoundAndRound extends Skill
      */
     setState(characters, action) {
         characters.forEach((character) => {
-            action.writeMsg(`${character.getName()} 看了一直旋轉的畫面終於不支倒地....`);
+            action.writeMsg(`[${character.getName()}] 看了一直旋轉的畫面終於不支倒地....`);
             character.changeState('knocked-out');
         });
     }
