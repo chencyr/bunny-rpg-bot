@@ -13,9 +13,7 @@ class Monster extends Character
      * @constructor
      */
     constructor(initInfo, context) {
-        super(initInfo);
-
-        this.context = context;
+        super(initInfo, context);
 
         this.job = "怪物";
         const hp = this.computeHP();
@@ -49,6 +47,21 @@ class Monster extends Character
 
     setSoul() {
 
+    }
+
+    /**
+     * Behavior after damage.
+     * @param damage {Object}
+     * @return {Promise<void>}
+     */
+    async afterReceivedDamage(damage) {
+        const game = this.context.context;
+        const action = game.createAction('attack');
+
+        const result = await action.exec({characterId: this.status.id}, [damage.from.getId()], [damage.from.getId()]);
+        const messages = result.getMessages();
+
+        damage.action.appendMessages(messages);
     }
 
     /**
