@@ -1,5 +1,6 @@
 const NormalState = require('./state/normal');
 const DeadState = require('./state/dead');
+const KnockedOutState = require('./state/knocked-out');
 
 
 /**
@@ -230,6 +231,7 @@ class Character
     static States = {
         Normal: NormalState,
         Dead: DeadState,
+        KnockedOut: KnockedOutState,
     };
 
     /**
@@ -399,9 +401,15 @@ class Character
      * @param name
      */
     changeState(name) {
-        this.state.down();
-        this.state = Character.createState(name, this);
-        this.state.up();
+        const newState = Character.createState(name, this);
+        if(this.state.canChange(newState)) {
+            this.state.down();
+            this.state = newState;
+            this.state.up();
+        }
+        else {
+            throw new Error(`Cannot change state from ${this.state} to ${newState}.`);
+        }
 
         return this;
     }

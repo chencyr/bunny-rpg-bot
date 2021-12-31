@@ -1,4 +1,5 @@
 const State = require('./state');
+const NoramalState = require('./normal');
 
 /**
  * Character dead state
@@ -11,6 +12,19 @@ class Dead extends State
 
     toString() {
         return `死亡(${this.context.revive_limit - this.context.revive_timer})`;
+    }
+
+    /**
+     * Check can change to next state.
+     * @param nextState
+     * @return {boolean}
+     */
+    canChange(nextState) {
+        if (nextState instanceof NoramalState) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -53,7 +53,7 @@ class KnockedOut extends State
      * @return {{isDodge: boolean, isCritical: boolean, exp: number, damageHp: number}}
      */
     receiveDamage(damage) {
-        throw new Error("Cannot received damage in knocked out state.");
+        return super.receiveDamage(damage);
     }
 
     /**

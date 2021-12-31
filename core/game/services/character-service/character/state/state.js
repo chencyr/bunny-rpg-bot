@@ -28,6 +28,15 @@ class State
     }
 
     /**
+     * Check can change to next state.
+     * @param nextState
+     * @return {boolean}
+     */
+    canChange(nextState) {
+        return true;
+    }
+
+    /**
      * Hook for state change up
      * @return {State}
      */
