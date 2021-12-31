@@ -8,6 +8,8 @@ const AutoHpRegenBuff = require('./character/buff/auto-hp-regen-buff');
 const AutoMpRegenBuff = require('./character/buff/auto-mp-regen-buff');
 const AutoSpRegenBuff = require('./character/buff/auto-sp-regen-buff');
 
+const DefaultSoul = require('./character/monster/soul/default-soul');
+
 /**
  * Character service, service should run as singleton.
  */
@@ -110,9 +112,13 @@ class CharacterService
 
         if (type == 'monster') {
             const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff];
-            const monster = new Monster({ name: "中級怪物", user_id: "SYSTEM", level: 15, buffs: buffs }, this);
+            const monster = new Monster({ name: `怪物 LV.${data.level}`, user_id: "SYSTEM", level: data.level, buffs: buffs }, this);
             const objType = 'character';
             const objectId = monster.getId();
+
+            const soul = new DefaultSoul();
+            monster.setSoul(soul);
+
             this.context.setObject(objType, monster, objectId);
 
             return monster;

@@ -47,6 +47,10 @@ class Monster extends Character
         }
     }
 
+    setSoul() {
+
+    }
+
     /**
      * Generate character ID.
      * @return {string}
