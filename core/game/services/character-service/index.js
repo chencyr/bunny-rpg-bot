@@ -112,7 +112,7 @@ class CharacterService
 
         if (type == 'monster') {
             const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff];
-            const monster = new Monster({ name: `怪物 LV.${data.level}`, user_id: "SYSTEM", level: data.level, buffs: buffs }, this);
+            const monster = new Monster({ name: `怪物 LV.${data.level + 1}`, user_id: "SYSTEM", level: data.level, buffs: buffs }, this);
             const objType = 'character';
             const objectId = monster.getId();
 
