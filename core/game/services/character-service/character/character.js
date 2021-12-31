@@ -543,7 +543,7 @@ class Character
      * @return {number}
      */
     get adjustAGI() {
-        return this.buffs.reduce((previous, buff) => previous + buff.dex, 0);
+        return this.buffs.reduce((previous, buff) => previous + buff.agi, 0);
     }
 
     /**
