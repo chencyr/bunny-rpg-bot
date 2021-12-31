@@ -92,7 +92,7 @@ class RoundAndRound extends Skill
      */
     async sending(sender, receivers, action, args) {
         const damage = sender.createDamage();
-        damage.value = damage.value * 0.3;
+        damage.value = damage.value * 1;
 
         this.cost(sender);
         action.writeMsg('Loading.............(轉轉轉)').sendMsg();
