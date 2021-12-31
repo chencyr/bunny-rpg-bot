@@ -15,7 +15,7 @@ class AttackReceivingBehavior
     async receiving (effect, sender, receiver, args) {
         const characterService = this.context.getService('character-service');
         const skill = await this.getSkill();
-        const result = receiver.receiveDamage(effect);
+        const result = await receiver.receiveDamage(effect);
 
         this.writeMsg(`[${sender.getName()}] 對 [${receiver.getName()}] 使用了 [${skill.getDisplayName()}] !!`);
 

@@ -427,7 +427,7 @@ class Character
      * @param damage
      * @return {{isDodge: boolean, isCritical: boolean, exp: number, damageHp: number}}
      */
-    receiveDamage(damage) {
+    async receiveDamage(damage) {
         return this.state.receiveDamage(damage);
     }
 
