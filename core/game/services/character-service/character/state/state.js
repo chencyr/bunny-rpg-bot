@@ -165,6 +165,7 @@ class State
             accuracy: accuracy,
             repeat: 1,
             max_to: 1,
+            from: this,
             ignore: (repeatIndex, sender, receiver, args) => receiver.isState('dead'),
         };
     }
