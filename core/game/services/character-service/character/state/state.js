@@ -165,7 +165,7 @@ class State
             accuracy: accuracy,
             repeat: 1,
             max_to: 1,
-            from: this,
+            from: this.context,
             ignore: (repeatIndex, sender, receiver, args) => receiver.isState('dead'),
         };
     }
