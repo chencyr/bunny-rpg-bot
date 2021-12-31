@@ -12,6 +12,7 @@ class Action
     constructor(context) {
         this.context = context;
         this.messages = [];
+        this.extendMessages = [];
         this.messageTemp = "";
     }
 
@@ -104,9 +105,18 @@ class Action
      */
     getMessages() {
         this.sendMsg();
-        return this.messages;
+        const returnMessages = this.messages.concat(this.extendMessages);
+        this.messages.concat(this.extendMessages);
+        return returnMessages;
     }
 
+    /**
+     * Append messages
+     * @param messages {array}
+     */
+    appendMessages(messages) {
+        this.extendMessages = this.extendMessages.concat(messages);
+    }
 }
 
 module.exports = Action;
