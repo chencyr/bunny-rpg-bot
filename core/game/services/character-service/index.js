@@ -88,6 +88,18 @@ class CharacterService
 
                 const objType = 'character';
                 const objectId = player.getId();
+
+                const skills = [];
+                skills.push({
+                    standard_name: 'str-attack',
+                    id: 75,
+                    display_name: '攻擊',
+                    level: 1,
+                    type: 'standard',
+                });
+
+                player.setSkills(skills);
+
                 this.context.setObject(objType, player, objectId);
 
                 return player;
