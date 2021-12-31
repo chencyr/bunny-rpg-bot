@@ -61,10 +61,11 @@ class RoundAndRound extends Skill
     /**
      * Set each character new state
      * @param characters
+     * @param action
      */
-    setState(characters) {
+    setState(characters, action) {
         characters.forEach((character) => {
-            this.writeMsg(`${character.getName()} 看了一直旋轉的畫面終於不支倒地....`);
+            action.writeMsg(`${character.getName()} 看了一直旋轉的畫面終於不支倒地....`);
             character.changeState('knocked-out');
         });
     }
@@ -78,7 +79,7 @@ class RoundAndRound extends Skill
      * @return {Promise<void>}
      */
     async afterInteraction(senders, receivers, action, args) {
-        this.setState(receivers);
+        this.setState(receivers, action);
     }
 
     /**
@@ -91,7 +92,7 @@ class RoundAndRound extends Skill
      */
     async sending(sender, receivers, action, args) {
         const damage = sender.createDamage();
-        damage.value = damage.value * 0.1;
+        damage.value = damage.value * 0.3;
 
         this.cost(sender);
         action.writeMsg('Loading.............(轉轉轉)').sendMsg();
