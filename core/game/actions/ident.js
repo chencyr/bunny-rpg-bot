@@ -29,8 +29,9 @@ class Ident extends Action
     getNames() {
         return [
             "ident",
-            "鑑定",
             "Ident",
+            "鑑定",
+            "鑒定",
         ];
     }
 
