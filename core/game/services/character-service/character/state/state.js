@@ -159,6 +159,22 @@ class State
             ignore: (repeatIndex, sender, receiver, args) => receiver.isState('dead'),
         };
     }
+
+    /**
+     * Check the character is can receive damage.
+     *
+     * @param skill
+     * @param senders
+     * @param receiver
+     * @param action
+     * @param args
+     */
+    verifyReceivedDamage(skill, senders, receiver, action, args) {
+        return {
+            canDo: true,
+            reason: "可以受到攻擊",
+        };
+    }
 }
 
 module.exports = State;

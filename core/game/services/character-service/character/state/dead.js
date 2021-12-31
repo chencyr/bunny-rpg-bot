@@ -55,6 +55,22 @@ class Dead extends State
     receiveDamage(damage) {
         throw new Error("Cannot received damage in dead state.");
     }
+
+    /**
+     * Check the character is can receive damage.
+     *
+     * @param skill
+     * @param senders
+     * @param receiver
+     * @param action
+     * @param args
+     */
+    verifyReceivedDamage(skill, senders, receiver, action, args) {
+        return {
+            canDo: false,
+            reason: `技能 [${skill.getDisplayName()}] 的使用對象 [${receiver.getName()}] 不能為 [${receiver.state}]`,
+        };
+    }
 }
 
 module.exports = Dead;
