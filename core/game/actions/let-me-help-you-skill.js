@@ -4,9 +4,9 @@ const Skill = require('./skill');
 const Buff = require('../../character-service/character/buff/let-me-help-you-buff');
 
 /**
- * LetMeHelpYouSkill skill
+ * LetMeHelpYou skill
  */
-class LetMeHelpYouSkill extends Skill
+class LetMeHelpYou extends Skill
 {
     /**
      * Get display name.
@@ -94,4 +94,4 @@ class LetMeHelpYouSkill extends Skill
 }
 
 
-module.exports = LetMeHelpYouSkill;
+module.exports = LetMeHelpYou;
