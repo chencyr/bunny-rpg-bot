@@ -424,6 +424,18 @@ class Character
     }
 
     /**
+     * Check the character is can create damage.
+     *
+     * @param skill
+     * @param receivers
+     * @param action
+     * @param args
+     */
+    verifyCreateDamage(skill, receivers, action, args) {
+        return this.state.verifyCreateDamage(skill, this, receivers, action, args);
+    }
+
+    /**
      * Check the character is can receive damage.
      *
      * @param skill

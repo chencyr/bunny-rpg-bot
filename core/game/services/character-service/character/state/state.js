@@ -161,6 +161,38 @@ class State
     }
 
     /**
+     * Check the character is can create damage.
+     *
+     * @param skill
+     * @param senders
+     * @param receiver
+     * @param action
+     * @param args
+     */
+    verifyCreateDamage(skill, senders, receiver, action, args) {
+        return {
+            canDo: true,
+            reason: "可以產生傷害",
+        };
+    }
+
+    /**
+     * Check the character is can create damage.
+     *
+     * @param skill
+     * @param sender
+     * @param receiver
+     * @param action
+     * @param args
+     */
+    verifyCreateDamage(skill, sender, receiver, action, args) {
+        return {
+            canDo: true,
+            reason: "可以產生傷害",
+        };
+    }
+
+    /**
      * Check the character is can receive damage.
      *
      * @param skill
@@ -172,7 +204,7 @@ class State
     verifyReceivedDamage(skill, senders, receiver, action, args) {
         return {
             canDo: true,
-            reason: "可以受到攻擊",
+            reason: "可以受到傷害",
         };
     }
 }

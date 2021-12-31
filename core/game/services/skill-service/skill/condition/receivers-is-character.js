@@ -24,7 +24,7 @@ class ReceiversIsCharacter
             }
 
             const verify = receiver.verifyReceivedDamage(skill, senders, action, args);
-            if(verify.canDo) {
+            if (! verify.canDo) {
                 action.writeMsg(verify.reason);
                 return true;
             }

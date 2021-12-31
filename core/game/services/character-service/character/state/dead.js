@@ -57,6 +57,22 @@ class Dead extends State
     }
 
     /**
+     * Check the character is can create damage.
+     *
+     * @param skill
+     * @param sender
+     * @param receivers
+     * @param action
+     * @param args
+     */
+    verifyCreateDamage(skill, sender, receivers, action, args) {
+        return {
+            canDo: false,
+            reason: `[${sender.getName()}] 為 [${sender.state}] 狀態，無法使用技能 [${skill.getDisplayName()}]`,
+        };
+    }
+
+    /**
      * Check the character is can receive damage.
      *
      * @param skill
