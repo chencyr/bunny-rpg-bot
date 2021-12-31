@@ -87,7 +87,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms, if time = 0 forever
      */
     getEffectTime() {
-        return 1000 * 60;
+        return 1000 * 60 * 10;
     }
 
     /**
