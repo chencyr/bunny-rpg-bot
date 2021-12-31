@@ -15,7 +15,7 @@ class LetMeHelpYou extends Skill
      * @return {string}
      */
     getDisplayName() {
-        return "讓我幫邦尼!!";
+        return "讓我幫邦尼";
     }
 
     /**
@@ -58,7 +58,7 @@ class LetMeHelpYou extends Skill
     getCost(options) {
         return {
             hp: 0,
-            mp: 5000,
+            mp: 10000,
             sp: 0,
         };
     }

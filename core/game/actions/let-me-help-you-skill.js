@@ -28,6 +28,8 @@ class LetMeHelpYouSkill extends Skill
             "讓我幫邦尼",
             "讓我幫幫尼",
             "讓我幫幫你",
+            "幫幫尼",
+            "幫邦尼",
             "幫尼",
             "邦尼",
             "幫你",
