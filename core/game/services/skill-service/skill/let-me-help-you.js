@@ -1,6 +1,8 @@
 const Skill = require('./skill');
 
+
 // TODO refactor by service getter
+const randomFromArray = require('../../../helpers/randomFromArray');
 const Buff = require('../../character-service/character/buff/let-me-help-you-buff');
 
 /**
@@ -85,6 +87,17 @@ class LetMeHelpYou extends Skill
 
         const buff = new Buff();
 
+        const slogan = randomFromArray([
+            "想當我前男友嗎？很簡單啊，交往一分鐘再分手就可以了",
+            "嘿嘿嘿嘿嘿 哈哈哈哈哈",
+            "大家要共體時艱，下個月就會拿到薪水",
+            "我們一起同進退，薪水沒關係，我可以等",
+            "沒錢吃拉麵，在家吃泡麵",
+            "阿法的優勢是海咪咪",
+            "袋鼠蛋蛋?",
+        ]);
+
+        action.writeMsg(slogan).sendMsg();
         // some adjust for buff.
 
         this.cost(sender);
