@@ -37,14 +37,6 @@ class LetMeHelpYou extends StandardBuff
     getNames() {
         return [
             "let me help you",
-            "let-me-help-you",
-            "Let me help you",
-            "讓我幫邦尼",
-            "讓我幫幫尼",
-            "讓我幫幫你",
-            "幫尼",
-            "邦尼",
-            "幫你",
         ];
     }
 
