@@ -1,5 +1,4 @@
 const Action = require('./action');
-const board = require('./utils/output-status-board')
 
 /**
  * Ident action.
