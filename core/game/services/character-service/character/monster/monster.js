@@ -66,15 +66,15 @@ class Monster extends Character
     }
 
     computeHP() {
-        return this.getRandom(1, 100);
+        return this.getRandom(1, 2000);
     }
 
     computeMP() {
-        return this.getRandom(1, 100);
+        return this.getRandom(1, 2000);
     }
 
     computeSP() {
-        return this.getRandom(1, 100);
+        return this.getRandom(1, 500);
     }
 
     computeSTR() {
