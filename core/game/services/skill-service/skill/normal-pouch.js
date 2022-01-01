@@ -84,7 +84,8 @@ class ChickenPooPoo extends Skill
         damage.value = (damage.value + 9999) * 1000000;
         damage.accuracy = (damage.accuracy + 9999) * 1000000;
 
-        action.writeMsg('普.通.一.擊. (平淡)').sendMsg();
+        action.writeImg('statics/normal-pouch.png');
+        action.writeMsg('普通~~~~ 一擊!!').sendMsg();
 
         this.cost(sender);
         return damage;
