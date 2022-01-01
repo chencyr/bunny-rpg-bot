@@ -630,6 +630,27 @@ class Character
     }
 
     /**
+     * Get allow access status properties list.
+     * @return {Array}
+     */
+    allowAccessStatus() {
+        return ['str', 'vit', 'dex', 'agi', 'int', 'luk'];
+    }
+
+    /**
+     * Get status property value.
+     * @param name {string}
+     * @return {mixed}
+     */
+    statusProperty(name) {
+        if(this.allowAccessStatus().includes(name)) {
+            return this.status[name];
+        }
+
+        throw new Error(`Cannot access not allow status property [${name}] error`);
+    }
+
+    /**
      * Getter for luk
      * @return {number}
      */

@@ -3,7 +3,7 @@ const Skill = require('./skill');
 
 // TODO refactor by service getter
 const randomFromArray = require('../../../helpers/randomFromArray');
-const Buff = require('../../character-service/character/buff/thunder-bird-debuff');
+const Buff = require('../../character-service/character/buff/constipate-buff');
 
 /**
  * ThunderBird skill
@@ -59,7 +59,7 @@ class Constipate extends Skill
         return {
             hp: 0,
             mp: 8000,
-            sp: 20,
+            sp: 0,
         };
     }
 
