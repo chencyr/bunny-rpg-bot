@@ -6,7 +6,7 @@ const randomFromArray = require('../../../helpers/randomFromArray');
 const Buff = require('../../character-service/character/buff/constipate-buff');
 
 /**
- * ThunderBird skill
+ * Constipate skill
  */
 class Constipate extends Skill
 {
