@@ -33,6 +33,8 @@ class NormalPouchSkill extends Skill
             "普通一擊",
             "琦玉一擊",
             "琦玉的一擊",
+            "琦玉的普通一擊",
+            "琦玉普通一擊",
         ];
     }
 
