@@ -95,7 +95,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get str() {
-        return 1000;
+        return 10000;
     }
 
     /**
@@ -103,7 +103,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get vit() {
-        return 1000;
+        return 10000;
     }
 
     /**
@@ -111,7 +111,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get dex() {
-        return 500;
+        return 10000;
     }
 
     /**
@@ -127,7 +127,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get int() {
-        return 1000;
+        return 10000;
     }
 
     /**
@@ -135,7 +135,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get luk() {
-        return -500;
+        return -5000;
     }
 }
 
