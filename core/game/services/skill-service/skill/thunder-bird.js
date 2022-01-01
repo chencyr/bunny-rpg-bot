@@ -92,7 +92,7 @@ class ThunderBird extends Skill
             "誰果好粗～🍉🐤",
         ]);
 
-        action.writeImg('statics/thunder-bird.jpg');
+        action.writeImg('statics/thunder-bird.jpeg');
         action.writeMsg(slogan).sendMsg();
         // some adjust for buff.
 
