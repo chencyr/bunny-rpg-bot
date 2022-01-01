@@ -27,6 +27,8 @@ class ThunderBird extends Skill
             "雷神的詛咒",
             "鳥胃的詛咒",
             "雷你",
+            "雷神鳥胃",
+            "鳥胃",
         ];
     }
 
