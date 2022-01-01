@@ -4,6 +4,7 @@
  */
 class BuffReceivingBehavior
 {
+    // TODO refactor receivingBuff
     /**
      * Hooker for receiving
      * @param effect

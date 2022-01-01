@@ -4,6 +4,7 @@
  */
 class AttackReceivingBehavior
 {
+    // TODO refactor receivingAttack
     /**
      * Hooker for receiving
      * @param effect
