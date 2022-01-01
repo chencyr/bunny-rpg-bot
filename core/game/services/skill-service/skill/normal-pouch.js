@@ -81,8 +81,8 @@ class ChickenPooPoo extends Skill
     async sending(sender, receivers, action, args) {
 
         const damage = sender.createDamage();
-        damage.value = damage.value * 10000;
-        damage.accuracy = damage.accuracy * 10000;
+        damage.value = (damage.value + 9999) * 10000;
+        damage.accuracy = (damage.accuracy + 9999) * 10000;
 
         action.writeMsg('普.通.一.擊. (平淡)').sendMsg();
 
