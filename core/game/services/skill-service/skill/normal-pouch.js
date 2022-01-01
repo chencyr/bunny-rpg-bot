@@ -67,7 +67,8 @@ class ChickenPooPoo extends Skill
      * @return {Promise<void>}
      */
     async afterInteraction(senders, receivers, action, args) {
-
+        action.writeImg('statics/normal-pouch-2.png');
+        action.writeMsg('完了!! 錯過超市特賣日了啊啊啊啊啊啊啊!!');
     }
 
     /**
