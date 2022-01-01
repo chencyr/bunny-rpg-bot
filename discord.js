@@ -62,8 +62,28 @@ function replyMessage(message) {
         }
 
         resultMessages.forEach((result) => {
-            if(result.type == 'text') {
+            if(result.type === 'text') {
                 message.reply(result.text);
+            }
+            if(result.type === 'image') {
+                const data = {
+                    content: '示意圖',
+                    allowed_mentions: {
+                        replied_user: false,
+                    },
+                    embeds: [
+                        {
+                            type: 'rich',
+                            title: '',
+                            description: '',
+                            color: 0x00ffff,
+                            image: {
+                                url: result.originalContentUrl,
+                            },
+                        },
+                    ],
+                };
+                message.reply(data);
             }
         });
     }
