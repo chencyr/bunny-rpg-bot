@@ -95,7 +95,7 @@ class Constipate extends StandardBuff
      * @return {number}
      */
     get str() {
-        const str = (this.context.statusProperty('str') * 10);
+        const str = (this.context.statusProperty('str') * 5);
         return str;
     }
 
@@ -104,7 +104,7 @@ class Constipate extends StandardBuff
      * @return {number}
      */
     get vit() {
-        return -(this.context.statusProperty('vit') * 10);
+        return -(this.context.statusProperty('vit') * 5);
     }
 
     /**
@@ -120,7 +120,7 @@ class Constipate extends StandardBuff
      * @return {number}
      */
     get agi() {
-        return -(this.context.statusProperty('agi') * 10);
+        return -(this.context.statusProperty('agi') * 5);
     }
 
     /**
@@ -128,7 +128,7 @@ class Constipate extends StandardBuff
      * @return {number}
      */
     get int() {
-        return -(this.context.statusProperty('int') * 10);
+        return -(this.context.statusProperty('int') * 5);
     }
 
     /**
@@ -136,7 +136,7 @@ class Constipate extends StandardBuff
      * @return {number}
      */
     get luk() {
-        return (this.context.statusProperty('luk') * 10);
+        return (this.context.statusProperty('luk') * 5);
     }
 }
 

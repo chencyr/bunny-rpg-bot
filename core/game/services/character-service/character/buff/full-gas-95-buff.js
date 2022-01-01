@@ -71,7 +71,7 @@ class FullGas95 extends StandardBuff
     effect() {
         const character = this.getContext();
         const max = character.maxHP;
-        const regen = Math.floor(max * 0.1);
+        const regen = Math.floor(max * 0.2);
 
         if(max == character.currentHP) {
             return;
@@ -101,7 +101,7 @@ class FullGas95 extends StandardBuff
      * @return {number} ms, if time = 0 forever
      */
     getEffectTime() {
-        return 1000 * 60 * 5;
+        return 1000 * 60 * 3;
     }
 
     /**
