@@ -94,8 +94,6 @@ class ThunderBird extends StandardBuff
             vit: 0,
             dex: 0,
             agi: 0,
-            int: 0,
-            luk: 0,
         };
     }
 
@@ -169,7 +167,7 @@ class ThunderBird extends StandardBuff
      * @return {number}
      */
     get int() {
-        return this.deBuffStatusProperties.int;
+        return 0;
     }
 
     /**
@@ -177,7 +175,7 @@ class ThunderBird extends StandardBuff
      * @return {number}
      */
     get luk() {
-        return this.deBuffStatusProperties.luk;
+        return 0;
     }
 }
 
