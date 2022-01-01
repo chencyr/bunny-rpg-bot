@@ -91,6 +91,7 @@ class FullGas95 extends Skill
             "你要 +5，還是 +95？ >_0",
         ]);
 
+        action.writeImg('statics/full-gas-95.jpeg');
         action.writeMsg(slogan).sendMsg();
         // some adjust for buff.
 

@@ -91,6 +91,7 @@ class EmptyGas95 extends Skill
             "95 倒光光 >_<",
         ]);
 
+        action.writeImg('statics/empty-gas-95.jpg');
         action.writeMsg(slogan).sendMsg();
         // some adjust for buff.
 
