@@ -47,6 +47,7 @@ class Summon extends Action
             return this;
         }
 
+        // TODO validate args
         let level = args[0] || 15;
         level -= 1;
 
