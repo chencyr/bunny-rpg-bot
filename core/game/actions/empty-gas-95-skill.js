@@ -36,7 +36,7 @@ class EmptyGas95Skill extends Skill
      * @return {string} standard name
      */
     getSkillName() {
-        return "full-gas-95"
+        return "empty-gas-95"
     }
 
     /**
