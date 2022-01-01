@@ -23,9 +23,16 @@ class NormalPouchSkill extends Skill
     getNames() {
         return [
             "normal-pouch",
+            "普通揍一拳",
             "普通一拳",
+            "琦玉揍一拳",
             "琦玉一拳",
+            "揍一拳",
             "一拳",
+            "一擊",
+            "普通一擊",
+            "琦玉一擊",
+            "琦玉的一擊",
         ];
     }
 
