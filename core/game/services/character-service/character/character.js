@@ -183,6 +183,14 @@ class Character
     }
 
     /**
+     * Get skill list
+     * @return {array} [Skill, Skill ...]
+     */
+    getSkills() {
+        return this.skills;
+    }
+
+    /**
      * Check self's state
      * @param name {string}
      * @return {boolean}

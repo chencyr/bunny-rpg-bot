@@ -13,12 +13,19 @@ const signFormatter = function (number) {
  * @return {string}
  */
 const OutputStatusBoard = function(character) {
-    let text = `名稱 : ${character.getName()}   等級 : ${character.getLevel()}\n`;
+    let text = "";
+
+    text += '\n';
+    text += `[角色資訊] \n`;
     text += '-----------------------------------------------\n';
-    text += `狀態 : ${character.getState()}  \n`;
+    text += `名稱 : ${character.getName()}   等級 : ${character.getLevel()}\n`;
+    text += `狀態 : ${character.getState()}\n`;
     text += '-----------------------------------------------\n';
     text += `累計EXP : ${character.getExp()}/${character.getNextExp()}\n`;
     text += `擊殺EXP : ${character.toExp()}\n`;
+    text += '-----------------------------------------------\n';
+    text += '\n';
+    text += '[能力值] \n';
     text += '-----------------------------------------------\n';
     text += `HP : ${character.currentHP}/${character.maxHP}\n`;
     text += `MP : ${character.currentMP}/${character.maxMP}\n`;
@@ -28,11 +35,23 @@ const OutputStatusBoard = function(character) {
     text += `DEX : ${character.dex} (${signFormatter(character.adjustDEX)})    AGI : ${character.agi} (${signFormatter(character.adjustAGI)})\n`;
     text += `INT : ${character.int} (${signFormatter(character.adjustINT)})    LUK : ${character.luk} (${signFormatter(character.adjustLUK)})\n`;
     text += '-----------------------------------------------\n';
+    text += '\n';
 
-    text += `加護 & 詛咒: \n`;
+    text += `[祝福 & 詛咒]\n`;
+    text += '-----------------------------------------------\n';
     character.getBuffs().forEach((buff) => {
         text += `${buff.getDisplayName()} \n`;
     });
+    text += '-----------------------------------------------\n';
+    text += '\n';
+
+    text += `[技能]\n`;
+    text += '-----------------------------------------------\n';
+    const skills = character.getSkills();
+    for (const [name, skill] of Object.entries(skills)) {
+        text += `${skill.display_name} \n`;
+    }
+    text += '-----------------------------------------------\n';
 
     return text;
 };
