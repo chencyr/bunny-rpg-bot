@@ -109,7 +109,7 @@ class EmptyGas95 extends StandardBuff
      * @return {number}
      */
     get str() {
-        return (this.context.statusProperty('str') * 1);
+        return (this.context.statusProperty('str') * 0.5);
     }
 
     /**
