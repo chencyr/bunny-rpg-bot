@@ -117,7 +117,7 @@ class FullGas95 extends StandardBuff
      * @return {number}
      */
     get vit() {
-        return (this.context.statusProperty('vit') * 2);
+        return (this.context.statusProperty('vit') * 1);
     }
 
     /**
