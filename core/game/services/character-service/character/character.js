@@ -131,7 +131,7 @@ class Character
             + status.int
             + status.luk;
 
-        return exp;
+        return Math.floor(exp);
     }
 
     /**
