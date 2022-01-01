@@ -92,7 +92,6 @@ class ThunderBird extends StandardBuff
         return {
             str: 0,
             vit: 0,
-            dex: 0,
             agi: 0,
         };
     }
@@ -151,7 +150,7 @@ class ThunderBird extends StandardBuff
      * @return {number}
      */
     get dex() {
-        return this.deBuffStatusProperties.dex;
+        return 0;
     }
 
     /**

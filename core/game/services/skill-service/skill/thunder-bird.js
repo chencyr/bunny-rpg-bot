@@ -90,7 +90,6 @@ class ThunderBird extends Skill
         const slogan = randomFromArray([
             "偶愛粗誰果 🍉🐤~",
             "誰果好粗～🍉🐤",
-            "頸椎壓到神經痛爆今天躺一天QQ",
         ]);
 
         action.writeMsg(slogan).sendMsg();
