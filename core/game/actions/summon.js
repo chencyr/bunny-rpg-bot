@@ -47,8 +47,17 @@ class Summon extends Action
             return this;
         }
 
-        // TODO validate args
+        // TODO refactor method, static value
+
         let level = args[0] || 15;
+        if(isNaN(level)) {
+            level = 15;
+        }
+        level = parseInt(level);
+        if(level < 0 || level > 10000) {
+            level = 15
+        }
+
         level -= 1;
 
         const monster = await characterService.new('monster', {level: level});

@@ -75,6 +75,7 @@ class CharacterService
      * @param data {object} Character data
      */
     async new(type, data) {
+        // TODO refactor default skill, buff..
         // new is only support type=player
         if (type == 'player') {
             const condition = { user_id: data.userId };
