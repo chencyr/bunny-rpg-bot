@@ -4,8 +4,8 @@
  *
  * @return {mixed}
  */
-const fn = function randomFromArray(list) {
+const randomFromArray = function(list) {
     return list[Math.floor(Math.random() * list.length)];
 };
 
-module.exports = fn;
+module.exports = randomFromArray;
