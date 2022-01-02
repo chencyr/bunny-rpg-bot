@@ -68,7 +68,6 @@ class Monster extends Character
     autoActions() {
         return [
             {name: 'attack'},
-            {name: 'ident'},
         ];
     }
 
