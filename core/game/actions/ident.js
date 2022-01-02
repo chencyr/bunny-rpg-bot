@@ -44,26 +44,22 @@ class Ident extends Action
     async handler(from, to, args) {
         const characterService = this.context.getService('character-service');
 
-        if (to.length == 0) {
-            if (! args[0]) {
-                throw new Error('Cannot find character error');
-            }
-            to.characterId = args[0];
-        }
-        else {
-            to = to[0];
-        }
+        let ids = to.map((item) => item.characterId)
+            .filter((item) => !(item === undefined))
+            .concat(args);
 
+        const characters = await characterService.getByIds(ids);
         const character1 = await characterService.getById(from.characterId);
-        const character2 = await characterService.getById(to.characterId);
 
-        if (!character1 || !character2) {
+        if (!character1 || !characters.length > 0) {
             throw new Error('Cannot find character error');
         }
 
-        this.writeMsg(`${character1.getName()} 對 ${character2.getName()} 使用了鑑定 !!`)
-            .writeMsg(" ")
-            .writeMsg(board(character2))
+        characters.forEach((character2) => {
+            this.writeMsg(`[${character1.getName()}] 對 [${character2.getName()}] 使用了鑑定 !!`)
+                .writeMsg(" ")
+                .writeMsg(board(character2))
+        });
     }
 }
 
