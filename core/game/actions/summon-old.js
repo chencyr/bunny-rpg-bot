@@ -18,7 +18,7 @@ class Summon extends Action
      * @return {string}
      */
     getId() {
-        return "summon";
+        return "summon-old";
     }
 
     /**
@@ -27,11 +27,8 @@ class Summon extends Action
      */
     getNames() {
         return [
-            "summon",
-            "召喚",
-            "出來吧",
-            "出來啊",
-            "出來",
+            // "summon",
+            // "召喚",
         ];
     }
 
@@ -52,7 +49,7 @@ class Summon extends Action
 
         // TODO refactor method, static value
 
-        let level = args[1] || 15;
+        let level = args[0] || 15;
         if(isNaN(level)) {
             level = 15;
         }
@@ -63,22 +60,12 @@ class Summon extends Action
 
         level -= 1;
 
-        const condition = {
-            user_type: 'monster',
-            user_id: args[0],
-        };
-        const character = await characterService.getByCondition(condition);
+        const monster = await characterService.new('monster', {level: level});
 
-        const newCharacter = character.clone();
-        newCharacter.addLevels(level);
-
-        const objectId = newCharacter.getId();
-        characterService.initWithObjectPool(newCharacter, objectId);
-
-        this.writeMsg(`${player.getName()} 成功召喚了一個狠角色 !!`)
-            .writeMsg(`他的名字是...「${newCharacter.getName()}」!!!`)
+        this.writeMsg(`${player.getName()} 成功召喚了一隻極為兇猛的怪物 !!`)
+            .writeMsg(`其偉大的名字為...「${monster.getName()}」!!!`)
             .sendMsg()
-            .writeMsg(`物件編號: ${objectId}`)
+            .writeMsg(`${monster.getId()}`)
     }
 }
 
