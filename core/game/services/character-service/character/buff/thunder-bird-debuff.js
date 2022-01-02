@@ -1,9 +1,12 @@
 const StandardBuff = require('./standard-buff');
 
+// TODO refactor load by DI
+const random = require('../../../../helpers/ramdon-key-from-object');
+
 /**
- * AsBossBuff
+ * ThunderBird
  */
-class AsBossBuff extends StandardBuff
+class ThunderBird extends StandardBuff
 {
     /**
      * Constructor
@@ -27,7 +30,7 @@ class AsBossBuff extends StandardBuff
      * @return {string}
      */
     getId() {
-        return "as-boss";
+        return "thunder-bird";
     }
 
     /**
@@ -36,7 +39,7 @@ class AsBossBuff extends StandardBuff
      */
     getNames() {
         return [
-            "as-boss",
+            "thunder-bird",
         ];
     }
 
@@ -46,7 +49,7 @@ class AsBossBuff extends StandardBuff
      * @return {string}
      */
     getDisplayName() {
-        return `魔王的加護 (${(this.getEffectTime()/1000) - this.timer}s)`
+        return `雷神鳥胃的詛咒 (${(this.getEffectTime()/1000) - this.timer}s)`
     }
 
     /**
@@ -54,7 +57,43 @@ class AsBossBuff extends StandardBuff
      * @param options
      */
     up(options) {
+        this.deBuffStatusProperties = this.randomChangeOneProperty(
+            this.getDefaultDebBuffStatusProperties(),
+            this.getDeBuffValue()
+        );
+    }
 
+    /**
+     * Get de-buff value.
+     * @return {number}
+     */
+    getDeBuffValue() {
+        return -500;
+    }
+
+    /**
+     * Random set a value into object item
+     * @param deBuffStatusProperties
+     * @param value
+     * @return {*}
+     */
+    randomChangeOneProperty(deBuffStatusProperties, value) {
+        const key = random(deBuffStatusProperties);
+        deBuffStatusProperties[key] = value;
+
+        return deBuffStatusProperties;
+    }
+
+    /**
+     * Get default status structure object
+     * @return {{str: number, vit: number, agi: number, luk: number, dex: number, int: number}}
+     */
+    getDefaultDebBuffStatusProperties() {
+        return {
+            str: 0,
+            vit: 0,
+            agi: 0,
+        };
     }
 
     /**
@@ -69,7 +108,7 @@ class AsBossBuff extends StandardBuff
      * Effective
      */
     effect() {
-        // not things to do
+
     }
 
     /**
@@ -78,7 +117,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms
      */
     getFrequency() {
-        return 1000 * 5;
+        return 1000 * 1;
     }
 
     /**
@@ -87,7 +126,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms, if time = 0 forever
      */
     getEffectTime() {
-        return 1000 * 60 * 10;
+        return 1000 * 60 * 5;
     }
 
     /**
@@ -95,7 +134,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get str() {
-        return 10000;
+        return this.deBuffStatusProperties.str;
     }
 
     /**
@@ -103,7 +142,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get vit() {
-        return 10000;
+        return this.deBuffStatusProperties.vit;
     }
 
     /**
@@ -111,7 +150,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get dex() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -119,7 +158,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get agi() {
-        return 70;
+        return this.deBuffStatusProperties.agi;
     }
 
     /**
@@ -127,7 +166,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get int() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -135,8 +174,8 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get luk() {
-        return -5000;
+        return 0;
     }
 }
 
-module.exports = AsBossBuff;
+module.exports = ThunderBird;

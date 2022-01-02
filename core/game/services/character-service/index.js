@@ -8,6 +8,8 @@ const AutoHpRegenBuff = require('./character/buff/auto-hp-regen-buff');
 const AutoMpRegenBuff = require('./character/buff/auto-mp-regen-buff');
 const AutoSpRegenBuff = require('./character/buff/auto-sp-regen-buff');
 
+const DefaultSoul = require('./character/monster/soul/default-soul');
+
 /**
  * Character service, service should run as singleton.
  */
@@ -73,6 +75,7 @@ class CharacterService
      * @param data {object} Character data
      */
     async new(type, data) {
+        // TODO refactor default skill, buff..
         // new is only support type=player
         if (type == 'player') {
             const condition = { user_id: data.userId };
@@ -88,6 +91,18 @@ class CharacterService
 
                 const objType = 'character';
                 const objectId = player.getId();
+
+                const skills = [];
+                skills.push({
+                    standard_name: 'str-attack',
+                    id: 75,
+                    display_name: '攻擊',
+                    level: 1,
+                    type: 'standard',
+                });
+
+                player.setSkills(skills);
+
                 this.context.setObject(objType, player, objectId);
 
                 return player;
@@ -98,9 +113,24 @@ class CharacterService
 
         if (type == 'monster') {
             const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff];
-            const monster = new Monster({ name: "中級怪物", user_id: "SYSTEM", level: 15, buffs: buffs }, this);
+            const monster = new Monster({ name: `怪物 LV.${data.level + 1}`, user_id: "SYSTEM", level: data.level, buffs: buffs }, this);
             const objType = 'character';
             const objectId = monster.getId();
+
+            const soul = new DefaultSoul();
+            monster.setSoul(soul);
+
+            const skills = [];
+            skills.push({
+                standard_name: 'str-attack',
+                id: 75,
+                display_name: '攻擊',
+                level: 1,
+                type: 'standard',
+            });
+
+            monster.setSkills(skills);
+
             this.context.setObject(objType, monster, objectId);
 
             return monster;

@@ -28,6 +28,15 @@ class State
     }
 
     /**
+     * Check can change to next state.
+     * @param nextState
+     * @return {boolean}
+     */
+    canChange(nextState) {
+        return true;
+    }
+
+    /**
      * Hook for state change up
      * @return {State}
      */
@@ -156,7 +165,56 @@ class State
             accuracy: accuracy,
             repeat: 1,
             max_to: 1,
+            from: this.context,
             ignore: (repeatIndex, sender, receiver, args) => receiver.isState('dead'),
+        };
+    }
+
+    /**
+     * Check the character is can create damage.
+     *
+     * @param skill
+     * @param senders
+     * @param receiver
+     * @param action
+     * @param args
+     */
+    verifyCreateDamage(skill, senders, receiver, action, args) {
+        return {
+            canDo: true,
+            reason: "可以產生傷害",
+        };
+    }
+
+    /**
+     * Check the character is can create damage.
+     *
+     * @param skill
+     * @param sender
+     * @param receiver
+     * @param action
+     * @param args
+     */
+    verifyCreateDamage(skill, sender, receiver, action, args) {
+        return {
+            canDo: true,
+            reason: "可以產生傷害",
+        };
+    }
+
+    /**
+     * Check the character is can receive damage.
+     *
+     * @param skill
+     * @param senders
+     * @param receiver
+     * @param action
+     * @param args
+     */
+    verifyReceivedDamage(skill, senders, receiver, action, args) {
+        return {
+            canDo: true,
+            reason: "可以受到傷害",
         };
     }
 }

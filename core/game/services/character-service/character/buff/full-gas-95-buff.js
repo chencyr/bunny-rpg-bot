@@ -1,9 +1,9 @@
 const StandardBuff = require('./standard-buff');
 
 /**
- * AsBossBuff
+ * FullGas95
  */
-class AsBossBuff extends StandardBuff
+class FullGas95 extends StandardBuff
 {
     /**
      * Constructor
@@ -27,7 +27,7 @@ class AsBossBuff extends StandardBuff
      * @return {string}
      */
     getId() {
-        return "as-boss";
+        return "full-gas-95";
     }
 
     /**
@@ -36,7 +36,7 @@ class AsBossBuff extends StandardBuff
      */
     getNames() {
         return [
-            "as-boss",
+            "full-gas-95",
         ];
     }
 
@@ -46,7 +46,7 @@ class AsBossBuff extends StandardBuff
      * @return {string}
      */
     getDisplayName() {
-        return `魔王的加護 (${(this.getEffectTime()/1000) - this.timer}s)`
+        return `95加滿 (${(this.getEffectTime()/1000) - this.timer}s)`
     }
 
     /**
@@ -69,7 +69,21 @@ class AsBossBuff extends StandardBuff
      * Effective
      */
     effect() {
-        // not things to do
+        const character = this.getContext();
+        const max = character.maxHP;
+        const regen = Math.floor(max * 0.2);
+
+        if(max == character.currentHP) {
+            return;
+        }
+
+        if(character.currentHP + regen > max) {
+            character.currentHP = max;
+        }
+        else {
+            character.currentHP += regen;
+        }
+        console.log(`[${this.getDisplayName()}] Character ${character.getName()} regen Hp +${regen}, Current HP: ${character.currentHP}/${max}`);
     }
 
     /**
@@ -78,7 +92,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms
      */
     getFrequency() {
-        return 1000 * 5;
+        return 1000 * 1;
     }
 
     /**
@@ -87,7 +101,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms, if time = 0 forever
      */
     getEffectTime() {
-        return 1000 * 60 * 10;
+        return 1000 * 60 * 3;
     }
 
     /**
@@ -95,7 +109,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get str() {
-        return 10000;
+        return -(this.context.statusProperty('str') * 0.5);
     }
 
     /**
@@ -103,7 +117,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get vit() {
-        return 10000;
+        return (this.context.statusProperty('vit') * 0.5);
     }
 
     /**
@@ -111,7 +125,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get dex() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -119,7 +133,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get agi() {
-        return 70;
+        return 0;
     }
 
     /**
@@ -127,7 +141,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get int() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -135,8 +149,8 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get luk() {
-        return -5000;
+        return 0;
     }
 }
 
-module.exports = AsBossBuff;
+module.exports = FullGas95;

@@ -85,6 +85,7 @@ class ChickenPooPoo extends Skill
         damage.accuracy = damage.accuracy + 200;
         damage.repeat = 10;
 
+        action.writeImg('statics/chicken-poo-poo.jpg');
         action.writeMsg('大便病發作惹~~~~').sendMsg();
 
         this.cost(sender);

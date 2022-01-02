@@ -1,16 +1,16 @@
 const Skill = require('./skill');
 
 /**
- * BackToNature skill
+ * RoundAndRound skill
  */
-class BackToNature extends Skill
+class RoundAndRound extends Skill
 {
     /**
      * Get display name.
      * @return {string}
      */
     getDisplayName() {
-        return "回歸大自然...的某種攻擊";
+        return "轉圈圈";
     }
 
     /**
@@ -18,7 +18,7 @@ class BackToNature extends Skill
      * @return {string}
      */
     getStandardName() {
-        return "back-to-nature";
+        return "round-and-round";
     }
 
     /**
@@ -52,10 +52,22 @@ class BackToNature extends Skill
      */
     getCost(options) {
         return {
-            hp: 0,
-            mp: 8000,
-            sp: 10,
+            hp: 2000,
+            mp: 10000,
+            sp: 30,
         };
+    }
+
+    /**
+     * Set each character new state
+     * @param characters
+     * @param action
+     */
+    setState(characters, action) {
+        characters.forEach((character) => {
+            action.writeMsg(`[${character.getName()}] 看了一直旋轉的畫面終於不支倒地....`);
+            character.changeState('knocked-out');
+        });
     }
 
     /**
@@ -67,7 +79,7 @@ class BackToNature extends Skill
      * @return {Promise<void>}
      */
     async afterInteraction(senders, receivers, action, args) {
-
+        this.setState(receivers, action);
     }
 
     /**
@@ -80,13 +92,14 @@ class BackToNature extends Skill
      */
     async sending(sender, receivers, action, args) {
         const damage = sender.createDamage();
-        damage.value = damage.value * 10;
-        damage.accuracy = damage.accuracy * 3;
+        damage.value = damage.value * 1;
 
         this.cost(sender);
+        action.writeMsg('Loading.............(轉轉轉)').sendMsg();
+
         return damage;
     }
 }
 
 
-module.exports = BackToNature;
+module.exports = RoundAndRound;

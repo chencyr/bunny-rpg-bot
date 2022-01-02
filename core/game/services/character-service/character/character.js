@@ -1,6 +1,6 @@
 const NormalState = require('./state/normal');
 const DeadState = require('./state/dead');
-
+const KnockedOutState = require('./state/knocked-out');
 
 /**
  * Character base class
@@ -11,10 +11,11 @@ class Character
     /**
      * Init player
      * @param initInfo
+     * @param context {CharacterService}
      * @constructor
      */
-    constructor(initInfo) {
-
+    constructor(initInfo, context) {
+        this.context = context;
         this.status = {
             user_id: initInfo.user_id,
             name: initInfo.name,
@@ -130,7 +131,7 @@ class Character
             + status.int
             + status.luk;
 
-        return exp;
+        return Math.floor(exp);
     }
 
     /**
@@ -182,6 +183,14 @@ class Character
     }
 
     /**
+     * Get skill list
+     * @return {array} [Skill, Skill ...]
+     */
+    getSkills() {
+        return this.skills;
+    }
+
+    /**
      * Check self's state
      * @param name {string}
      * @return {boolean}
@@ -230,6 +239,7 @@ class Character
     static States = {
         Normal: NormalState,
         Dead: DeadState,
+        KnockedOut: KnockedOutState,
     };
 
     /**
@@ -399,9 +409,15 @@ class Character
      * @param name
      */
     changeState(name) {
-        this.state.down();
-        this.state = Character.createState(name, this);
-        this.state.up();
+        const newState = Character.createState(name, this);
+        if(this.state.canChange(newState)) {
+            this.state.down();
+            this.state = newState;
+            this.state.up();
+        }
+        else {
+            throw new Error(`Cannot change state from ${this.state} to ${newState}.`);
+        }
 
         return this;
     }
@@ -419,8 +435,43 @@ class Character
      * @param damage
      * @return {{isDodge: boolean, isCritical: boolean, exp: number, damageHp: number}}
      */
-    receiveDamage(damage) {
-        return this.state.receiveDamage(damage);
+    async receiveDamage(damage) {
+        const result = this.state.receiveDamage(damage);
+        await this.afterReceivedDamage(damage);
+        return result;
+    }
+
+    /**
+     * Behavior after damage.
+     * @param damage {Object}
+     * @return {Promise<void>}
+     */
+    async afterReceivedDamage(damage) {
+        // not thing to do
+    }
+
+    /**
+     * Check the character is can create damage.
+     *
+     * @param skill
+     * @param receivers
+     * @param action
+     * @param args
+     */
+    verifyCreateDamage(skill, receivers, action, args) {
+        return this.state.verifyCreateDamage(skill, this, receivers, action, args);
+    }
+
+    /**
+     * Check the character is can receive damage.
+     *
+     * @param skill
+     * @param senders
+     * @param action
+     * @param args
+     */
+    verifyReceivedDamage(skill, senders, action, args) {
+        return this.state.verifyReceivedDamage(skill, senders, this, action, args);
     }
 
     /**
@@ -543,7 +594,7 @@ class Character
      * @return {number}
      */
     get adjustAGI() {
-        return this.buffs.reduce((previous, buff) => previous + buff.dex, 0);
+        return this.buffs.reduce((previous, buff) => previous + buff.agi, 0);
     }
 
     /**
@@ -576,6 +627,27 @@ class Character
      */
     get adjustLUK() {
         return this.buffs.reduce((previous, buff) => previous + buff.luk, 0);
+    }
+
+    /**
+     * Get allow access status properties list.
+     * @return {Array}
+     */
+    allowAccessStatus() {
+        return ['str', 'vit', 'dex', 'agi', 'int', 'luk'];
+    }
+
+    /**
+     * Get status property value.
+     * @param name {string}
+     * @return {mixed}
+     */
+    statusProperty(name) {
+        if(this.allowAccessStatus().includes(name)) {
+            return this.status[name];
+        }
+
+        throw new Error(`Cannot access not allow status property [${name}] error`);
     }
 
     /**

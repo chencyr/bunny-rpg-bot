@@ -1,5 +1,4 @@
 const Action = require('./action');
-const board = require('./utils/output-status-board')
 
 /**
  * Ident action.
@@ -19,7 +18,7 @@ class Ident extends Action
      * @return {string}
      */
     getId() {
-        return "ident";
+        return "knocked-out";
     }
 
     /**
@@ -28,10 +27,10 @@ class Ident extends Action
      */
     getNames() {
         return [
-            "ident",
-            "Ident",
-            "鑑定",
-            "鑒定",
+            "knocked-out",
+            "暈",
+            "倒地",
+            "暈倒",
         ];
     }
 
@@ -61,9 +60,10 @@ class Ident extends Action
             throw new Error('Cannot find character error');
         }
 
-        this.writeMsg(`${character1.getName()} 對 ${character2.getName()} 使用了鑑定 !!`)
-            .writeMsg(" ")
-            .writeMsg(board(character2))
+        this.writeMsg(`${character1.getName()} 對 ${character2.getName()} 使用了暈倒 !!`)
+            .writeMsg(`${character2.getName()} 倒在地上翻白眼....`);
+
+        character2.changeState('knocked-out');
     }
 }
 

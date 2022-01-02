@@ -1,16 +1,21 @@
 const Skill = require('./skill');
 
+
+// TODO refactor by service getter
+const randomFromArray = require('../../../helpers/randomFromArray');
+const Buff = require('../../character-service/character/buff/let-me-help-you-buff');
+
 /**
- * BackToNature skill
+ * LetMeHelpYou skill
  */
-class BackToNature extends Skill
+class LetMeHelpYou extends Skill
 {
     /**
      * Get display name.
      * @return {string}
      */
     getDisplayName() {
-        return "回歸大自然...的某種攻擊";
+        return "讓我幫邦尼";
     }
 
     /**
@@ -18,7 +23,7 @@ class BackToNature extends Skill
      * @return {string}
      */
     getStandardName() {
-        return "back-to-nature";
+        return "let-me-help-you";
     }
 
     /**
@@ -53,8 +58,8 @@ class BackToNature extends Skill
     getCost(options) {
         return {
             hp: 0,
-            mp: 8000,
-            sp: 10,
+            mp: 10000,
+            sp: 0,
         };
     }
 
@@ -79,14 +84,27 @@ class BackToNature extends Skill
      * @return {Promise<void>}
      */
     async sending(sender, receivers, action, args) {
-        const damage = sender.createDamage();
-        damage.value = damage.value * 10;
-        damage.accuracy = damage.accuracy * 3;
+
+        const buff = new Buff();
+
+        const slogan = randomFromArray([
+            "想當我前男友嗎？很簡單啊，交往一分鐘再分手就可以了",
+            "嘿嘿嘿嘿嘿 哈哈哈哈哈",
+            "大家要共體時艱，下個月就會拿到薪水",
+            "我們一起同進退，薪水沒關係，我可以等",
+            "沒錢吃拉麵，在家吃泡麵",
+            "阿法的優勢是海咪咪",
+            "袋鼠蛋蛋?",
+        ]);
+
+        action.writeMsg(slogan).sendMsg();
+        // some adjust for buff.
 
         this.cost(sender);
-        return damage;
+
+        return buff;
     }
 }
 
 
-module.exports = BackToNature;
+module.exports = LetMeHelpYou;

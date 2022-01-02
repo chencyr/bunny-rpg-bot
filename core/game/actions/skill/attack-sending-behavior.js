@@ -4,6 +4,7 @@
  */
 class AttackSendingBehavior
 {
+    // TODO refactro sendingAttack
     /**
      * Hooker for sending
      * @param sender
