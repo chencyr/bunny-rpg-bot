@@ -95,7 +95,7 @@ class Constipate extends StandardBuff
      * @return {number}
      */
     get str() {
-        const str = (this.context.statusProperty('str') * 5);
+        const str = (this.context.statusProperty('str') * 4);
         return str;
     }
 
@@ -104,7 +104,7 @@ class Constipate extends StandardBuff
      * @return {number}
      */
     get vit() {
-        return -(this.context.statusProperty('vit') * 5);
+        return -(this.context.statusProperty('vit') * 0.8);
     }
 
     /**
