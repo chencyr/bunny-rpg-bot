@@ -81,7 +81,7 @@ class Summon extends Action
         characterService.initWithObjectPool(newCharacter, objectId);
 
         this.writeMsg(`[${player.getName()}] 成功召喚了一個狠角色 !!`)
-            .writeMsg(`他的名字是 ...[${newCharacter.getName()}] !!!`)
+            .writeMsg(`他的名字是 ... [${newCharacter.getName()}] !!!`)
             .sendMsg();
 
         const slogan = newCharacter.getSlogan();
