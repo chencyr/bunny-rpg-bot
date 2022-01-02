@@ -26,7 +26,16 @@ class CharacterService
         this.initServiceModules();
     }
 
+    /**
+     * Define type name for GameEngine object pool.
+     * @type {string}
+     */
     static CHARACTER_OBJECT_TYPE = 'character';
+
+    /**
+     * Define model name for GameEngine create model.
+     * @type {string}
+     */
     static CHARACTER_MODEL = 'characters';
 
     /**
