@@ -252,7 +252,7 @@ class CharacterService
      */
     async initById(id) {
         const record = await this.getRecordById(id);
-        const type = record.type;
+        const type = record.user_type;
 
         const character = this.createInstance(type);
 
@@ -316,19 +316,28 @@ class CharacterService
     }
 
     /**
-     * Get character instance, and return null if character not exists.
+     * Get character instance.
      * @param id
      * @return {Promise<*>}
      */
     async getById(id) {
         const objType = CharacterService.CHARACTER_OBJECT_TYPE;
-
         if (this.context.hasObject(objType, id)) {
             return this.context.getObject(objType, id);
         }
         else {
             return await this.initById(id);
         }
+    }
+
+    /**
+     * Get character instance.
+     * @param condition {object}
+     * @return {Promise<void>}
+     */
+    async getByCondition(condition) {
+        const record = await this.getRecordByCondition(condition);
+
     }
 
     /**
