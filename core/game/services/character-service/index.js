@@ -10,6 +10,8 @@ const AutoSpRegenBuff = require('./character/buff/auto-sp-regen-buff');
 
 const DefaultSoul = require('./character/monster/soul/default-soul');
 
+const TypeEnums = require('./type-enums');
+
 /**
  * Character service, service should run as singleton.
  */
@@ -23,6 +25,15 @@ class CharacterService
         this.context = context;
         this.initServiceModules();
     }
+
+    static CHARACTER_OBJECT_TYPE = 'character';
+    static CHARACTER_MODEL = 'characters';
+
+    /**
+     * Characters prototype enums.
+     * @type {{PLAYER: string}}
+     */
+    static CHARACTER_TYPES = TypeEnums;
 
     /**
      * Init service modules
@@ -55,7 +66,8 @@ class CharacterService
      * @return {Users}
      */
     characterModel() {
-        return this.context.createModel('characters');
+        const model = CharacterService.CHARACTER_MODEL;
+        return this.context.createModel(model);
     }
 
     /**
@@ -160,48 +172,150 @@ class CharacterService
     }
 
     /**
+     * Get a character record from database.
+     * @param id {number} character id
+     * @return {Promise<void>}
+     */
+    async getRecordById(id) {
+        const model = this.characterModel();
+        const records = await model.getById(id);
+        if (records.length > 0) {
+            return records[0];
+        }
+
+        throw new Error(`無法在資料庫找到角色資料: ID: ${id}`);
+    }
+
+    /**
+     * Get character's skill records.
+     * @param characterType {string}
+     * @param characterId {number}
+     * @return {Promise<*>}
+     */
+    async getCharacterSkillRecords(characterType, characterId) {
+        const model = this.characterModel();
+        return await model.resetQueryBuilder()
+            .where({ 'characters.id': characterId })
+            .skills();
+    }
+
+    /**
+     * Get characters default skill records.
+     * @param characterType {string}
+     * @param characterId {number}
+     * @return {Promise<*>}
+     */
+    async getDefaultSkills(characterType, characterId) {
+        const defaults = CharacterService.CHARACTER_TYPES[characterType].defaults;
+        return defaults.skills;
+    }
+
+    /**
+     * Get character default buff records.
+     * @param characterType
+     * @param characterId
+     * @return {Promise<*>}
+     */
+    async getDefaultBuffs(characterType, characterId) {
+        const defaults = CharacterService.CHARACTER_TYPES[characterType].defaults;
+        return defaults.buffs;
+    }
+
+    /**
+     * Create character instance.
+     * @param type {CharacterService.CHARACTER_TYPES<string>} Type info.
+     * @return {Character}
+     */
+    createInstance(type) {
+        const Prototype = CharacterService.CHARACTER_TYPES[type].proto;
+        return new Prototype({}, this);
+    }
+
+    /**
+     * Init a character instance into service collection.
+     * @param type {CharacterService.CHARACTER_TYPES}
+     * @param id
+     * @return {Promise<Character>}
+     */
+    async initById(id) {
+        const record = await this.getRecordById(id);
+        const type = record.type;
+
+        const character = this.createInstance(type);
+
+        this.initStatus(character, record);
+        await this.initBuff(character, type, id);
+        await this.initSkill(character, type, id);
+        this.initWithObjectPool(character, id);
+
+        return character;
+    }
+
+    /**
+     * Init character status properties.
+     * @param character
+     * @param info {CharacterRecord|Object}
+     * @return {CharacterService}
+     */
+    initStatus(character, info) {
+        info.hp = info.max_hp;
+        info.mp = info.max_mp;
+        info.sp = info.max_sp;
+        character.setStatus(info);
+
+        return this;
+    }
+
+    /**
+     * Init character buff properties.
+     * @param character
+     * @param type
+     * @param id
+     * @return {Promise<void>}
+     */
+    async initBuff(character, type, id) {
+        const buffs = await this.getDefaultBuffs(type, id);
+        character.setBuffs(buffs);
+    }
+
+    /**
+     * Init character skill properties
+     * @param character
+     * @param type
+     * @param id
+     * @return {Promise<void>}
+     */
+    async initSkill(character, type, id) {
+        const defaultSkill = await this.getDefaultSkills(type, id);
+        const characterSkills = await this.getCharacterSkillRecords(type, id);
+        const skills = defaultSkill.concat(characterSkills);
+        character.setSkills(skills);
+    }
+
+    /**
+     * Init character with GameEngine object pool
+     * @param character
+     * @param id
+     */
+    initWithObjectPool(character, id) {
+        const objType = CharacterService.CHARACTER_OBJECT_TYPE;
+        this.context.setObject(objType, character, id);
+    }
+
+    /**
      * Get character instance, and return null if character not exists.
      * @param id
      * @return {Promise<*>}
      */
     async getById(id) {
-        const objType = 'character';
-        const model = this.characterModel();
+        const objType = CharacterService.CHARACTER_OBJECT_TYPE;
 
         if (this.context.hasObject(objType, id)) {
             return this.context.getObject(objType, id);
         }
-
-        const records = await model.getById(id);
-        if (records.length > 0) {
-            //TODO: should auto get character type
-            //TODO: store buff list into database
-            const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff]
-
-            const player = new Player({buffs: buffs}, this);
-            player.setStatus(records[0]);
-
-            const skills = await model.resetQueryBuilder()
-                .where({ 'characters.id': id })
-                .skills();
-
-            // TODO: implement with default list.
-            skills.push({
-                standard_name: 'str-attack',
-                id: 75,
-                display_name: '攻擊',
-                level: 1,
-                type: 'standard',
-            });
-
-            player.setSkills(skills);
-
-            this.context.setObject(objType, player, id);
-
-            return player;
+        else {
+            return await this.initById(id);
         }
-
-        return null;
     }
 
     /**
