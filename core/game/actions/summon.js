@@ -81,9 +81,19 @@ class Summon extends Action
         characterService.initWithObjectPool(newCharacter, objectId);
 
         this.writeMsg(`[${player.getName()}] 成功召喚了一個狠角色 !!`)
-            .writeMsg(`他的名字是...「${newCharacter.getName()}」!!!`)
+            .writeMsg(`他的名字是 ...[${newCharacter.getName()}] !!!`)
             .sendMsg()
-            .writeMsg(`物件編號: ${objectId}`)
+            .writeMsg(`物件編號: ${objectId}`);
+
+        const slogan = newCharacter.getSlogan();
+        if(slogan !== null) {
+            this.writeMsg(`${slogan}`);
+        }
+
+        const image = newCharacter.getImage();
+        if(image !== null) {
+            this.writeImg(`statics/${image}`);
+        }
     }
 }
 
