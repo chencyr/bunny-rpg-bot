@@ -97,65 +97,53 @@ class CharacterService
      * @param data {object} Character data
      */
     async new(type, data) {
-        // TODO refactor default skill, buff..
-        // new is only support type=player
         if (type == 'player') {
+
             const condition = { user_id: data.userId };
-            const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff];
-            const player = new Player({ name: data.name, user_id: data.userId, buffs: buffs }, this);
             const model = this.characterModel();
-
-            if (! await model.exist(condition)) {
-                await player.storeStatus(false);
-
-                const records = await model.getRecord(condition);
-                player.setStatus(records[0]);
-
-                const objType = 'character';
-                const objectId = player.getId();
-
-                const skills = [];
-                skills.push({
-                    standard_name: 'str-attack',
-                    id: 75,
-                    display_name: '攻擊',
-                    level: 1,
-                    type: 'standard',
-                });
-
-                player.setSkills(skills);
-
-                this.context.setObject(objType, player, objectId);
-
-                return player;
+            if (!await model.exist(condition)) {
+                throw new Error('User already created character error.');
             }
 
-            throw new Error('User already created character error.');
+            const status = {name: data.name, user_id: data.userId};
+            const character = this.createInstance(type).setStatus(status);
+            await character.storeStatus(false);
+
+            const record = await this.getRecordByCondition(condition);
+            const id = record.id;
+
+            this.initStatus(character, record);
+            await this.initBuff(character, type, id);
+            await this.initSkill(character, type, id);
+            this.initWithObjectPool(character, id);
+
+            return character;
         }
 
         if (type == 'monster') {
-            const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff];
-            const monster = new Monster({ name: `怪物 LV.${data.level + 1}`, user_id: "SYSTEM", level: data.level, buffs: buffs }, this);
-            const objType = 'character';
-            const objectId = monster.getId();
-
-            const soul = new DefaultSoul();
-            monster.setSoul(soul);
-
-            const skills = [];
-            skills.push({
-                standard_name: 'str-attack',
-                id: 75,
-                display_name: '攻擊',
-                level: 1,
-                type: 'standard',
-            });
-
-            monster.setSkills(skills);
-
-            this.context.setObject(objType, monster, objectId);
-
-            return monster;
+            throw new Error("Not support the character type 'monster now.");
+            // const buffs = [AutoHpRegenBuff, AutoMpRegenBuff, AutoSpRegenBuff];
+            // const monster = new Monster({ name: `怪物 LV.${data.level + 1}`, user_id: "SYSTEM", level: data.level, buffs: buffs }, this);
+            // const objType = 'character';
+            // const objectId = monster.getId();
+            //
+            // const soul = new DefaultSoul();
+            // monster.setSoul(soul);
+            //
+            // const skills = [];
+            // skills.push({
+            //     standard_name: 'str-attack',
+            //     id: 75,
+            //     display_name: '攻擊',
+            //     level: 1,
+            //     type: 'standard',
+            // });
+            //
+            // monster.setSkills(skills);
+            //
+            // this.context.setObject(objType, monster, objectId);
+            //
+            // return monster;
         }
 
 
@@ -197,6 +185,21 @@ class CharacterService
     }
 
     /**
+     * Get a character record from database.
+     * @param condition
+     * @return {Promise<*>}
+     */
+    async getRecordByCondition(condition) {
+        const model = this.characterModel();
+        const records = await model.getRecord(condition);
+        if (records.length > 0) {
+            return records[0];
+        }
+
+        throw new Error(`無法在資料庫找到角色資料: Condition: ${condition}`);
+    }
+
+    /**
      * Get character's skill records.
      * @param characterType {string}
      * @param characterId {number}
@@ -233,7 +236,7 @@ class CharacterService
 
     /**
      * Create character instance.
-     * @param type {CharacterService.CHARACTER_TYPES<string>} Type info.
+     * @param type {string} Type info.
      * @return {Character}
      */
     createInstance(type) {
