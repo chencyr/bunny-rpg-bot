@@ -24,16 +24,16 @@ class Goblin extends Monster
     autoActions() {
         return [
             {name: 'attack'},
-            {name: 'ident'},
+            {name: 'stick-attack'},
         ];
     }
 
     computeHP() {
-        return this.getRandom(1, 2000);
+        return this.getRandom(1, 2500);
     }
 
     computeMP() {
-        return this.getRandom(1, 2000);
+        return this.getRandom(1, 2500);
     }
 
     computeSP() {
@@ -41,15 +41,15 @@ class Goblin extends Monster
     }
 
     computeSTR() {
-        return this.getRandom(1, 20);
+        return this.getRandom(1, 30);
     }
 
     computeVIT() {
-        return this.getRandom(1, 20);
+        return this.getRandom(1, 15);
     }
 
     computeDEX() {
-        return this.getRandom(1, 20);
+        return this.getRandom(1, 30);
     }
 
     computeAGI() {
@@ -57,11 +57,11 @@ class Goblin extends Monster
     }
 
     computeINT() {
-        return this.getRandom(1, 20);
+        return this.getRandom(1, 5);
     }
 
     computeLUK() {
-        return this.getRandom(1, 20);
+        return this.getRandom(1, 5);
     }
 
 }
