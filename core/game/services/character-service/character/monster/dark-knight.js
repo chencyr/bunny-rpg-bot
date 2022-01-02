@@ -1,9 +1,9 @@
 const Monster = require('./monster');
 
 /**
- * Tauren template class
+ * DarkKnight template class
  */
-class Tauren extends Monster
+class DarkKnight extends Monster
 {
     /**
      * Init player
@@ -13,7 +13,7 @@ class Tauren extends Monster
      */
     constructor(initInfo, context) {
         super(initInfo, context);
-        this.status.template = 'goblin';
+        this.status.template = 'dark-knight';
     }
 
 
@@ -70,4 +70,4 @@ class Tauren extends Monster
 
 }
 
-module.exports = Tauren;
+module.exports = DarkKnight;

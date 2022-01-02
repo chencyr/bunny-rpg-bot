@@ -13,7 +13,7 @@ class Tauren extends Monster
      */
     constructor(initInfo, context) {
         super(initInfo, context);
-        this.status.template = 'goblin';
+        this.status.template = 'tauren';
     }
 
 
