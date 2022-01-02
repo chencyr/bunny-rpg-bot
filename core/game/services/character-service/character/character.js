@@ -49,7 +49,6 @@ class Character
         this.buffs = [];
         this.skills = {};
 
-        this.setBuffs(initInfo.buffs);
     }
 
     /**
