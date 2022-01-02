@@ -58,7 +58,8 @@ class CharacterService
     }
 
     /**
-     *
+     * Load buffs.
+     * @return {CharacterService}
      */
     loadBuff() {
         const name = this.$const.buff;
