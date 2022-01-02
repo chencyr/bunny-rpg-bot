@@ -75,7 +75,7 @@ class Summon extends Action
         const objectId = newCharacter.getId();
         characterService.initWithObjectPool(newCharacter, objectId);
 
-        this.writeMsg(`${player.getName()} 成功召喚了一個狠角色 !!`)
+        this.writeMsg(`[${player.getName()}] 成功召喚了一個狠角色 !!`)
             .writeMsg(`他的名字是...「${newCharacter.getName()}」!!!`)
             .sendMsg()
             .writeMsg(`物件編號: ${objectId}`)
