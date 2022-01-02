@@ -82,8 +82,7 @@ class Summon extends Action
 
         this.writeMsg(`[${player.getName()}] 成功召喚了一個狠角色 !!`)
             .writeMsg(`他的名字是 ...[${newCharacter.getName()}] !!!`)
-            .sendMsg()
-            .writeMsg(`物件編號: ${objectId}`);
+            .sendMsg();
 
         const slogan = newCharacter.getSlogan();
         if(slogan !== null) {
@@ -94,6 +93,8 @@ class Summon extends Action
         if(image !== null) {
             this.writeImg(`statics/${image}`);
         }
+
+        this.writeMsg(`物件編號: ${objectId}`);
     }
 }
 
