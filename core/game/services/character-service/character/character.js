@@ -34,10 +34,9 @@ class Character
             agi: 10,
             int: 10,
             luk: 10,
-            // TODO add gender
-            // gender: 1,
+            image: null,
+            slogan: null,
         };
-
 
         this.revive_timer = 0; // sec
         this.revive_limit = 300; // sec
@@ -48,7 +47,22 @@ class Character
 
         this.buffs = [];
         this.skills = {};
+    }
 
+    /**
+     * Get character image.
+     * @return {string|null}
+     */
+    getImage() {
+        return this.status.image;
+    }
+
+    /**
+     * Get character slogan
+     * @return {null}
+     */
+    getSlogan() {
+        return this.status.slogan;
     }
 
     /**
