@@ -94,6 +94,8 @@ class ThunderBird extends Skill
 
         action.writeImg('statics/thunder-bird.jpeg');
         action.writeMsg(slogan).sendMsg();
+
+        action.writeMsg('將自身的雷包屬性附加給其他對像，被雷到的對象會隨機下降 STR, VIT, AGI 一項能力值');
         // some adjust for buff.
 
         this.cost(sender);
