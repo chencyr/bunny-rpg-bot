@@ -55,6 +55,10 @@ class Monster extends Character
         return instance;
     }
 
+    /**
+     * Add level
+     * @param level
+     */
     addLevels(level) {
         for(let i = 0; i < level; i++) {
             this.levelUp();
