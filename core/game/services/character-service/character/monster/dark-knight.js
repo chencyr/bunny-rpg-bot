@@ -24,47 +24,48 @@ class Tauren extends Monster
     autoActions() {
         return [
             {name: 'attack'},
+
         ];
     }
 
     toExp() {
-        return super.toExp() * 1.5;
+        return super.toExp() * 2;
     }
 
     computeHP() {
-        return this.getRandom(1, 7500);
+        return this.getRandom(1, 8500);
     }
 
     computeMP() {
-        return this.getRandom(1, 1000);
+        return this.getRandom(1, 6000);
     }
 
     computeSP() {
-        return this.getRandom(1, 500);
+        return this.getRandom(1, 900);
     }
 
     computeSTR() {
-        return this.getRandom(1, 40);
+        return this.getRandom(1, 60);
     }
 
     computeVIT() {
-        return this.getRandom(1, 40);
+        return this.getRandom(1, 60);
     }
 
     computeDEX() {
-        return this.getRandom(1, 20);
+        return this.getRandom(1, 45);
     }
 
     computeAGI() {
-        return this.getRandom(1, 20);
+        return this.getRandom(1, 45);
     }
 
     computeINT() {
-        return this.getRandom(1, 5);
+        return this.getRandom(1, 45);
     }
 
     computeLUK() {
-        return this.getRandom(1, 30);
+        return this.getRandom(1, 10);
     }
 
 }
