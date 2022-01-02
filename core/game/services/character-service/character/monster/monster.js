@@ -1,5 +1,7 @@
 const Character = require('../character');
 
+const randomFromArray = require('../../../../helpers/randomFromArray');
+
 /**
  * Monster base class
  *
@@ -60,13 +62,25 @@ class Monster extends Character
     }
 
     /**
+     * Monster auto attack actions.
+     * @return {string[]}
+     */
+    autoActions() {
+        return [
+            {name: 'attack'},
+            {name: 'ident'},
+        ];
+    }
+
+    /**
      * Behavior after damage.
      * @param damage {Object}
      * @return {Promise<void>}
      */
     async afterReceivedDamage(damage) {
         const game = this.context.context;
-        const action = game.createAction('attack');
+        const auto = randomFromArray(this.autoActions());
+        const action = game.createAction(auto.name);
 
         const result = await action.exec({characterId: this.status.id}, [damage.from.getId()], [damage.from.getId()]);
         const messages = result.getMessages();
