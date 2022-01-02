@@ -22,7 +22,7 @@ class FakePlayer extends Monster
      */
     autoActions() {
         return [
-            {name: 'attack'},
+            {name: 'lair-trick'},
         ];
     }
 
