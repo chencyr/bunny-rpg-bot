@@ -1,16 +1,21 @@
 const Skill = require('./skill');
 
+
+// TODO refactor by service getter
+const randomFromArray = require('../../../helpers/randomFromArray');
+const Buff = require('../../character-service/character/buff/full-gas-95-buff');
+
 /**
- * BackToNature skill
+ * FullGas95 skill
  */
-class BackToNature extends Skill
+class FullGas95 extends Skill
 {
     /**
      * Get display name.
      * @return {string}
      */
     getDisplayName() {
-        return "回歸大自然...的某種攻擊";
+        return "95加滿";
     }
 
     /**
@@ -18,7 +23,7 @@ class BackToNature extends Skill
      * @return {string}
      */
     getStandardName() {
-        return "back-to-nature";
+        return "full-gas-95";
     }
 
     /**
@@ -54,7 +59,7 @@ class BackToNature extends Skill
         return {
             hp: 0,
             mp: 8000,
-            sp: 10,
+            sp: 0,
         };
     }
 
@@ -79,14 +84,22 @@ class BackToNature extends Skill
      * @return {Promise<void>}
      */
     async sending(sender, receivers, action, args) {
-        const damage = sender.createDamage();
-        damage.value = damage.value * 10;
-        damage.accuracy = damage.accuracy * 3;
+
+        const buff = new Buff();
+
+        const slogan = randomFromArray([
+            "你要 +5，還是 +95？ >_0",
+        ]);
+
+        action.writeImg('statics/full-gas-95.jpeg');
+        action.writeMsg(slogan).sendMsg();
+        // some adjust for buff.
 
         this.cost(sender);
-        return damage;
+
+        return buff;
     }
 }
 
 
-module.exports = BackToNature;
+module.exports = FullGas95;

@@ -1,30 +1,16 @@
 const State = require('./state');
-const NoramalState = require('./normal');
 
 /**
- * Character dead state
+ * Character knocked out state
  */
-class Dead extends State
+class KnockedOut extends State
 {
     static name() {
-        return 'dead';
+        return 'knocked-out';
     }
 
     toString() {
-        return `死亡(${this.context.revive_limit - this.context.revive_timer})`;
-    }
-
-    /**
-     * Check can change to next state.
-     * @param nextState
-     * @return {boolean}
-     */
-    canChange(nextState) {
-        if (nextState instanceof NoramalState) {
-            return true;
-        }
-
-        return false;
+        return `倒地不起(${this.context.revive_limit - this.context.revive_timer})`;
     }
 
     /**
@@ -58,7 +44,7 @@ class Dead extends State
      * @return {{accuracy: number, value: number}}
      */
     createDamage() {
-        throw new Error("Cannot create damage in dead state.");
+        throw new Error("Cannot create damage in knocked out state.");
     }
 
     /**
@@ -67,7 +53,7 @@ class Dead extends State
      * @return {{isDodge: boolean, isCritical: boolean, exp: number, damageHp: number}}
      */
     receiveDamage(damage) {
-        throw new Error("Cannot received damage in dead state.");
+        return super.receiveDamage(damage);
     }
 
     /**
@@ -85,22 +71,6 @@ class Dead extends State
             reason: `[${sender.getName()}] 為 [${sender.state}] 狀態，無法使用技能 [${skill.getDisplayName()}]`,
         };
     }
-
-    /**
-     * Check the character is can receive damage.
-     *
-     * @param skill
-     * @param senders
-     * @param receiver
-     * @param action
-     * @param args
-     */
-    verifyReceivedDamage(skill, senders, receiver, action, args) {
-        return {
-            canDo: false,
-            reason: `技能 [${skill.getDisplayName()}] 的使用對象 [${receiver.getName()}] 不能為 [${receiver.state}]`,
-        };
-    }
 }
 
-module.exports = Dead;
+module.exports = KnockedOut;

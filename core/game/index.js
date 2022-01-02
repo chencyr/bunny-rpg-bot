@@ -265,7 +265,7 @@ class Engine {
             }
         }
 
-        throw new Error(`Cannot find [${type}] object from input: ` + JSON.stringify(this.$object[type]));
+        throw new Error(`Cannot find type [${type}] object from GameEngine object collection.`);
     }
 
     /**

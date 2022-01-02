@@ -47,7 +47,20 @@ class Summon extends Action
             return this;
         }
 
-        const monster = await characterService.new('monster', {});
+        // TODO refactor method, static value
+
+        let level = args[0] || 15;
+        if(isNaN(level)) {
+            level = 15;
+        }
+        level = parseInt(level);
+        if(level < 0 || level > 10000) {
+            level = 15
+        }
+
+        level -= 1;
+
+        const monster = await characterService.new('monster', {level: level});
 
         this.writeMsg(`${player.getName()} 成功召喚了一隻極為兇猛的怪物 !!`)
             .writeMsg(`其偉大的名字為...「${monster.getName()}」!!!`)

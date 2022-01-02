@@ -1,16 +1,16 @@
 const Skill = require('./skill');
 
 /**
- * BackToNature skill
+ * ChickenPooPoo skill
  */
-class BackToNature extends Skill
+class ChickenPooPoo extends Skill
 {
     /**
      * Get display name.
      * @return {string}
      */
     getDisplayName() {
-        return "回歸大自然...的某種攻擊";
+        return "普通一擊";
     }
 
     /**
@@ -18,7 +18,7 @@ class BackToNature extends Skill
      * @return {string}
      */
     getStandardName() {
-        return "back-to-nature";
+        return "normal-pouch";
     }
 
     /**
@@ -53,8 +53,8 @@ class BackToNature extends Skill
     getCost(options) {
         return {
             hp: 0,
-            mp: 8000,
-            sp: 10,
+            mp: 0,
+            sp: 0,
         };
     }
 
@@ -67,7 +67,8 @@ class BackToNature extends Skill
      * @return {Promise<void>}
      */
     async afterInteraction(senders, receivers, action, args) {
-
+        action.writeImg('statics/normal-pouch-2.png');
+        action.writeMsg('完了!! 錯過超市特賣日了啊啊啊啊啊啊啊!!');
     }
 
     /**
@@ -79,9 +80,13 @@ class BackToNature extends Skill
      * @return {Promise<void>}
      */
     async sending(sender, receivers, action, args) {
+
         const damage = sender.createDamage();
-        damage.value = damage.value * 10;
-        damage.accuracy = damage.accuracy * 3;
+        damage.value = (damage.value + 9999) * 1000000;
+        damage.accuracy = (damage.accuracy + 9999) * 1000000;
+
+        action.writeImg('statics/normal-pouch.png');
+        action.writeMsg('普通~~~~ 一擊!!').sendMsg();
 
         this.cost(sender);
         return damage;
@@ -89,4 +94,4 @@ class BackToNature extends Skill
 }
 
 
-module.exports = BackToNature;
+module.exports = ChickenPooPoo;

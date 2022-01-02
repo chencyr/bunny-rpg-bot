@@ -23,9 +23,9 @@ class CharactersHasSkill
                 return true;
             }
 
-            // TODO: remove duplicate
-            if (sender.state instanceof Character.States.Dead) {
-                action.writeMsg(`[${sender.getName()}] 為 [${sender.state}] 狀態，無法使用技能 [${skill.getDisplayName()}]`);
+            const verify = sender.verifyCreateDamage(skill, receivers, action, args);
+            if (! verify.canDo) {
+                action.writeMsg(verify.reason);
                 return true;
             }
 

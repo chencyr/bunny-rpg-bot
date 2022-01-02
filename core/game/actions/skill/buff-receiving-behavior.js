@@ -4,6 +4,7 @@
  */
 class BuffReceivingBehavior
 {
+    // TODO refactor receivingBuff
     /**
      * Hooker for receiving
      * @param effect
@@ -22,7 +23,7 @@ class BuffReceivingBehavior
             this.writeMsg(`但因 [${result.failReason()}] 的原因失敗了!! 無情!!`);
         }
         else {
-            this.writeMsg(`[${receiver.getName()}] 成功獲得了 [${result.buff.getDisplayName()}] 的效果!! 爽啦!!`);
+            this.writeMsg(`[${receiver.getName()}] 成功獲得了 [${result.buff.getDisplayName()}] 的效果!!`);
         }
 
         return result;

@@ -1,9 +1,9 @@
 const StandardBuff = require('./standard-buff');
 
 /**
- * AsBossBuff
+ * LetMeHelpYou
  */
-class AsBossBuff extends StandardBuff
+class LetMeHelpYou extends StandardBuff
 {
     /**
      * Constructor
@@ -27,7 +27,7 @@ class AsBossBuff extends StandardBuff
      * @return {string}
      */
     getId() {
-        return "as-boss";
+        return "let-me-help-you";
     }
 
     /**
@@ -36,7 +36,7 @@ class AsBossBuff extends StandardBuff
      */
     getNames() {
         return [
-            "as-boss",
+            "let me help you",
         ];
     }
 
@@ -46,7 +46,7 @@ class AsBossBuff extends StandardBuff
      * @return {string}
      */
     getDisplayName() {
-        return `魔王的加護 (${(this.getEffectTime()/1000) - this.timer}s)`
+        return `讓我幫邦尼 (${(this.getEffectTime()/1000) - this.timer}s)`
     }
 
     /**
@@ -54,7 +54,7 @@ class AsBossBuff extends StandardBuff
      * @param options
      */
     up(options) {
-
+        
     }
 
     /**
@@ -69,7 +69,21 @@ class AsBossBuff extends StandardBuff
      * Effective
      */
     effect() {
-        // not things to do
+        const character = this.getContext();
+        const max = character.maxSP;
+        const regen = Math.floor(character.maxSP * 0.1);
+
+        if(max == character.currentSP) {
+            return;
+        }
+
+        if(character.currentSP + regen > max) {
+            character.currentSP = max;
+        }
+        else {
+            character.currentSP += regen;
+        }
+        console.log(`[${this.getDisplayName()}] Character ${character.getName()} regen MP +${regen}, Current MP: ${character.currentSP}/${max}`);
     }
 
     /**
@@ -78,7 +92,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms
      */
     getFrequency() {
-        return 1000 * 5;
+        return 1000 * 1;
     }
 
     /**
@@ -87,7 +101,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms, if time = 0 forever
      */
     getEffectTime() {
-        return 1000 * 60 * 10;
+        return 1000 * 60 * 5;
     }
 
     /**
@@ -95,7 +109,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get str() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -103,7 +117,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get vit() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -111,7 +125,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get dex() {
-        return 10000;
+        return 500;
     }
 
     /**
@@ -119,7 +133,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get agi() {
-        return 70;
+        return 0;
     }
 
     /**
@@ -127,7 +141,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get int() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -135,8 +149,8 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get luk() {
-        return -5000;
+        return 300;
     }
 }
 
-module.exports = AsBossBuff;
+module.exports = LetMeHelpYou;

@@ -1,9 +1,9 @@
 const StandardBuff = require('./standard-buff');
 
 /**
- * AsBossBuff
+ * ShitOnYou
  */
-class AsBossBuff extends StandardBuff
+class ShitOnYou extends StandardBuff
 {
     /**
      * Constructor
@@ -27,7 +27,7 @@ class AsBossBuff extends StandardBuff
      * @return {string}
      */
     getId() {
-        return "as-boss";
+        return "shit-on-you";
     }
 
     /**
@@ -36,7 +36,7 @@ class AsBossBuff extends StandardBuff
      */
     getNames() {
         return [
-            "as-boss",
+            "shit-on-you",
         ];
     }
 
@@ -46,7 +46,7 @@ class AsBossBuff extends StandardBuff
      * @return {string}
      */
     getDisplayName() {
-        return `魔王的加護 (${(this.getEffectTime()/1000) - this.timer}s)`
+        return `你身上有雞屎 (${(this.getEffectTime()/1000) - this.timer}s)`
     }
 
     /**
@@ -69,7 +69,25 @@ class AsBossBuff extends StandardBuff
      * Effective
      */
     effect() {
-        // not things to do
+        const character = this.getContext();
+        if(character.currentHP === 1) {
+            return;
+        }
+
+        const max = character.maxHP;
+        let damage = Math.floor(max * 0.1);
+
+        if(damage > 5000) {
+            damage = 5000;
+        }
+
+        if(character.currentHP - damage < 0) {
+            character.currentHP = 1;
+        }
+        else {
+            character.currentHP -= damage;
+        }
+        console.log(`[${this.getDisplayName()}] => [${this.getDisplayName()}] Character ${character.getName()} damage MP +${damage}, Current HP: ${character.currentHP}/${max}`);
     }
 
     /**
@@ -78,7 +96,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms
      */
     getFrequency() {
-        return 1000 * 5;
+        return 1000 * 1;
     }
 
     /**
@@ -87,7 +105,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms, if time = 0 forever
      */
     getEffectTime() {
-        return 1000 * 60 * 10;
+        return 1000 * 60 * 5;
     }
 
     /**
@@ -95,7 +113,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get str() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -103,7 +121,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get vit() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -111,7 +129,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get dex() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -119,7 +137,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get agi() {
-        return 70;
+        return 0;
     }
 
     /**
@@ -127,7 +145,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get int() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -135,8 +153,8 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get luk() {
-        return -5000;
+        return 0;
     }
 }
 
-module.exports = AsBossBuff;
+module.exports = ShitOnYou;

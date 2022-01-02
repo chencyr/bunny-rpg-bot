@@ -4,6 +4,7 @@
  */
 class BuffSendingBehavior
 {
+    // TODO refactor snedingBuff
     /**
      * Hooker for sending
      * @param sender

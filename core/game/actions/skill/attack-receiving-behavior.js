@@ -4,6 +4,7 @@
  */
 class AttackReceivingBehavior
 {
+    // TODO refactor receivingAttack
     /**
      * Hooker for receiving
      * @param effect
@@ -15,7 +16,10 @@ class AttackReceivingBehavior
     async receiving (effect, sender, receiver, args) {
         const characterService = this.context.getService('character-service');
         const skill = await this.getSkill();
-        const result = receiver.receiveDamage(effect);
+
+        // TODO define structure for attack effect
+        effect.action = this;
+        const result = await receiver.receiveDamage(effect);
 
         this.writeMsg(`[${sender.getName()}] 對 [${receiver.getName()}] 使用了 [${skill.getDisplayName()}] !!`);
 
@@ -23,7 +27,7 @@ class AttackReceivingBehavior
             this.writeMsg(`但被 [${receiver.getName()}] 走位很風騷的閃過了!!`);
         }
         else {
-            this.writeMsg(`[${receiver.getName()}] 受到 -${result.damageHp} HP 損傷!!`);
+            this.writeMsg(`[${receiver.getName()}] 受到 -${result.damageHp} HP 損傷!! (${receiver.currentHP}/${receiver.maxHP})`);
             if (receiver.state instanceof characterService.DeadState) {
                 this.writeMsg(`[${receiver.getName()}] 已死亡，倒在地上抖動!!`);
             }

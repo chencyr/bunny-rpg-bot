@@ -1,16 +1,21 @@
 const Skill = require('./skill');
 
+
+// TODO refactor by service getter
+const randomFromArray = require('../../../helpers/randomFromArray');
+const Buff = require('../../character-service/character/buff/thunder-bird-debuff');
+
 /**
- * BackToNature skill
+ * ThunderBird skill
  */
-class BackToNature extends Skill
+class ThunderBird extends Skill
 {
     /**
      * Get display name.
      * @return {string}
      */
     getDisplayName() {
-        return "回歸大自然...的某種攻擊";
+        return "雷神鳥胃的詛咒";
     }
 
     /**
@@ -18,7 +23,7 @@ class BackToNature extends Skill
      * @return {string}
      */
     getStandardName() {
-        return "back-to-nature";
+        return "thunder-bird";
     }
 
     /**
@@ -54,7 +59,7 @@ class BackToNature extends Skill
         return {
             hp: 0,
             mp: 8000,
-            sp: 10,
+            sp: 20,
         };
     }
 
@@ -79,14 +84,25 @@ class BackToNature extends Skill
      * @return {Promise<void>}
      */
     async sending(sender, receivers, action, args) {
-        const damage = sender.createDamage();
-        damage.value = damage.value * 10;
-        damage.accuracy = damage.accuracy * 3;
+
+        const buff = new Buff();
+
+        const slogan = randomFromArray([
+            "偶愛粗誰果 🍉🐤~",
+            "誰果好粗～🍉🐤",
+        ]);
+
+        action.writeImg('statics/thunder-bird.jpeg');
+        action.writeMsg(slogan).sendMsg();
+
+        action.writeMsg('將自身的雷包屬性附加給其他對像，被雷到的對象會隨機下降 STR, VIT, AGI 一項能力值');
+        // some adjust for buff.
 
         this.cost(sender);
-        return damage;
+
+        return buff;
     }
 }
 
 
-module.exports = BackToNature;
+module.exports = ThunderBird;

@@ -23,9 +23,9 @@ class ReceiversIsCharacter
                 return true;
             }
 
-            // TODO: move to single class.
-            if (receiver.state instanceof Character.States.Dead) {
-                action.writeMsg(`技能 [${skill.getDisplayName()}] 的使用對象 [${receiver.getName()}] 不能為 [${receiver.state}]`);
+            const verify = receiver.verifyReceivedDamage(skill, senders, action, args);
+            if (! verify.canDo) {
+                action.writeMsg(verify.reason);
                 return true;
             }
         }

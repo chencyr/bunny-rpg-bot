@@ -1,9 +1,9 @@
 const StandardBuff = require('./standard-buff');
 
 /**
- * AsBossBuff
+ * Constipate
  */
-class AsBossBuff extends StandardBuff
+class Constipate extends StandardBuff
 {
     /**
      * Constructor
@@ -27,7 +27,7 @@ class AsBossBuff extends StandardBuff
      * @return {string}
      */
     getId() {
-        return "as-boss";
+        return "constipate";
     }
 
     /**
@@ -36,7 +36,7 @@ class AsBossBuff extends StandardBuff
      */
     getNames() {
         return [
-            "as-boss",
+            "constipate",
         ];
     }
 
@@ -46,7 +46,7 @@ class AsBossBuff extends StandardBuff
      * @return {string}
      */
     getDisplayName() {
-        return `魔王的加護 (${(this.getEffectTime()/1000) - this.timer}s)`
+        return `便秘 (${(this.getEffectTime()/1000) - this.timer}s)`
     }
 
     /**
@@ -69,7 +69,7 @@ class AsBossBuff extends StandardBuff
      * Effective
      */
     effect() {
-        // not things to do
+
     }
 
     /**
@@ -78,7 +78,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms
      */
     getFrequency() {
-        return 1000 * 5;
+        return 1000 * 1;
     }
 
     /**
@@ -87,7 +87,7 @@ class AsBossBuff extends StandardBuff
      * @return {number} ms, if time = 0 forever
      */
     getEffectTime() {
-        return 1000 * 60 * 10;
+        return 1000 * 10;
     }
 
     /**
@@ -95,7 +95,8 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get str() {
-        return 10000;
+        const str = (this.context.statusProperty('str') * 4);
+        return str;
     }
 
     /**
@@ -103,7 +104,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get vit() {
-        return 10000;
+        return -(this.context.statusProperty('vit') * 0.8);
     }
 
     /**
@@ -111,7 +112,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get dex() {
-        return 10000;
+        return 0;
     }
 
     /**
@@ -119,7 +120,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get agi() {
-        return 70;
+        return -(this.context.statusProperty('agi') * 5);
     }
 
     /**
@@ -127,7 +128,7 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get int() {
-        return 10000;
+        return -(this.context.statusProperty('int') * 5);
     }
 
     /**
@@ -135,8 +136,8 @@ class AsBossBuff extends StandardBuff
      * @return {number}
      */
     get luk() {
-        return -5000;
+        return (this.context.statusProperty('luk') * 5);
     }
 }
 
-module.exports = AsBossBuff;
+module.exports = Constipate;
