@@ -36,6 +36,24 @@ class Summon extends Action
     }
 
     /**
+     * Add level for character
+     * @param character
+     * @param args
+     */
+    addLevel(character, args) {
+        let level = args[1] || 0;
+        if(isNaN(level)) {
+            return;
+        }
+        level = parseInt(level);
+        if(level < 0 || level > 10000) {
+            return;
+        }
+
+        character.addLevels(level);
+    }
+
+    /**
      * Execute action for child class implement
      * @param from
      * @param to
@@ -50,27 +68,14 @@ class Summon extends Action
             return this;
         }
 
-        // TODO refactor method, static value
-
-        let level = args[1] || 15;
-        if(isNaN(level)) {
-            level = 15;
-        }
-        level = parseInt(level);
-        if(level < 0 || level > 10000) {
-            level = 15
-        }
-
-        level -= 1;
-
         const condition = {
             user_type: 'monster',
             user_id: args[0],
         };
-        const character = await characterService.getByCondition(condition);
 
+        const character = await characterService.getByCondition(condition);
         const newCharacter = character.clone();
-        newCharacter.addLevels(level);
+        this.addLevel(newCharacter, args);
 
         const objectId = newCharacter.getId();
         characterService.initWithObjectPool(newCharacter, objectId);
