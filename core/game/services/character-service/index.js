@@ -291,7 +291,7 @@ class CharacterService
      */
     async initBuff(character, type, id) {
         const buffs = await this.getDefaultBuffs(type, id);
-        character.setBuffs(buffs);
+        character.setBuffsByPrototype(buffs);
     }
 
     /**

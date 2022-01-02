@@ -52,11 +52,11 @@ class Character
     }
 
     /**
-     * Set buff class list.
+     * Set buff by prototype list.
      *
      * @param buffs {array|undefined} [StandardBuff Class, StandardBuff Class, ...]
      */
-    setBuffs(buffs) {
+    setBuffsByPrototype(buffs) {
         // TODO set by collection/object.
         // TODO fix set duplicate buff problem
 
@@ -67,6 +67,15 @@ class Character
             const buff = new buffClass(this);
             this.receiveBuff(buff);
         }
+    }
+
+    /**
+     * Set buffs by instance list.
+     * @param buffs
+     * @return {this}
+     */
+    setBuffs(buffs) {
+        this.buffs = buffs;
     }
 
     /**
