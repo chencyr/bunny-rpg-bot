@@ -1,5 +1,7 @@
 const Player = require('./character/player/player');
 
+const FakePlayer = require('./character/monster/fake-player');
+
 const Monster = require('./character/monster/monster');
 const Goblin = require('./character/monster/goblin');
 const Tauren = require('./character/monster/tauren');
@@ -21,4 +23,7 @@ module.exports = {
     dark_knight: {
         proto: DarkKnight,
     },
+    fake_player: {
+        proto: FakePlayer,
+    }
 };
