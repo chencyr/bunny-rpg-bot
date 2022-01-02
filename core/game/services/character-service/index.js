@@ -1,16 +1,11 @@
-const Player = require('./character/player/player');
-const Monster = require('./character/monster/monster');
+
 
 const NormalState = require('./character/state/normal');
 const DeadState = require('./character/state/dead');
 
-const AutoHpRegenBuff = require('./character/buff/auto-hp-regen-buff');
-const AutoMpRegenBuff = require('./character/buff/auto-mp-regen-buff');
-const AutoSpRegenBuff = require('./character/buff/auto-sp-regen-buff');
 
-const DefaultSoul = require('./character/monster/soul/default-soul');
-
-const TypeEnums = require('./type-enums');
+const UserTypeEnums = require('./user-type-enums');
+const TemplateEnums = require('./template-enums');
 
 /**
  * Character service, service should run as singleton.
@@ -39,10 +34,16 @@ class CharacterService
     static CHARACTER_MODEL = 'characters';
 
     /**
-     * Characters prototype enums.
+     * Characters user type enums.
      * @type {{PLAYER: string}}
      */
-    static CHARACTER_TYPES = TypeEnums;
+    static CHARACTER_TYPES = UserTypeEnums;
+
+    /**
+     * Characters template enums.
+     * @type {{PLAYER: string}}
+     */
+    static CHARACTER_TEMPLATES = TemplateEnums;
 
     /**
      * Init service modules
@@ -236,11 +237,12 @@ class CharacterService
 
     /**
      * Create character instance.
-     * @param type {string} Type info.
+     * @param type {string} User type name.
+     * @param template {string} Template name.
      * @return {Character}
      */
-    createInstance(type) {
-        const Prototype = CharacterService.CHARACTER_TYPES[type].proto;
+    createInstance(type, template) {
+        const Prototype = CharacterService.CHARACTER_TEMPLATES[template].proto;
         return new Prototype({}, this);
     }
 
@@ -253,8 +255,9 @@ class CharacterService
     async initById(id) {
         const record = await this.getRecordById(id);
         const type = record.user_type;
+        const template = record.template;
 
-        const character = this.createInstance(type);
+        const character = this.createInstance(type, template);
 
         this.initStatus(character, record);
         await this.initBuff(character, type, id);
@@ -317,7 +320,7 @@ class CharacterService
 
     /**
      * Get character instance.
-     * @param id
+     * @param idgetById
      * @return {Promise<*>}
      */
     async getById(id) {
@@ -337,7 +340,7 @@ class CharacterService
      */
     async getByCondition(condition) {
         const record = await this.getRecordByCondition(condition);
-
+        return await this.getById(record.id);
     }
 
     /**
