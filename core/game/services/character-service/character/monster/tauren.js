@@ -28,7 +28,7 @@ class Tauren extends Monster
     }
 
     toExp() {
-        return super.toExp() * 1.5;
+        return super.toExp() * 3;
     }
 
     computeHP() {

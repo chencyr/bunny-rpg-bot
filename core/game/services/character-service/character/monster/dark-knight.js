@@ -29,7 +29,7 @@ class DarkKnight extends Monster
     }
 
     toExp() {
-        return super.toExp() * 2;
+        return super.toExp() * 4;
     }
 
     computeHP() {

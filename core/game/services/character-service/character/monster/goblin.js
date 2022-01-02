@@ -16,7 +16,6 @@ class Goblin extends Monster
         this.status.template = 'goblin';
     }
 
-
     /**
      * Monster auto attack actions.
      * @return {string[]}
@@ -26,6 +25,10 @@ class Goblin extends Monster
             {name: 'attack'},
             {name: 'stick-attack'},
         ];
+    }
+
+    toExp() {
+        return super.toExp() * 2;
     }
 
     computeHP() {
