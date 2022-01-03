@@ -1,5 +1,3 @@
-const Explosion = require('./skill/explosion');
-
 /**
  * Skill service, service should run as singleton.
  */
