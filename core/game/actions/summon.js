@@ -29,7 +29,28 @@ class Summon extends Action
         return [
             "summon",
             "召喚",
+            "出來吧",
+            "出來啊",
+            "出來",
         ];
+    }
+
+    /**
+     * Add level for character
+     * @param character
+     * @param args
+     */
+    addLevel(character, args) {
+        let level = args[1] || 0;
+        if(isNaN(level)) {
+            return;
+        }
+        level = parseInt(level);
+        if(level < 0 || level > 10000) {
+            return;
+        }
+
+        character.addLevels(level);
     }
 
     /**
@@ -47,25 +68,33 @@ class Summon extends Action
             return this;
         }
 
-        // TODO refactor method, static value
+        const condition = {
+            user_type: 'monster',
+            user_id: args[0],
+        };
 
-        let level = args[0] || 15;
-        if(isNaN(level)) {
-            level = 15;
+        const character = await characterService.getByCondition(condition);
+        const newCharacter = character.clone();
+        this.addLevel(newCharacter, args);
+
+        const objectId = newCharacter.getId();
+        characterService.initWithObjectPool(newCharacter, objectId);
+
+        this.writeMsg(`[${player.getName()}] 成功召喚了一個狠角色 !!`)
+            .writeMsg(`他的名字是 ... [${newCharacter.getName()}] !!!`)
+            .sendMsg();
+
+        const slogan = newCharacter.getSlogan();
+        if(slogan !== null) {
+            this.writeMsg(`${slogan}`);
         }
-        level = parseInt(level);
-        if(level < 0 || level > 10000) {
-            level = 15
+
+        const image = newCharacter.getImage();
+        if(image !== null) {
+            this.writeImg(`statics/${image}`);
         }
 
-        level -= 1;
-
-        const monster = await characterService.new('monster', {level: level});
-
-        this.writeMsg(`${player.getName()} 成功召喚了一隻極為兇猛的怪物 !!`)
-            .writeMsg(`其偉大的名字為...「${monster.getName()}」!!!`)
-            .sendMsg()
-            .writeMsg(`${monster.getId()}`)
+        this.writeMsg(`物件編號: ${objectId}`);
     }
 }
 

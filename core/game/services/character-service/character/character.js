@@ -34,10 +34,9 @@ class Character
             agi: 10,
             int: 10,
             luk: 10,
-            // TODO add gender
-            // gender: 1,
+            image: null,
+            slogan: null,
         };
-
 
         this.revive_timer = 0; // sec
         this.revive_limit = 300; // sec
@@ -48,16 +47,30 @@ class Character
 
         this.buffs = [];
         this.skills = {};
-
-        this.setBuffs(initInfo.buffs);
     }
 
     /**
-     * Set buff class list.
+     * Get character image.
+     * @return {string|null}
+     */
+    getImage() {
+        return this.status.image;
+    }
+
+    /**
+     * Get character slogan
+     * @return {null}
+     */
+    getSlogan() {
+        return this.status.slogan;
+    }
+
+    /**
+     * Set buff by prototype list.
      *
      * @param buffs {array|undefined} [StandardBuff Class, StandardBuff Class, ...]
      */
-    setBuffs(buffs) {
+    setBuffsByPrototype(buffs) {
         // TODO set by collection/object.
         // TODO fix set duplicate buff problem
 
@@ -68,6 +81,15 @@ class Character
             const buff = new buffClass(this);
             this.receiveBuff(buff);
         }
+    }
+
+    /**
+     * Set buffs by instance list.
+     * @param buffs
+     * @return {this}
+     */
+    setBuffs(buffs) {
+        this.buffs = buffs;
     }
 
     /**

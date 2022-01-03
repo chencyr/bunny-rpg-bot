@@ -1,5 +1,7 @@
 const Character = require('../character');
 
+const randomFromArray = require('../../../../helpers/randomFromArray');
+
 /**
  * Monster base class
  *
@@ -15,7 +17,6 @@ class Monster extends Character
     constructor(initInfo, context) {
         super(initInfo, context);
 
-        this.job = "怪物";
         const hp = this.computeHP();
         const mp = this.computeMP();
         const sp = this.computeSP();
@@ -33,20 +34,45 @@ class Monster extends Character
         this.status.int = this.computeINT();
         this.status.luk = this.computeLUK();
         this.status.id = this.generateID();
-
-        if(initInfo.level) {
-            this.addLevels(initInfo.level);
-        }
+        this.status.user_type = 'monster';
+        this.status.template = 'monster';
     }
 
+    /**
+     * Clone self as new instance and use new object ID.
+     * @return {Monster}
+     */
+    clone() {
+        const type = this.status.user_type;
+        const template = this.status.template;
+        const instance = this.context.createInstance(type, template);
+
+        instance.setStatus(Object.assign({}, this.status));
+        instance.setSkills(Object.assign({}, this.skills));
+        instance.setBuffs(this.buffs.concat());
+        instance.status.id = this.generateID();
+
+        return instance;
+    }
+
+    /**
+     * Add level
+     * @param level
+     */
     addLevels(level) {
         for(let i = 0; i < level; i++) {
             this.levelUp();
         }
     }
 
-    setSoul() {
-
+    /**
+     * Monster auto attack actions.
+     * @return {string[]}
+     */
+    autoActions() {
+        return [
+            {name: 'attack'},
+        ];
     }
 
     /**
@@ -56,7 +82,8 @@ class Monster extends Character
      */
     async afterReceivedDamage(damage) {
         const game = this.context.context;
-        const action = game.createAction('attack');
+        const auto = randomFromArray(this.autoActions());
+        const action = game.createAction(auto.name);
 
         const result = await action.exec({characterId: this.status.id}, [damage.from.getId()], [damage.from.getId()]);
         const messages = result.getMessages();
@@ -69,9 +96,8 @@ class Monster extends Character
      * @return {string}
      */
     generateID() {
-        const timestamp = new Date().getTime();
-        const random = this.getRandom(100000, 999999);
-        const id = `monster_${timestamp}_${random}`;
+        const random = this.getRandom(1000, 9999); // TODO limit 1000 item in game engine
+        const id = `${this.status.template}_${random}`;
 
         console.info("Action: Generate monster ", id);
         return id;
