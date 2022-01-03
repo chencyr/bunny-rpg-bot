@@ -5,16 +5,16 @@
 module.exports = {
     connections: {
         default: {
-            user: 'user',
-            password: 'pass',
-            host: 'localhost',
-            database: 'db',
+            database: process.env["GAME_ENGINE_DEFAULT_DB_HOST"],
+            user: process.env["GAME_ENGINE_DEFAULT_DB_USER"],
+            password: process.env["GAME_ENGINE_DEFAULT_DB_PWD"],
+            host: process.env["GAME_ENGINE_DEFAULT_DB_HOST"],
         },
         replica: {
-            user: 'user',
-            password: 'pass',
-            host: 'localhost',
-            database: 'db',
+            database: process.env["GAME_ENGINE_REPLICA_DB_SCHEMA"],
+            user: process.env["GAME_ENGINE_REPLICA_DB_USER"],
+            password: process.env["GAME_ENGINE_REPLICA_DB_PWD"],
+            host: process.env["GAME_ENGINE_REPLICA_DB_HOST"],
         },
     }
 };
