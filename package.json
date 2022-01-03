@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Bunny RPG Master",
   "main": "index.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "node index.js",
     "test": "test"
