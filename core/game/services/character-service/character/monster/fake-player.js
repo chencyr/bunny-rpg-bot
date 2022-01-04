@@ -17,6 +17,15 @@ class FakePlayer extends Monster
     }
 
     /**
+     * Convert the object to coin
+     * @return {number}
+     */
+    toCoin() {
+        const min = 2000, max = 4000, bonus = 60;
+        return this.getCoinCalculator()(this, {min, max}, bonus);
+    }
+
+    /**
      * Monster auto attack actions.
      * @return {string[]}
      */

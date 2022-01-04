@@ -31,6 +31,10 @@ class AttackReceivingBehavior
             if (receiver.state instanceof characterService.DeadState) {
                 this.writeMsg(`[${receiver.getName()}] 已死亡，倒在地上抖動!!`);
             }
+
+            const coin = receiver.toCoin();
+            sender.receivedCoin({coin});
+            this.writeMsg(`[${sender.getName()}] 從 [${receiver.getName()}] 獲得金幣 ${coin} !!`);
         }
 
         if (result.exp > 0) {
