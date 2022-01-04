@@ -21,7 +21,7 @@ class FakePlayer extends Monster
      * @return {number}
      */
     toCoin() {
-        const min = 2000, max = 4000, bonus = 60;
+        const min = 10000, max = 12000, bonus = 60;
         return this.getCoinCalculator()(this, {min, max}, bonus);
     }
 
