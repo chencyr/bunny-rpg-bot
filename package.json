@@ -26,8 +26,9 @@
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "heroku-keep-awake": "^1.1.2",
     "knex": "^0.95.6",
     "mysql": "^2.18.1",
-    "validator": "^10.11.0"
+    "validator": "^13.7.0"
   }
 }

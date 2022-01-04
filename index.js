@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const GameEngine = require('./core/game');
 const Discord = require('./discord');
-
+const { wakeDyno, wakeDynos } = require('heroku-keep-awake');
 
 /**
  * Path defines & configs
@@ -123,7 +123,14 @@ app.use(requireHTTPS);
 const router = require(global.path.routers + '/index.js');
 router(app);
 
-app.listen(process.env.PORT || 3000);
+
+const DYNO_URL = 'https://bunny-rpg.herokuapp.com/';
+const DYNO_URLS = ['https://bunny-rpg.herokuapp.com/'];
+
+app.listen(process.env.PORT || 3000, () => {
+    wakeDyno(DYNO_URL); // Use this function when only needing to wake a single Heroku app.
+    wakeDynos(DYNO_URLS); // Use this function when needing to wake multiple Heroku apps passed as an Array of URLs.
+});
 
 
 Discord(app, require(global.path.app + '/core/events/event-factory/discord-factory'));
