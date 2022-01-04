@@ -126,15 +126,15 @@ const router = require(global.path.routers + '/index.js');
 router(app);
 
 
-const appHost = app.config('app').host;
-const DYNO_URL = `https://${appHost}`;
-const DYNO_URLS = [`https://${appHost}`];
+const config = app.config('app');
+const DYNO_URL = `https://${config.host}`;
 
 app.listen(process.env.PORT || 3000, () => {
-    wakeDyno(DYNO_URL); // Use this function when only needing to wake a single Heroku app.
-    wakeDynos(DYNO_URLS); // Use this function when needing to wake multiple Heroku apps passed as an Array of URLs.
+    wakeDyno(DYNO_URL, {
+        interval: config.heartbeat, logging: true,
+        stopTimes: { start: config.sleepStart, end: config.sleepEnd }
+    });
 });
 
 
 Discord(app, require(global.path.app + '/core/events/event-factory/discord-factory'));
-
