@@ -15,6 +15,7 @@ global.path.controllers = global.path.app + '/controllers';
 global.path.views = global.path.app + '/views';
 global.path.routers = global.path.app + '/routers';
 global.path.statics = global.path.app + '/statics';
+global.path.sslVerification = global.path.app + '/ssl-verification';
 
 
 /**
@@ -27,6 +28,7 @@ app.set('views', global.path.views);
 app.set('view engine', 'ejs');
 console.info('Express: use static path at', global.path.statics);
 app.use('/statics', express.static(global.path.statics));
+app.use('/.well-known/pki-validation', express.static(global.path.sslVerification));
 
 /**
  * Define DI container node.
