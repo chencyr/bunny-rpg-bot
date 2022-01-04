@@ -128,13 +128,12 @@ router(app);
 
 const config = app.config('app');
 const DYNO_URL = `https://${config.host}`;
-
-app.listen(process.env.PORT || 3000, () => {
-    wakeDyno(DYNO_URL, {
-        interval: config.heartbeat, logging: true,
-        stopTimes: { start: config.sleepStart, end: config.sleepEnd }
-    });
+wakeDyno(DYNO_URL, {
+    interval: config.heartbeat, logging: true,
+    stopTimes: { start: config.sleepStart, end: config.sleepEnd }
 });
+
+app.listen(process.env.PORT || 3000);
 
 
 Discord(app, require(global.path.app + '/core/events/event-factory/discord-factory'));
