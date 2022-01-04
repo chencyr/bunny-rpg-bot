@@ -126,8 +126,9 @@ const router = require(global.path.routers + '/index.js');
 router(app);
 
 
-const DYNO_URL = 'https://bunny-rpg.herokuapp.com/';
-const DYNO_URLS = ['https://bunny-rpg.herokuapp.com/'];
+const appHost = app.config('app').host;
+const DYNO_URL = `https://${appHost}`;
+const DYNO_URLS = [`https://${appHost}`];
 
 app.listen(process.env.PORT || 3000, () => {
     wakeDyno(DYNO_URL); // Use this function when only needing to wake a single Heroku app.

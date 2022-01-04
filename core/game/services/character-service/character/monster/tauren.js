@@ -16,6 +16,14 @@ class Tauren extends Monster
         this.status.template = 'tauren';
     }
 
+    /**
+     * Convert the object to coin
+     * @return {number}
+     */
+    toCoin() {
+        const min = 50, max = 300, bonus = 15;
+        return this.getCoinCalculator()(this, {min, max}, bonus);
+    }
 
     /**
      * Monster auto attack actions.

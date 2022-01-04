@@ -36,6 +36,7 @@ class Character
             luk: 10,
             image: null,
             slogan: null,
+            coin: 0,
         };
 
         this.revive_timer = 0; // sec
@@ -154,6 +155,35 @@ class Character
             + status.luk;
 
         return Math.floor(exp);
+    }
+
+    /**
+     * Convert the object to coin
+     * @return {number}
+     */
+    toCoin() {
+        return 0;
+    }
+
+    /**
+     * Received coin from other object.
+     * @param $params
+     */
+    receivedCoin($params) {
+        this.status.coin = $params.coin;
+    }
+
+    /**
+     * Send coin to other object
+     * @param coin
+     */
+    sendCoin(coin) {
+        if(this.status.coin - coin >= 0) {
+            this.status.coin -= coin;
+            return {coin: coin};
+        }
+
+        throw new Error("金幣不足");
     }
 
     /**
@@ -652,6 +682,14 @@ class Character
     }
 
     /**
+     * Getter for luk
+     * @return {number}
+     */
+    get luk() {
+        return this.status.luk + this.adjustLUK;
+    }
+
+    /**
      * Get allow access status properties list.
      * @return {Array}
      */
@@ -670,14 +708,6 @@ class Character
         }
 
         throw new Error(`Cannot access not allow status property [${name}] error`);
-    }
-
-    /**
-     * Getter for luk
-     * @return {number}
-     */
-    get luk() {
-        return this.status.luk + this.adjustLUK;
     }
 
     /**
@@ -822,6 +852,14 @@ class Character
      */
     set maxSP (argv) {
         this.status.max_sp = argv;
+    }
+
+    get coin() {
+        return this.status.coin;
+    }
+
+    set coin (argv) {
+        this.status.coin = argv;
     }
 }
 
