@@ -170,7 +170,7 @@ class Character
      * @param $params
      */
     receivedCoin($params) {
-        this.status.coin = $params.coin;
+        this.status.coin += $params.coin;
     }
 
     /**
