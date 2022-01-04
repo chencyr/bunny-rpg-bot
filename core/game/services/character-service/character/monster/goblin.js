@@ -17,6 +17,15 @@ class Goblin extends Monster
     }
 
     /**
+     * Convert the object to coin
+     * @return {number}
+     */
+    toCoin() {
+        const min = 50, max = 100, bonus = 10;
+        return this.getCoinCalculator()(this, {min, max}, bonus);
+    }
+
+    /**
      * Monster auto attack actions.
      * @return {string[]}
      */

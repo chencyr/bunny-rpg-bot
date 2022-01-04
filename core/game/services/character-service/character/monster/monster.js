@@ -1,6 +1,7 @@
 const Character = require('../character');
 
 const randomFromArray = require('../../../../helpers/randomFromArray');
+const CoinCalculator = require('./coin-caculator/base');
 
 /**
  * Monster base class
@@ -36,6 +37,23 @@ class Monster extends Character
         this.status.id = this.generateID();
         this.status.user_type = 'monster';
         this.status.template = 'monster';
+    }
+
+    /**
+     * Convert the object to coin
+     * @return {number}
+     */
+    toCoin() {
+        const min = 50, max = 100, bonus = 10;
+        return this.getCoinCalculator()(this, {min, max}, bonus);
+    }
+
+    /**
+     * Get coin calculator
+     * @return {CoinCalculator}
+     */
+    getCoinCalculator() {
+        return CoinCalculator;
     }
 
     /**

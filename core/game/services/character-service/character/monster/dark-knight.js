@@ -16,6 +16,14 @@ class DarkKnight extends Monster
         this.status.template = 'dark-knight';
     }
 
+    /**
+     * Convert the object to coin
+     * @return {number}
+     */
+    toCoin() {
+        const min = 50, max = 600, bonus = 20;
+        return this.getCoinCalculator()(this, {min, max}, bonus);
+    }
 
     /**
      * Monster auto attack actions.

@@ -30,6 +30,10 @@ class AttackReceivingBehavior
             this.writeMsg(`[${receiver.getName()}] 受到 -${result.damageHp} HP 損傷!! (${receiver.currentHP}/${receiver.maxHP})`);
             if (receiver.state instanceof characterService.DeadState) {
                 this.writeMsg(`[${receiver.getName()}] 已死亡，倒在地上抖動!!`);
+
+                const coin = receiver.toCoin();
+                sender.receivedCoin({coin});
+                this.writeMsg(`[${sender.getName()}] 從 [${receiver.getName()}] 的身上找出金幣 ${coin} !!`);
             }
         }
 
